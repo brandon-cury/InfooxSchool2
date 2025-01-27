@@ -23,12 +23,6 @@ Encore
     .addEntry('app', './assets/app.js')
     //.addEntry('home', './assets/js/page/home.js')
 
-    //PDF
-    .addLoader({
-        test: /\.pdf$/,
-        use: ['file-loader']
-    })
-
 
     .enableVueLoader(() => {}, { runtimeCompilerBuild: false })
 
