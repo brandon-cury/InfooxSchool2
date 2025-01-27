@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <img class="rounded-circle" src="{{ (app.user.avatar != null)?asset('images/avatar/' ~ app.user.avatar) : asset('images/avatar/default.jpg') }}" alt="{{ app.user.firstName }}" >
+            </div>
+            <div class="col-md-8">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <input type="submit" value="Modifier" class="btn btn-outline-dark">
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

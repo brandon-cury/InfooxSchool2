@@ -1,0 +1,319 @@
+<header class="">
+    <nav class="navbar">
+
+        <div class="container-fluid navPhone">
+            <div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24"><path fill="#FBFAFA" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+
+                </button>
+                <a class="navbar-brand" href="{{ path('app_home') }}">
+                    <img class="logo" src="{{ asset('logo/infoox1.png') }}" alt="logso infoox school">
+                </a>
+            </div>
+            <div class="user">
+                <!-- ceci sera un element vue qui retournera l'icone d'achat avec le nombre de commende dans le panier -->
+                <a href="" class="text-decoration-none me-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"/><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"/><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/></g></svg>
+                </a>
+
+                {% if not app.user %}
+                    <a href="{{ path('app_login') }}" class="text-decoration-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24"><g fill="none" stroke="#FBFAFA" stroke-width="2"><circle cx="12" cy="6" r="4"/><path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z"/></g></svg>
+                    </a>
+                {% else %}
+                    <div class="dropdown pe-5">
+                        <a class="dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ (app.user.avatar != null)?asset('images/avatar/' ~ app.user.avatar) : asset('images/avatar/default.jpg') }}" alt="{{ app.user.firstName }}" class="img-menu">
+                            {{ app.user.firstName }} {{ app.user.lastName }}
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('app_my_account') }}">Profil</a>
+                            <a class="dropdown-item" href="{{ path('app_update_my_account') }}">Modifier le profil</a>
+                            <a class="dropdown-item" href="{{ path('app_update_my_password') }}">Modifier le mot de passe</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="">Formations inscrit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="">Administration</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                {% if not app.user %}
+                    <div class="d-flex justify-content-around mt-3">
+                        <a href="{{ path('app_login') }}" type="button" class="btn btn-primary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            Connexion
+                        </a>
+                        <a href="{{ path('app_register') }}" type="button" class="btn btn-primary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            Inscription
+                        </a>
+                    </div>
+                {% else %}
+
+                    <a href="{{ path('app_logout') }}" type="button" class="btn btn-primary mt-2"
+                       style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        Déconnexion
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <form class="d-flex w-100 mt-2 mx-2 navPhone" role="search">
+            <input class="form-control me-0 rounded-0 rounded-start inputSearch" type="search" placeholder="Search" aria-label="Search">
+            <button class="rounded-0 rounded-end searchButton" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 24 24"><path fill="none" stroke="#F3EDED" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.45" d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0-14 0m18 11l-6-6"/></svg></button>
+        </form>
+
+
+        <div class="container-fluid my-1 navPc">
+            <div>
+                <a class="navbar-brand" href="{{ path('app_home') }}">
+                    <img class="logo" src="{{ asset('logo/infoox1.png') }}" alt="logso infoox school">
+                </a>
+            </div>
+            <form class="d-flex w-50 mx-2" role="search">
+                <input class="form-control me-0 rounded-0 rounded-start inputSearch" type="search" placeholder="Search" aria-label="Search">
+                <button class="rounded-0 rounded-end searchButton" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 24 24"><path fill="none" stroke="#F3EDED" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.45" d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0-14 0m18 11l-6-6"/></svg></button>
+            </form>
+            <div>
+                <a href="#" class="text-decoration-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"/><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"/><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/></g></svg>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24"><path fill="#FBFAFA" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+                </button>
+            </div>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Pricing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                    </ul>
+                    {% if not app.user %}
+                    <div class="d-flex justify-content-around mt-3">
+                        <a href="{{ path('app_login') }}" type="button" class="btn btn-primary"
+                                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            Connexion
+                        </a>
+                        <a href="{{ path('app_register') }}" type="button" class="btn btn-primary"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            Inscription
+                        </a>
+                    </div>
+                    {% else %}
+
+                        <a href="{{ path('app_logout') }}" type="button" class="btn btn-primary mt-2"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            Déconnexion
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+    </nav>
+
+     {% if true %}
+         <!-- debut de la deuxieme navbar d'afficharger des milleur livre  -->
+         <div id="navbar2InfooxJs">
+            <div class="phone navbar2Infoox">
+                <div class="containerInfoox">
+                 <ul>
+                     <li>
+                         <a class="p-2 rounded-2 bg-dark-subtle" href="#">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 24 24"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2.357 7.714l6.98 4.654c.963.641 1.444.962 1.964 1.087c.46.11.939.11 1.398 0c.52-.125 1.001-.446 1.964-1.087l6.98-4.654M7.157 19.5h9.686c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.31-1.311c.328-.642.328-1.482.328-3.162V9.3c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311c-.642-.327-1.482-.327-3.162-.327H7.157c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.31 1.311c-.328.642-.328 1.482-.328 3.162v5.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311c.642.327 1.482.327 3.162.327"/></svg>
+                         </a>
+                     </li>
+                     <li>
+                         <a class="p-2 rounded-2 bg-dark-subtle" href="#">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 12 12"><path fill="black" d="M3 5v1.5a.5.5 0 0 1-.053.224L2.31 8h7.382l-.638-1.276A.5.5 0 0 1 9 6.5V5a3 3 0 0 0-6 0m1 4H1.5a.5.5 0 0 1-.447-.724L2 6.382V5a4 4 0 1 1 8 0v1.382l.947 1.894A.5.5 0 0 1 10.5 9H8a2 2 0 1 1-4 0m3 0H5a1 1 0 0 0 2 0"/></svg>
+                         </a>
+                     </li>
+                     <li>
+                         <a @click="getElement" class="p-2" data-bs-toggle="collapse" href="#meilleuresVentes" role="button" aria-expanded="false" aria-controls="collapseExample">
+                             Meilleures ventes
+                         </a>
+                     </li>
+                     <li>
+                         <a @click="getElement" class="p-2" data-bs-toggle="collapse" href="#astucesScolaires" role="button" aria-expanded="false" aria-controls="collapseExample">
+                             Astuces Scolaires
+                         </a>
+                     </li>
+
+                 </ul>
+             </div>
+            </div>
+             <div class="pc navbar2Infoox overflow-visible">
+                 <div class="containerInfoox overflow-visible">
+                     <ul>
+                         <li>
+                             <a @click="getElement" class="p-2" data-bs-toggle="collapse" href="#meilleuresVentes" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                 Meilleures ventes Pc
+                             </a>
+                         </li>
+                         <li>
+                             <a @click="getElement" class="p-2" data-bs-toggle="collapse" href="#astucesScolaires" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                 Astuces Scolaires
+                             </a>
+                         </li>
+                     </ul>
+                     <ul>
+                         <li>
+                             <a class="p-2 rounded-2 bg-dark-subtle" href="#">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 24 24"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m2.357 7.714l6.98 4.654c.963.641 1.444.962 1.964 1.087c.46.11.939.11 1.398 0c.52-.125 1.001-.446 1.964-1.087l6.98-4.654M7.157 19.5h9.686c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.31-1.311c.328-.642.328-1.482.328-3.162V9.3c0-1.68 0-2.52-.327-3.162a3 3 0 0 0-1.311-1.311c-.642-.327-1.482-.327-3.162-.327H7.157c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.31 1.311c-.328.642-.328 1.482-.328 3.162v5.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311c.642.327 1.482.327 3.162.327"/></svg>
+                             </a>
+                         </li>
+                         <li>
+                             <a class="p-2 rounded-2 bg-dark-subtle" href="#">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 12 12"><path fill="black" d="M3 5v1.5a.5.5 0 0 1-.053.224L2.31 8h7.382l-.638-1.276A.5.5 0 0 1 9 6.5V5a3 3 0 0 0-6 0m1 4H1.5a.5.5 0 0 1-.447-.724L2 6.382V5a4 4 0 1 1 8 0v1.382l.947 1.894A.5.5 0 0 1 10.5 9H8a2 2 0 1 1-4 0m3 0H5a1 1 0 0 0 2 0"/></svg>
+                             </a>
+                         </li>
+                         <li>
+                             {% if not app.user %}
+                             <a class="p-0 overflow-hidden avatarInfoox" href="{{ path('app_login') }}">
+                                 <img src="{{ asset('other/user.png') }}" class="rounded-circle" alt="avatar">
+                             </a>
+                             {% else %}
+                                 <div class="nav-item dropdown pe-5">
+                                     <a class="p-0 overflow-hidden avatarInfoox   nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                         <img src="{{ (app.user.avatar != null)?asset('images/avatar/' ~ app.user.avatar) : asset('images/avatar/default.jpg') }}" alt="{{ app.user.firstName }}" class="img-menu">
+                                         {{ app.user.firstName }} {{ app.user.lastName }}
+                                     </a>
+                                     <div class="dropdown-menu">
+                                         <a class="dropdown-item" href="{{ path('app_my_account') }}">Profil</a>
+                                         <a class="dropdown-item" href="{{ path('app_update_my_account') }}">Modifier le profil</a>
+                                         <a class="dropdown-item" href="{{ path('app_update_my_password') }}">Modifier le mot de passe</a>
+                                         <div class="dropdown-divider"></div>
+                                         <a class="dropdown-item" href="">Formations inscrit</a>
+                                         <div class="dropdown-divider"></div>
+                                         <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+                                         {% if is_granted('ROLE_ADMIN') %}
+                                             <div class="dropdown-divider"></div>
+                                             <a class="dropdown-item" href="">Administration</a>
+                                         {% endif %}
+                                     </div>
+                                 </div>
+                             {% endif %}
+                         </li>
+                     </ul>
+                 </div>
+             </div>
+
+            <div class="collapse infooxNavbar2Contains" id="meilleuresVentes">
+                <div class="card card-body containerInfoox">
+                 <ul>
+                     <li>
+                         <a href="">
+                             <img src="{{ asset('bords/test/images/default1.jpg') }}" alt="livre" class="img-thumbnail">
+                         </a>
+                     </li>
+                     <li>
+                         <a href="">
+                             <img src="{{ asset('bords/test/images/default2.jpg') }}" alt="livre" class="img-thumbnail">
+                         </a>
+                     </li>
+                     <li>
+                         <a href="">
+                             <img src="{{ asset('bords/test/images/default1.jpg') }}" alt="livre" class="img-thumbnail">
+                         </a>
+                     </li>
+                     <li>
+                         <a href="">
+                             <img src="{{ asset('bords/test/images/default2.jpg') }}" alt="livre" class="img-thumbnail">
+                         </a>
+                     </li>
+                     <li>
+                         <a href="">
+                             <img src="{{ asset('bords/test/images/default1.jpg') }}" alt="livre" class="img-thumbnail">
+                         </a>
+                     </li>
+
+                 </ul>
+             </div>
+            </div>
+
+            <div class="collapse infooxNavbar2Contains" id="astucesScolaires">
+                <div class="card card-body containerInfoox">
+                    <ul>
+                        <li>
+                            <a href="">
+                                <img src="{{ asset('bords/test/images/default2.jpg') }}" alt="livre" class="img-thumbnail">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="{{ asset('bords/test/images/default2.jpg') }}" alt="livre" class="img-thumbnail">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="{{ asset('bords/test/images/default2.jpg') }}" alt="livre" class="img-thumbnail">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="{{ asset('bords/test/images/default1.jpg') }}" alt="livre" class="img-thumbnail">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="{{ asset('bords/test/images/default1.jpg') }}" alt="livre" class="img-thumbnail">
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+         </div>
+         <!-- fin de la deuxieme navbar d'afficharger des milleur livre  -->
+    {% endif %}
+
+    {% block sliderPrincipale %} {% endblock sliderPrincipale %}
+
+</header>

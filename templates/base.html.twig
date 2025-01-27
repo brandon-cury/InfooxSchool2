@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Infoox School{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('logo/favicon.ico') }}" type="image/x-icon"/>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+    <body>
+        {% include 'partials/header.html.twig' %}
+
+        <div class="container position-absolute">
+            {% for label, messages in app.flashes %}
+                <div class="alert alert-dismissible alert-{{ label }}">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    {% for message in messages %}
+                        {{ message }}.
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        {% block body %}{% endblock %}
+
+    </body>
+    {% block jsEnd %}
+
+    {% endblock %}
+</html>

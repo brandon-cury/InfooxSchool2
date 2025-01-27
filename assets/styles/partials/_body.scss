@@ -1,0 +1,362 @@
+#homePage{
+  .filieres{
+    position: relative;
+    margin-top: 160px;
+    box-shadow: 0 20px 44px rgba(255, 255, 255, .25);
+    .navbar2Infoox{
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      border-bottom: 2px solid black;
+      .containerInfoox{
+        margin: 0 auto;
+        ul{
+          padding: 0;
+          margin: 0;
+          li{
+            a, &.nolienkInfoox{
+              margin: 0;
+              padding: 4px 8px;
+              &.active{
+                background-color: $color-black;
+                color:$color-yellow;
+              }
+            }
+            a:hover{
+              background-color: $color-black-opacity;
+              color:$color-yellow;
+            }
+          }
+        }
+      }
+    }
+    .filiereContainer{
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      .infooxFiliereContains{
+
+        .col{
+          margin-top: 10px;
+          &:nth-child(7), &:nth-child(8), &:nth-child(9), &:nth-child(10), &:nth-child(11), &:nth-child(12){
+            display: none;
+          }
+          a{
+            text-decoration: none;
+            h2{
+              font-size: 20px;
+              color: $color-black;
+              padding-left: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .filiereContainer, .infooxFiliereContains, .containerInfoox{
+      background-color: $color-white;
+    }
+  }
+}
+#bookPage, #pdfPage{
+  #infoBook{
+    //a supprime
+    .pdf-page {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .pdf-text-layer {
+      user-select: text;
+      cursor: text;
+    }
+    .pdf-text-layer span {
+      white-space: pre;
+      color: transparent;
+      position: absolute;
+    }
+
+
+    .infoBookContainer{
+      background: $color-white;
+      .MenuPage{
+        width: 100%;
+        height: 100%;
+        background: $color-black;
+        color: $color-white;
+        h6{
+          color: $color-white;
+          font-size: 40px;
+          margin-left: 10px;
+        }
+        h2{
+          font-size: 15px;
+          font-family: "Roboto Condensed", sans-serif;
+          font-weight: lighter;
+          text-transform: lowercase;
+          color: $color-white;
+          line-height: 30px;
+          &::first-letter{
+            text-transform: uppercase;
+          }
+          &:hover{
+            border: 0.3px solid $color-white;
+          }
+        }
+      }
+      .bookImage{
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        text-align: end;
+      }
+      .bookPrice{
+        font-size: 20px;
+      }
+      .imagesBook {
+        height: auto;
+        display: flex;
+        overflow-x: auto;  // Active le défilement horizontal
+        white-space: nowrap; // Empêche les éléments de passer à la ligne
+        // Ajout de padding pour assurer que les éléments ne soient pas coupés
+        padding-bottom: 5px;
+        a {
+          position: relative;
+          display: inline-block; // Utiliser inline-block pour le défilement horizontal
+          width: 90px; // Définit la largeur de chaque élément `a` à 340px
+          flex: 0 0 90px;
+          margin-right: 10px; // Ajoute de l'espace horizontal entre les éléments
+          img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover; // Assure que l'image couvre bien l'espace défini sans déformation
+          }
+        }
+      }
+
+      /*debut du sommaire */
+
+      .somaire{
+
+        a{
+          color: black;
+          text-decoration: none;
+        }
+        .q{
+          position: relative;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          text-align: center;
+          font-size: 18px;
+          color:white;
+          width: 100%;
+          border-bottom: 1px solid #ccc;
+          font-weight:lighter;
+          font-family:sans-serif;
+          background:black;
+          margin-top: 0px;
+          text-decoration: none;
+          text-transform:lowercase;
+          a{
+            text-decoration: none;
+            color:orange;
+          }
+          h2{
+            position: relative;
+            display: inline;
+            font-size: 16px;
+            font-weight: normal;
+            width: 100%;
+            height: 100%;
+            color: $color-white;
+            font-family: 'Courier New', Courier, monospace;
+          }
+        }
+        .j{
+          position: relative;
+          width: 100%;
+          height: auto;
+          background:black;
+          padding: 10px 0;
+          overflow: hidden;
+          ul{
+            position: relative;
+            width: 97%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-top: 5px solid #ccc;
+            border-bottom: 5px solid #ccc;
+            border-radius: 10px;
+            background:#ccc;
+            padding:0 10px;
+            margin: 0;
+            transition: 0.5s;
+            cursor: pointer;
+            li{
+              list-style: none;
+              width: 100%;
+              height: 40px;
+              border-top: 1px solid black;
+              border-bottom: 1px solid white;
+              display: block;
+              transition: 0.5s;
+              margin: 0;
+              padding: 0;
+              line-height: 40px;
+              &:last-child{
+                border-bottom: 1px solid black;
+              }
+              &:hover{
+                height: 48px;
+                background:black;
+              }
+              .m{
+                position: relative;
+                width: 80%;
+                height: 40px;
+                line-height: 40px;
+                margin: 0;
+                padding: 0;
+                overflow:hidden;
+                display: inline-block;
+                h2{
+                  position: relative;
+                  display: inline;
+                  font-size: 16px;
+                  font-weight: normal;
+                  width: 100%;
+                  height: 100%;
+                  color: black;
+                  font-family: 'Courier New', Courier, monospace;
+                }
+              }
+              &:hover .m{
+                height: 48px;
+                line-height: 48px;
+              }
+              &:hover .m h2{
+                font-size:20px;
+                color: orange;
+                width: 100%;
+                height: 100%;
+                font-family:monospace;
+              }
+              .k, .l{
+                position: absolute;
+                display:inline-block;
+                width: 40px;
+                height: 40px;
+                text-align: center;
+                overflow: hidden;
+              }
+              &:hover .k, &:hover .l{
+                width: 45px;
+                height: 45px;
+              }
+              .k a, .l a{
+                text-decoration: none;
+                width: 100%;
+                height: 100%;
+              }
+              .k .fa, .l .fa{
+                position: relative;
+                height: 100%;
+                width: 100%;
+                line-height: 40px;
+                font-size: 28px;
+                color: rgba(000,000,000,0.6);
+                display: block;
+                transition: 0.5s;
+              }
+              &:hover .k .fa, &:hover .l .fa{
+                line-height: 45px;
+                font-size: 32px;
+                color: white;
+              }
+              .k .fa:last-child, .l .fa:last-child{
+                color: orange;
+              }
+              .k a:hover .fa, .l a:hover .fa{
+                transform: translateY(-100%);
+              }
+              .l{
+                margin-left: 70px;
+              }
+            }
+          }
+        }
+
+      }
+      .u{
+        position: relative;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        font-size: 19px;
+        color:orange;
+        width: 100%;
+        border-top: 2px solid orange;
+        border-bottom: 2px solid orange;
+        font-family:sans-serif;
+        font-weight:100;
+        margin-top: 0px;
+        text-decoration: none;
+        background: black;
+        a{
+          color: $color-yellow;
+        }
+      }
+    }
+
+
+  }
+
+}
+/* Tablette */
+@media screen and (min-width: 768px) {
+  #homePage{
+    .filieres{
+      margin-top: 60px;
+
+    }
+
+  }
+}
+/* endTablette */
+/* Desktops */
+@media screen and (min-width: 992px) {
+  #homePage{
+    .filieres{
+      margin-top: 135px;
+      .navbar2Infoox{
+        .containerInfoox{
+          overflow: hidden;
+          ul{
+            li{
+              a, &.nolienkInfoox{
+                padding: 10px 40px;
+              }
+            }
+          }
+        }
+      }
+      .filiereContainer{
+        .infooxFiliereContains{
+
+          .col{
+            margin-top: 30px;
+            &:nth-child(7), &:nth-child(8), &:nth-child(9), &:nth-child(10), &:nth-child(11), &:nth-child(12){
+              display: block;
+            }
+          }
+        }
+      }
+
+    }
+
+  }
+}
+/* endDesktops */

@@ -1,0 +1,14 @@
+.linkStyle1 {
+  line-height: 40px;
+  text-decoration: underline white;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
+  font-family: "Roboto Condensed", sans-serif;
+  transition: color ease-in 250ms;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: black;
+  &:hover {
+    color: yellow;
+  }
+}

@@ -1,0 +1,354 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infoox School{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+    <main id="bookPage">
+        <!-- debut des infos du livre -->
+        <section id="infoBook" class="container-fluid g-0 g-md-3 g-lg-4 mt-1">
+            <div class="infoBookContainer container-fluid g-2 g-md-3 py-2">
+
+                <div class="row gap-5 g-md-0">
+                    <div class="col order-2 order-md-1">
+                        <div class="MenuPage border border-1">
+                            <h6 class="d-none d-md-block">Menu</h6>
+                            {{ render(controller(
+                                'App\\Controller\\DinamicMenyController::bord',
+                                { 'id': book.id }
+                            )) }}
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-9 order-1 order-md-2">
+                        <div class="row mt-1 g-6">
+                            <div class="col col-4 text-end">
+                                {% if book.getImages|length > 0 %}
+                                    <span {{ vue_component('default-image-book', {'class':'bookImage', 'src':book.getImages[0].path ,'alt': book.title }) }}></span>
+                                {% else %}
+                                    <span {{ vue_component('default-image-book', {'class':'bookImage','alt': book.title }) }}></span>
+                                {% endif %}
+
+                            </div>
+                            <div class="col">
+                                <h1>{{ book.title }}</h1>
+                                {% if book.collection %}
+                                    <p class="fw-bold my-1"> Collection: {{ book.collection.title }}</p>
+                                {% endif %}
+                                <p  class="twoLine" @click="toggleClass($event, 'twoLine')">{{ book.smallDescription }}</p>
+                                <div class="d-flex flex-wrap">
+                                    <div>
+                                        {% for i in 1..5 %}
+                                            {% if i<=  book.star %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="3rem" viewBox="0 0 24 24"><path fill="#dada10" d="m12 18.26l-7.053 3.948l1.575-7.928L.588 8.792l8.027-.952L12 .5l3.385 7.34l8.027.952l-5.934 5.488l1.575 7.928z"/></svg>
+                                            {% else %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="3rem" viewBox="0 0 24 24"><path fill="black" d="m12 18.26l-7.053 3.948l1.575-7.928L.588 8.792l8.027-.952L12 .5l3.385 7.34l8.027.952l-5.934 5.488l1.575 7.928zm0-2.292l4.247 2.377l-.948-4.773l3.573-3.305l-4.833-.573l-2.038-4.419l-2.039 4.42l-4.833.572l3.573 3.305l-.948 4.773z"/></svg>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div>( {{ book.comments|length }}+ Avis)</div>
+                                </div>
+                                <div class="mt-3">
+                                    <a href="/basket" type="button" class="btn btn-dark position-relative me-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"></path><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"></path><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle></g></svg>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            +
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% if book.price %}
+                            <div class="d-flex flex-wrap justify-content-around my-2" >
+                                <div>
+                                    <span class="bookPrice fw-bolder me-1 bg-danger text-white px-1">{{ bookPrice }} Fcfa</span>
+                                    <span class="text-danger"> Le plus bas: <i class="text-decoration-line-through">{{ book.price }} Fcfa</i></span>
+                                </div>
+                                <div>
+                                    <select name="achatTime" class="form-select form-select-sm" aria-label=".form-select-sm example" @change="fetchPrice($event)">
+                                        <option value="3 jour" selected>3 jour</option>
+                                        <option value="1 semaine">1 semaine</option>
+                                        <option value="1 mois">1 mois</option>
+                                        <option value="3 mois">3 mois</option>
+                                        <option value="1 an">1 an</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            {% if not app.user %}
+                                <div class="dropdown my-3 w-100 text-center submit-js d-flex flex-column align-items-center">
+
+                                        <button id="dropdownMenuButton1" style="width: 90%; max-width:50em; min-width:10em;" class="btn btn-success dropdown-toggle my-0 py-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Acheter
+                                        </button>
+                                        <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
+                                            <li>
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#paie_autentification">
+                                                    <img src="{{ asset('logo/om.jpg') }}" class="img-thumbnail  flex-shrink-0"  style="width: auto; height:100px" alt="inscrit">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#paie_autentification">
+                                                    <img src=" {{ asset('logo/momo.jpg') }}" class="img-thumbnail  flex-shrink-0"  style="width: auto; height:100px" alt="inscrit">
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    <a href="{{ path('app_book', {'b': book.slug}) }}" style="width: 90%; max-width:50em; min-width:10em;" class="btn btn-warning d-block text-bark bg-warning py-1 my-0 mt-2">Tester</a>
+                                </div>
+                            <span class="text-center">
+                                <span class="fw-bold">Vous voulez le document gratuitement ?</span>
+                                Créer votre compte
+                                <a href="{{ path('app_register') }}">ici</a>
+                                ou connectez-vous à votre compte
+                                <a href="{{ path('app_login') }}">ici</a>
+                            </span>
+                                <!-- debut Modal pour reclamer l'inscription -->
+                                <div class="modal fade" id="paie_autentification" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paie_autentificationLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+
+                                                <div class="container-fluid g-0 ">
+                                                    <img class="infoox-popo-logo" src="{{ asset('logo/infoox1.png') }}" alt="Infoox School" style="width: 150px" >
+
+                                                </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container-fluid g-0 ">
+                                                    <div class ="row">
+                                                        <div class="col">
+                                                            <h1>Bienvenu!</h1>
+                                                            <p>Inscrivez-vous ou connectez-vous à votre compte pour pouvoir faire vos achats sur infoox grâce à Orange oM et Mtn MoMo</p>
+                                                            <div class="d-flex flex-row justify-content-center mb-4">
+                                                                <img src=" {{ asset('logo/om.jpg') }}" class="img-thumbnail  flex-shrink-0 mx-1 mt-3"  style="height:40px" alt="Infoox School - Orange Money">
+                                                                <img src=" {{ asset('logo/momo.jpg') }}" class="img-thumbnail  flex-shrink-0 mx-1 mt-3"  style="height:40px" alt="Infoox School - MTN Money">
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="text-center">
+                                                                    <a class="btn btn-success text-white bg-success my-0 mx-1 mb-1" href="{{ path('app_login') }}">connexion</a>
+                                                                    <a class="btn btn-warning text-dark bg-warning my-0  mx-1" href="{{ path('app_register') }}">Inscription</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <img class="infoox-popo-logo me-auto" src="{{ asset('logo/infoox1.png') }}" alt="Infoox School" style="width: 100px">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <a href="{{ path('app_login') }}"><i class="fa fa-sign-in infoox-icon" aria-hidden="true" style="color: black;background-color: white;"></i></a>
+                                                <a href="{{ path('app_register') }}"><i class="fa fa-users infoox-icon" aria-hidden="true" style="color: black;background-color: white;"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- fin Modal pour reclamer l'inscription-->
+                            {% else %}
+                                <div  class="dropdown my-3 w-100 text-center submit-js d-flex flex-column align-items-center">
+                                    <form class="d-block w-100">
+                                        <button @click="payement($event)" id="dropdownMenuButton1" style="width: 90%; max-width:50em; min-width:10em;" class="btn btn-success dropdown-toggle my-0 py-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Acheter
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li>
+                                                <a class="dropdown-item">
+                                                    <button type="button">
+                                                        <img src="{{ asset('logo/om.jpg') }}" class="img-thumbnail flex-shrink-0" style="width: auto; height:100px" alt="inscrit">
+                                                    </button>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item">
+                                                    <button type="button">
+                                                        <img src="{{ asset('logo/momo.jpg') }}" class="img-thumbnail flex-shrink-0" style="width: auto; height:100px" alt="inscrit">
+                                                    </button>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </form>
+                                    <a href="{{ path('app_book', {'b': book.slug}) }}" style="width: 90%; max-width:50em; min-width:10em;" class="btn btn-warning d-block text-bark bg-warning py-1 my-0 mt-2">Tester</a>
+                                </div>
+                                {% endif %}
+
+                        {% else %}
+                            <div class="d-flex flex-column align-items-center my-3" >
+                                <a href="{{ path('app_book', {'b': book.slug}) }}" style="width: 90%; max-width:50em; min-width:10em;" class="btn btn-warning d-block text-bark bg-warning py-1 my-0 mt-2">Gratuit</a>
+                            </div>
+                        {% endif %}
+                        <div class="imagesBook mt-2 ">
+                            {% for image in book.getImages %}
+                                <a href="/bords/test/images/default1.jpg" data-fancybox="gallery" data-caption="{{ book.title }}">
+                                    <span {{ vue_component('default-image-book', {'src':image.path,'alt': book.title, class:"img-thumbnail me-2" }) }}></span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="d-flex flex-wrap justify-content-around gap-3 mt-4">
+                            {% if book.collection %}
+                                <div class="text-center">
+                                    <h6>Editeur</h6>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M80 212v236a16 16 0 0 0 16 16h96V328a24 24 0 0 1 24-24h80a24 24 0 0 1 24 24v136h96a16 16 0 0 0 16-16V212"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M480 256L266.89 52c-5-5.28-16.69-5.34-21.78 0L32 256m368-77V64h-48v69"/></svg>
+                                    <span class="d-block">{{ book.collection.title }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="text-center">
+                                <h6>Author</h6>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-dasharray="28" stroke-dashoffset="28" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M4 21v-1c0 -3.31 2.69 -6 6 -6h4c3.31 0 6 2.69 6 6v1"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="28;0"/></path><path d="M12 11c-2.21 0 -4 -1.79 -4 -4c0 -2.21 1.79 -4 4 -4c2.21 0 4 1.79 4 4c0 2.21 -1.79 4 -4 4Z"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.4s" values="28;0"/></path></g></svg>
+                                <span class="d-block">{{ book.author }}</span>
+                            </div>
+                            <div class="text-center">
+                                <h6>Nombre de pages</h6>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0 1 16 16v288a16 16 0 0 1-16 16c-128 0-177.45 25.81-208 64c-30.37-38-80-64-208-64c-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0 1 16-16c131.57.59 192 32.84 208 96m0 0v288"/></svg>
+                                <span class="d-block">{{ book.numbPage }} pages</span>
+                            </div>
+                            <div class="text-center">
+                                <h6>Date de publication</h6>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 512 512"><rect width="416" height="384" x="48" y="80" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" rx="48"/><circle cx="296" cy="232" r="24" fill="currentColor"/><circle cx="376" cy="232" r="24" fill="currentColor"/><circle cx="296" cy="312" r="24" fill="currentColor"/><circle cx="376" cy="312" r="24" fill="currentColor"/><circle cx="136" cy="312" r="24" fill="currentColor"/><circle cx="216" cy="312" r="24" fill="currentColor"/><circle cx="136" cy="392" r="24" fill="currentColor"/><circle cx="216" cy="392" r="24" fill="currentColor"/><circle cx="296" cy="392" r="24" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M128 48v32m256-32v32"/><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32" d="M464 160H48"/></svg>
+                                <span class="d-block">{{ book.createdAt|date('d/m/Y') }}</span>
+                            </div>
+                            <div class="text-center">
+                                <h6>Users</h6>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5a3.5 3.5 0 0 0-3.5 3.5A3.5 3.5 0 0 0 12 12a3.5 3.5 0 0 0 3.5-3.5A3.5 3.5 0 0 0 12 5m0 2a1.5 1.5 0 0 1 1.5 1.5A1.5 1.5 0 0 1 12 10a1.5 1.5 0 0 1-1.5-1.5A1.5 1.5 0 0 1 12 7M5.5 8A2.5 2.5 0 0 0 3 10.5c0 .94.53 1.75 1.29 2.18c.36.2.77.32 1.21.32s.85-.12 1.21-.32c.37-.21.68-.51.91-.87A5.42 5.42 0 0 1 6.5 8.5v-.28c-.3-.14-.64-.22-1-.22m13 0c-.36 0-.7.08-1 .22v.28c0 1.2-.39 2.36-1.12 3.31c.12.19.25.34.4.49a2.48 2.48 0 0 0 1.72.7c.44 0 .85-.12 1.21-.32c.76-.43 1.29-1.24 1.29-2.18A2.5 2.5 0 0 0 18.5 8M12 14c-2.34 0-7 1.17-7 3.5V19h14v-1.5c0-2.33-4.66-3.5-7-3.5m-7.29.55C2.78 14.78 0 15.76 0 17.5V19h3v-1.93c0-1.01.69-1.85 1.71-2.52m14.58 0c1.02.67 1.71 1.51 1.71 2.52V19h3v-1.5c0-1.74-2.78-2.72-4.71-2.95M12 16c1.53 0 3.24.5 4.23 1H7.77c.99-.5 2.7-1 4.23-1"/></svg>
+                                <span class="d-block" {{ vue_component('all-user-view', {'all_user': book.allUser }) }}></span>
+                            </div>
+                            {% if book.editor.tel and book.editor.codeTel %}
+                                <div class="text-center">
+                                    <h6>Contact</h6>
+                                    <a class="text-muted" href="https://wa.me/{{ book.editor.codeTel }}{{  book.editor.tel }}" >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24"><path fill="#147a1a" d="M15.271 13.21a7 7 0 0 1 1.543.7l-.031-.018c.529.235.986.51 1.403.833l-.015-.011q.031.093.032.203l-.001.032v-.001c-.015.429-.11.832-.271 1.199l.008-.021c-.231.463-.616.82-1.087 1.01l-.014.005a3.6 3.6 0 0 1-1.576.411h-.006a8.3 8.3 0 0 1-2.988-.982l.043.022a8.9 8.9 0 0 1-2.636-1.829l-.001-.001a20.5 20.5 0 0 1-2.248-2.794l-.047-.074a5.4 5.4 0 0 1-1.1-2.995l-.001-.013v-.124a3.42 3.42 0 0 1 1.144-2.447l.003-.003a1.17 1.17 0 0 1 .805-.341h.001q.151.004.292.025l-.013-.002c.087.013.188.021.292.023h.003a.64.64 0 0 1 .414.102l-.002-.001c.107.118.189.261.238.418l.002.008q.124.31.512 1.364c.135.314.267.701.373 1.099l.014.063a1.57 1.57 0 0 1-.533.889l-.003.002q-.535.566-.535.72a.44.44 0 0 0 .081.234l-.001-.001a7 7 0 0 0 1.576 2.119l.005.005a10 10 0 0 0 2.282 1.54l.059.026a.7.7 0 0 0 .339.109h.002q.233 0 .838-.752t.804-.752zm-3.147 8.216h.022a9.4 9.4 0 0 0 3.814-.799l-.061.024c2.356-.994 4.193-2.831 5.163-5.124l.024-.063c.49-1.113.775-2.411.775-3.775s-.285-2.662-.799-3.837l.024.062c-.994-2.356-2.831-4.193-5.124-5.163l-.063-.024c-1.113-.49-2.411-.775-3.775-.775s-2.662.285-3.837.799l.062-.024c-2.356.994-4.193 2.831-5.163 5.124l-.024.063a9.5 9.5 0 0 0-.775 3.787a9.6 9.6 0 0 0 1.879 5.72l-.019-.026l-1.225 3.613l3.752-1.194a9.45 9.45 0 0 0 5.305 1.612h.047zm0-21.426h.033c1.628 0 3.176.342 4.575.959L16.659.93c2.825 1.197 5.028 3.4 6.196 6.149l.029.076c.588 1.337.93 2.896.93 4.535s-.342 3.198-.959 4.609l.029-.074c-1.197 2.825-3.4 5.028-6.149 6.196l-.076.029c-1.327.588-2.875.93-4.503.93h-.034h.002h-.053c-2.059 0-3.992-.541-5.664-1.488l.057.03L-.001 24l2.109-6.279a11.5 11.5 0 0 1-1.674-6.01c0-1.646.342-3.212.959-4.631l-.029.075C2.561 4.33 4.764 2.127 7.513.959L7.589.93A11.2 11.2 0 0 1 12.092 0zh-.002z"/></svg>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% if book.fullDescription %}
+                            <div class="mt-4">
+                                <h6>Description</h6>
+                                <div class="fiveLine" @click="toggleClass($event, 'fiveLine')">{{ book.fullDescription|raw|nl2br }}</div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="container mt-5">
+                    <div class="row mt-5">
+                        <div class="col col-12 col-md-4">
+                            <h3 class="fw-bold">Laissez un commentaire</h3>
+                            <div class="mt-2">
+                                <div>
+                                    {% for i in 1..5 %}
+                                        {% if i<=  book.star %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" viewBox="0 0 24 24"><path fill="#dada10" d="m12 18.26l-7.053 3.948l1.575-7.928L.588 8.792l8.027-.952L12 .5l3.385 7.34l8.027.952l-5.934 5.488l1.575 7.928z"/></svg>
+                                        {% else %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" viewBox="0 0 24 24"><path fill="black" d="m12 18.26l-7.053 3.948l1.575-7.928L.588 8.792l8.027-.952L12 .5l3.385 7.34l8.027.952l-5.934 5.488l1.575 7.928zm0-2.292l4.247 2.377l-.948-4.773l3.573-3.305l-4.833-.573l-2.038-4.419l-2.039 4.42l-4.833.572l3.573 3.305l-.948 4.773z"/></svg>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <p>calculé sur {{ book.comments|length }} commentaires</p>
+                                </div>
+                                {{ form_start(form) }}
+                                {{ form_widget(form) }}
+                                <label for="{{ form.content.vars.id }}" class="my-2">laissez un commentaire:</label>
+                                <trix-editor input="{{ form.content.vars.id }}" class="trix-content"></trix-editor>
+                                <input type="submit" value="Envoyer" class="btn btn-danger mt-2">
+                                {{ form_end(form)}}
+                            </div>
+                        </div>
+                        <div class="col col-12 col-md-8 border-start">
+                            <h3 class="fw-bold">Commentaires des abonnés</h3>
+                            <div {{ vue_component('comments-book', {'idUser': idUser, 'numPageComments': numPageComments }) }}></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- fin des infos du livre -->
+
+
+        {% if book.collection is not null and book.collection.getBords|length > 1 %}
+        <!-- debut des livres de la meme collection  -->
+        <section id="sameCollection">
+            <div {{ vue_component('books-slide', {
+                'filtres': {'collection': book.collection.id},
+                'title': 'Collection : ' ~ book.collection.title,
+                'limit': '10',
+            }) }}
+            ></div>
+        </section>
+        <!-- fin des livres de la meme collection  -->
+        {% endif %}
+
+        {% if book.getMatiere|length > 0  %}
+        <!-- debut des livres de la meme matiere  -->
+        <section id="sameCollection">
+            <div {{ vue_component('books-slide', {
+                'filtres': {'matiere': book.getMatiere[0].id },
+                'title': book.getMatiere[0].title,
+                'limit': '10',
+            }) }}
+            ></div>
+        </section>
+        <!-- fin des livres de la meme matiere  -->
+        {% endif %}
+
+        {% if book.getClasse|length > 0  %}
+            <!-- debut des livres de la meme classe  -->
+            <section id="sameClasse">
+                <div {{ vue_component('books-slide', {
+                    'filtres': {'classe': book.getClasse[0].id },
+                    'title': book.getClasse[0].title,
+                    'limit': '10',
+                }) }}
+                ></div>
+            </section>
+            <!-- fin des livres de la meme classe  -->
+        {% endif %}
+        {% if book.getFiliere|length > 0 %}
+            <!-- debut des livres de la meme filiere  -->
+            <section id="sameFiliere">
+                <div {{ vue_component('books-slide', {
+                    'filtres': {'filiere': book.getFiliere[0].id },
+                    'title': book.getFiliere[0].title,
+                    'limit': '10',
+                }) }}
+                ></div>
+            </section>
+            <!-- fin des livres de la meme filiere  -->
+        {% endif %}
+        {% if book.getFiliere|length > 0 %}
+            <!-- debut des livres de la meme section  -->
+            <section id="sameSection">
+                <div {{ vue_component('books-slide', {
+                    'filtres': {'section': book.getSection[0].id },
+                    'title': book.getSection[0].title,
+                    'limit': '10',
+                }) }}
+                ></div>
+            </section>
+            <!-- fin des livres de la meme section  -->
+        {% endif %}
+
+
+        <!-- debut des examens  -->
+        <section id="examen" class=" mt-5">
+            <div class="bg-white" {{ vue_component('examens') }}></div>
+        </section>
+        <!-- fin des examens  -->
+
+    </main>
+{% endblock %}
+
+{% block jsEnd %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+{% endblock %}
+

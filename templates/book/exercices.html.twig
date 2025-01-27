@@ -1,0 +1,196 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infoox School{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+    <main id="bookPage">
+        <!-- debut des infos du livre -->
+        <section id="infoBook" class="container-fluid g-0 g-md-3 g-lg-4 mt-1">
+            <div class="infoBookContainer container-fluid g-2 g-md-3 py-2">
+
+                <div class="row gap-5 g-md-0">
+                    <div class="col order-2 order-md-1">
+                        <div class="MenuPage border border-1">
+                            <h6 class="d-none d-md-block">Menu</h6>
+                            {{ render(controller(
+                                'App\\Controller\\DinamicMenyController::bord',
+                                { 'id': cour.bord.id }
+                            )) }}
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-9 order-1 order-md-2">
+                        <div class="row mt-1 g-6">
+                            <div class="col col-4 text-end">
+                                {% if cour.bord.getImages|length > 0 %}
+                                    <span {{ vue_component('default-image-book', {'class':'bookImage', 'src': cour.bord.getImages[0].path ,'alt': cour.bord.title }) }}></span>
+                                {% else %}
+                                    <span {{ vue_component('default-image-book', {'class':'bookImage','alt': cour.bord.title }) }}></span>
+                                {% endif %}
+
+                            </div>
+                            <div class="col">
+                                <h1>{{ cour.bord.title }}</h1>
+                                {% if cour.bord.collection %}
+                                    <p class="fw-bold my-1"> Collection: {{ cour.bord.collection.title }}</p>
+                                {% endif %}
+                                <div class="d-flex flex-wrap">
+                                    <div>
+                                        {% for i in 1..5 %}
+                                            {% if i<=  cour.bord.star %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="3rem" viewBox="0 0 24 24"><path fill="#dada10" d="m12 18.26l-7.053 3.948l1.575-7.928L.588 8.792l8.027-.952L12 .5l3.385 7.34l8.027.952l-5.934 5.488l1.575 7.928z"/></svg>
+                                            {% else %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="3rem" viewBox="0 0 24 24"><path fill="black" d="m12 18.26l-7.053 3.948l1.575-7.928L.588 8.792l8.027-.952L12 .5l3.385 7.34l8.027.952l-5.934 5.488l1.575 7.928zm0-2.292l4.247 2.377l-.948-4.773l3.573-3.305l-4.833-.573l-2.038-4.419l-2.039 4.42l-4.833.572l3.573 3.305l-.948 4.773z"/></svg>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div>( {{ cour.bord.comments|length }}+ Avis)</div>
+                                </div>
+                                <div class="mt-3">
+                                    <a href="/basket" type="button" class="btn btn-dark position-relative me-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"></path><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"></path><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle></g></svg>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            +
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="somaire mt-3">
+                            <h4 class="u mt-3 mb-1"><a href="{{ path('app_book', {'b': cour.getBord.slug }) }}">{{ cour.getBord.title }}</a></h4>
+                            <h3 class="u mb-1"><a href="{{ path('app_cour', {'c': cour.slug }) }}">{{ cour.title }}</a></h3>
+                            <div class="j">
+                                <ul>
+
+                                    {% for exercice in cour.getExercices %}
+                                        {% if exercice.isContainer %}
+                                            <li class="q"><h2>{{ exercice.title }}</h2></li>
+                                        {% else %}
+                                            <li>
+                                                {% if corrige_autorisation %}
+                                                    <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'contenu'}) }}">
+                                                        <div class="m">
+                                                            <h2> {{ exercice.title }}</h2>
+                                                        </div>
+                                                    </a>
+                                                    <div class="k">
+                                                        <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'contenu'}) }}">
+                                                            <i class="fa fa-eye" id="i"></i>
+                                                            <i class="fa fa-eye" id="i"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="l">
+                                                        <a href="{{ path('app_epreuve', {'e': exercice.slug, 'type': 'corrige'}) }}">
+                                                            <i class="fa fa-check" id="i"></i>
+                                                            <i class="fa fa-check" id="i"></i>
+                                                        </a>
+                                                    </div>
+
+                                                {% else %}
+
+                                                    <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'contenu'}) }}">
+                                                        <div class="m">
+                                                            <h2>{{ exercice.title }}</h2>
+                                                        </div>
+                                                    </a>
+                                                    <div class="k">
+                                                        <a href="{{ path('app_exercice', {'e':exercice.slug, 'type': 'contenu'}) }}">
+                                                            <i class="fa fa-eye" id="i"></i>
+                                                            <i class="fa fa-eye" id="i"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="l">
+                                                        <a data-bs-toggle="modal" data-bs-target="#achat_bord">
+                                                            <i class="fa fa-check text-danger" id="i"></i>
+                                                            <i class="fa fa-check text-danger" id="i"></i>
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            </li>
+                                        {% endif %}
+
+
+
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+        <!-- fin des infos du livre -->
+
+        {% if not corrige_autorisation %}
+        <!-- debut Modal pour rediriger vers achat.bord -->
+        <div class="modal fade" id="achat_bord" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paie_autentificationLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <div class="container-fluid g-0 ">
+                            <img class="infoox-popo-logo" src="{{ asset('/logo/infoox1.png') }}" alt="Infoox School" style="width: 150px">
+                        </div>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid g-0 ">
+                            <div class ="row">
+                                <div class="col">
+                                    <h1 class="mb-3">Accès aux corrigés avec vidéos d’explications !</h1>
+
+                                    <p>Chère
+                                        <small style="font-weight: bolder;">{{ app.user.firstName??"utilisateur" }}</small>,
+                                        vous utilisez la version test. Veillez acheter le bord
+                                        <small style="font-weight: bolder;">({{ cour.bord.title }} {{ cour.bord.collection ? cour.bord.collection.title : '' }})</small>
+                                        pour pouvoir avoir accès à ses corrigés d’exercices et d’épreuves avec vidéos d’explications à seulement
+                                        <small style="font-weight: bolder;">{{ prix }} Fcfa</small> via l'icone suivante :
+                                    </p>
+                                    <div class="d-block w-100 text-center">
+                                        <a href="{{ path('app_access_book', {'b': cour.bord.slug }) }}"><i class="fa fa-send infoox-icon" style="font-size:40px;color: black;background-color: rgb(248, 44, 8);border-radius:100%"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <img class="infoox-popo-logo me-auto" src="{{ asset('/logo/infoox1.png') }}" alt="Infoox School" style="width: 100px">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- fin Modal pour rediriger vers achat.bord -->
+        {% endif %}
+
+
+    </main>
+{% endblock %}
+
+{% block jsEnd %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+{% endblock %}
+

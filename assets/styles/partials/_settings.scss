@@ -1,0 +1,368 @@
+/* Setting Scale 1.067 */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 230px;
+  font-size: 1rem;
+  color: $color-black;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+
+}
+body{
+  background-color: $background-app;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Cormorant Garamond", serif;
+  color: $color-black;
+}
+h1::first-letter,
+h2::first-letter,
+h3::first-letter,
+h4::first-letter,
+h5::first-letter,
+h6::first-letter {
+  text-transform: uppercase;
+}
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+h1 {
+  font-size: calc(1.476rem + 0.1vw);
+  font-weight: bold;
+}
+h2 {
+  font-size: calc(1.383rem + 0.1vw);
+  font-weight: 700;
+  text-transform: capitalize;
+  padding-left: 12px;
+}
+h3 {
+  position: relative;
+  //font-size: calc(1.602rem + 1.5vw);
+  font-size: calc(1.296rem + 0.1vw);;
+}
+h4 {
+  font-size: calc(1.215rem + 0.1vw);
+}
+h5 {
+  font-size: calc(1.138rem + 0.1vw);
+}
+h6 {
+  font-size: calc(1.067rem + 0.1vw);
+}
+p{
+  font-size: calc(1rem + 0.1vw);
+}
+.small{
+  font-size: calc(0.937rem + 0.1vw);
+}
+a{
+  text-decoration: none;
+}
+
+.oneLine {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+.twoLine{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.2; /* Ajuste cette valeur selon la hauteur de ligne désirée */
+  min-height: calc(1.2em * 2);
+}
+.fiveLine{
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  min-height: calc(1.2em * 2);
+}
+.voirPlus{
+  @extend .small;
+  display: block;
+  color: $color-vert-sombre;
+}
+/* endSetting */
+/* Navbar principale*/
+nav{
+  background: $color-black;
+  .logo{
+    height: 30px;
+    width: auto;
+  }
+  .navbar-toggler{
+    color: $color-black;
+  }
+  .container-fluid{
+    &.navPc{
+      display: none ;
+    }
+    .nav-item{
+      border-bottom: 1px solid $color-gris;
+      .nav-link{
+        color:$color-white;
+        text-indent: 10px;
+        &.active{
+          background: $color-black-opacity;
+        }
+      }
+      .nav-link:hover{
+        background: $color-black-opacity;
+      }
+    }
+    .offcanvas{
+      background: $color-black;
+      .offcanvas-title{
+        color: $color-white;
+      }
+    }
+  }
+  .user{
+    display: flex;
+    img{
+      width: 2rem;
+    }
+  }
+  .searchButton{
+    background: $color-yellow;
+    padding: 9px 15px;
+    right: 20px;
+    border: none;
+  }
+  .inputSearch{
+    background: $color-yellow-claire;
+  }
+
+}
+.phone{
+  display: block;
+}
+.pc{
+  display: none;
+}
+/* endNavbar principale*/
+/* Navbar secondaire */
+.navbar2Infoox{
+  position: relative;
+  background-color: $color-white;
+  width: 100%;
+  height: auto;
+  overflow:hidden;
+  .containerInfoox{
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    ul{
+      display: flex;
+      margin: 0;
+      padding: 0;
+      li{
+        list-style: none;
+        flex: 0 0 auto;
+        a, &.nolienkInfoox{
+          display: block;
+          margin: 7px 10px;
+          text-decoration: none;
+          color: $color-black;
+          padding: 10px 40px;
+
+        }
+      }
+    }
+  }
+  &.pc{
+    .containerInfoox {
+      overflow-x: hidden;
+      display: flex;
+      justify-content: space-between;
+      ul{
+        li{
+          a{
+            img{
+              width: 40px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.infooxNavbar2Contains{
+  @extend .navbar2Infoox;
+  position: absolute;
+  z-index: 1;
+  .containerInfoox{
+    ul{
+      li{
+        a{
+          padding: 0px;
+          margin: 0 15px;
+        }
+      }
+    }
+  }
+  .card{
+    background-color: $color-black-clair;
+  }
+  img{
+    height: 250px;
+  }
+
+}
+/* endNavbar secondaire */
+/* sliderPrincipale */
+
+/* endSliderPrincipale */
+/* sliderExamens */
+#examen.forHome{
+  position: relative;
+  .examensSlider {
+    position: absolute;
+    width: 100%;
+    top: -80px;
+    overflow: hidden;
+  }
+}
+
+
+/* sliderExamens */
+/* Tablette */
+@media screen and (min-width: 768px) {
+  /* seting */
+  h1 {
+    font-size: calc(1.476rem + 0.2vw);
+  }
+  h2 {
+    font-size: calc(1.383rem + 0.2vw);
+  }
+  h3 {
+    font-size: calc(1.296rem + 0.2vw);;
+  }
+  h4 {
+    font-size: calc(1.215rem + 0.2vw);
+  }
+  h5 {
+    font-size: calc(1.138rem + 0.2vw);
+  }
+  h6 {
+    font-size: calc(1.067rem + 0.2vw);
+  }
+  p {
+    font-size: calc(1rem + 0.2vw);
+  }
+  .small{
+    font-size: calc(0.937rem + 0.1vw);
+  }
+  /* endSeting */
+  /* Navbar */
+  nav{
+    .logo{
+      height: 35px;
+    }
+  }
+  /* endNavbar */
+  /* sliderExamens */
+  #examen.forHome{
+  .examensSlider {
+    top: unset;
+    bottom: -50px;
+  }
+  }
+  /* sliderExamens */
+}
+/* endTablette */
+/* Desktops */
+@media screen and (min-width: 992px) {
+  .phone{
+    display: none;
+  }
+  .pc{
+    display: block;
+  }
+  nav{
+    .navPhone{
+      display: none !important;
+    }
+    .container-fluid.navPc{
+      display:flex;
+    }
+  }
+  /* sliderPrincipale img x890px */
+  .sliderPrincipaleInfoox{
+    width: 100%;
+    overflow: hidden;
+  }
+  /* endSliderPrincipale */
+  /* sliderExamens */
+  #examen.forHome{
+    .examensSlider {
+      bottom: -120px;
+    }
+  }
+  .slick-slide {
+    margin: 0 20px;
+  }
+
+  .slick-slide img {
+    width: 100%;
+  }
+  .slick-prev:before,
+  .slick-next:before {
+    color: red;
+    z-index: 3;
+    position: absolute;
+    font-size: 40px;
+  }
+  .slick-next:before{
+    right: 30px;
+  }
+  .slick-prev{
+    z-index: 1;
+  }
+  .slick-prev:before{
+    left: 30px;
+  }
+
+  .slick-slide {
+    transition: all ease-in-out .3s;
+
+  }
+
+  .slick-active {
+
+  }
+
+  .slick-current {
+
+  }
+  /* endsliderExamens */
+
+  /* debut bookSlide*/
+  .slideBooks .slick-slide {
+    margin: 0 10px;
+  }
+  /* fin bookSlide*/
+
+}
+/* endDesktops */
