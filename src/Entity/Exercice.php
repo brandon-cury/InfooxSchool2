@@ -19,10 +19,10 @@ class Exercice
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $editor = null;
+    private ?User $editor = null;
 
     #[ORM\ManyToOne(inversedBy: 'exercices')]
-    private ?cour $cour = null;
+    private ?Cour $cour = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -39,8 +39,6 @@ class Exercice
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $video_img = null;
 
-    #[ORM\Column]
-    private ?bool $is_youtube = null;
 
     #[ORM\Column]
     private ?int $sort = null;
@@ -151,18 +149,6 @@ class Exercice
     public function setVideoImg(?string $video_img): static
     {
         $this->video_img = $video_img;
-
-        return $this;
-    }
-
-    public function isYoutube(): ?bool
-    {
-        return $this->is_youtube;
-    }
-
-    public function setYoutube(bool $is_youtube): static
-    {
-        $this->is_youtube = $is_youtube;
 
         return $this;
     }

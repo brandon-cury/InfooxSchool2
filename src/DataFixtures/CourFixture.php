@@ -21,14 +21,10 @@ class CourFixture extends Fixture implements DependentFixtureInterface
                 $cour = new Cour();
                 $cour->setTitle($faker->paragraph)
                     ->setbord($bord)
-                    ->setContent('bords/test/cours/test.pdf');
-                if($faker->boolean(50)){
-                    $cour->setVideoLink('vmytMK1ZjcY')
-                        ->setVideoImg('bords/test/images/video.jpg')
-                        ->setYoutube(true);
-                }else{
-                    $cour->setYoutube(false);
-                }
+                    ->setContent('bords/test/cours/test.pdf')
+                ->setVideoLink('xVhLwrNuVkI')
+                    ->setVideoImg('bords/test/images/video.jpg');
+
                 $cour->setSort($i)
                     ->setContainer($faker->boolean(70));
                 $manager->persist($cour);

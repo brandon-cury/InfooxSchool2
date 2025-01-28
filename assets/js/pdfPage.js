@@ -1,5 +1,4 @@
 import $ from 'jquery';
-
 $(document).ready(function() {
 
     if ($('#pdfPage').length) {
@@ -32,6 +31,13 @@ $(document).ready(function() {
         $(window).on('resize', function () {
             adjustSize();
         });
+
+
+
+
+
+
+
 
     }
 });

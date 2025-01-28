@@ -35,8 +35,6 @@ class Cour
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $video_img = null;
 
-    #[ORM\Column]
-    private ?bool $is_youtube = null;
 
     #[ORM\Column]
     private ?int $sort = null;
@@ -135,17 +133,6 @@ class Cour
         return $this;
     }
 
-    public function isYoutube(): ?bool
-    {
-        return $this->is_youtube;
-    }
-
-    public function setYoutube(bool $is_youtube): static
-    {
-        $this->is_youtube = $is_youtube;
-
-        return $this;
-    }
 
     public function getSort(): ?int
     {

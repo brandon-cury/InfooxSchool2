@@ -41,12 +41,6 @@ class Filiere
     private ?string $image = null;
 
     /**
-     * @var Collection<int, Classe>
-     */
-    #[ORM\ManyToMany(targetEntity: Classe::class, mappedBy: 'filiere')]
-    private Collection $classes;
-
-    /**
      * @var Collection<int, Bord>
      */
     #[ORM\ManyToMany(targetEntity: Bord::class, mappedBy: 'filiere')]
@@ -62,12 +56,18 @@ class Filiere
     #[Groups("filiere")]
     private ?\DateTimeImmutable $created_at = null;
 
+    /**
+     * @var Collection<int, Classe>
+     */
+    #[ORM\OneToMany(targetEntity: Classe::class, mappedBy: 'filiere')]
+    private Collection $classes;
+
     public function __construct()
     {
         $this->section = new ArrayCollection();
-        $this->classes = new ArrayCollection();
         $this->bords = new ArrayCollection();
         $this->epreuves = new ArrayCollection();
+        $this->classes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,33 +148,6 @@ class Filiere
     }
 
     /**
-     * @return Collection<int, Classe>
-     */
-    public function getClasses(): Collection
-    {
-        return $this->classes;
-    }
-
-    public function addClass(Classe $class): static
-    {
-        if (!$this->classes->contains($class)) {
-            $this->classes->add($class);
-            $class->addFiliere($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClass(Classe $class): static
-    {
-        if ($this->classes->removeElement($class)) {
-            $class->removeFiliere($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Bord>
      */
     public function getBords(): Collection
@@ -236,6 +209,36 @@ class Filiere
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Classe>
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClass(Classe $class): static
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes->add($class);
+            $class->setFiliere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Classe $class): static
+    {
+        if ($this->classes->removeElement($class)) {
+            // set the owning side to null (unless already changed)
+            if ($class->getFiliere() === $this) {
+                $class->setFiliere(null);
+            }
+        }
 
         return $this;
     }

@@ -6,10 +6,14 @@ use App\Entity\Comment;
 use App\Entity\Exercice;
 use App\Form\CommentType;
 use App\Repository\BordRepository;
+use App\Repository\ClasseRepository;
 use App\Repository\CommentRepository;
 use App\Repository\CourRepository;
 use App\Repository\EpreuveRepository;
+use App\Repository\ExamenRepository;
 use App\Repository\ExerciceRepository;
+use App\Repository\FiliereRepository;
+use App\Repository\MatiereRepository;
 use App\Repository\UserBordRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,6 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class BookController extends AbstractController
@@ -366,6 +371,59 @@ class BookController extends AbstractController
 
     }
 
+    #[Route('/books/{c?}', name: 'app_books_category')]
+    public function booksCategory(?string $c, BordRepository $repository, Request $request, ExamenRepository $examenRepository, FiliereRepository $filiereRepository, ClasseRepository $classeRepository): Response
+    {
+        $searchTerm = $request->query->get('b');
+
+        $page = $request->query->getInt('page', 1);
+        $books = [];
+        $menu = [];
+        $cat = explode('-', $c);
+        $category = end($cat);
+        // Extraire les IDs de la chaîne de critères
+        preg_match('/m(\d*)/', $category, $matiereMatch);
+        preg_match('/c(\d*)/', $category, $classeMatch);
+        preg_match('/f(\d*)/', $category, $filiereMatch);
+        preg_match('/e(\d*)/', $category, $examenMatch);
+
+
+        if ((!empty($classeMatch[1]) && !empty($filiereMatch[1])) || !empty($matiereMatch[1])){
+            $books = $repository->findBordsByCriteria($category, $page);
+            if(!empty($books->getItems())){
+                $aleatoireBook = array_rand($books->getItems());
+                $menu = DinamicMenyController::bordMeny($books[$aleatoireBook]->getId(), $repository);
+            }
+        }
+        elseif (!empty($examenMatch[1])){
+            $books = $repository->findBordsByExamen($category, $page);
+            $classesExamen = $examenRepository->find($examenMatch[1])->getClasses();
+            $menu = DinamicMenyController::categoryMeny($classesExamen);
+        }
+        elseif (!empty($filiereMatch[1])){
+            $books = $repository->findBordsByCriteria($category, $page);
+            $classesFiliere = $filiereRepository->find($filiereMatch[1])->getClasses();
+            $menu = DinamicMenyController::categoryMeny($classesFiliere);
+        }elseif (!empty($classeMatch[1])){
+            $books = $repository->findBordsByCriteria($category, $page);
+            $matieresClasse = $classeRepository->find($classeMatch[1])->getMatieres();
+            $menu = DinamicMenyController::categoryMeny($matieresClasse, 'm');
+        }else{
+
+            $books = $repository->searchBords($searchTerm, $page);
+            if(!empty($books->getItems())){
+                $aleatoireBook = array_rand($books->getItems());
+                $menu = DinamicMenyController::bordMeny($books[$aleatoireBook]->getId(), $repository);
+            }
+        }
+
+        return $this->render('book/books.html.twig', [
+            'books'=> $books,
+            'menu'=> $menu,
+        ]);
+
+    }
+
     private static function autorisationBord($book, $userBordRepository, $user = null):bool
     {
         if($book->getPrice()){
@@ -388,6 +446,8 @@ class BookController extends AbstractController
         }
         return false;
     }
+
+
 
 
 

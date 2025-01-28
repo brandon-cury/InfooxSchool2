@@ -5,17 +5,19 @@ namespace App\Repository;
 use App\Entity\Bord;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Bord>
  */
 class BordRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
     {
         parent::__construct($registry, Bord::class);
     }
-    public function findByFilters(array $filtres = [], array $sort = ['all_user'=> 'DESC'], int $limit = 20)
+    public function findByFilters(array $filtres = [], array $sort = ['all_user'=> 'DESC'], int $limit = 15)
     {
         //filtrage
         $queryBuilder = $this->createQueryBuilder('b');
@@ -86,7 +88,7 @@ class BordRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
-    public function findBordsByCriteria(string $criteria): array
+    public function findBordsByCriteria(string $criteria, string $page, int $limit = 15): PaginationInterface
     {
         $queryBuilder = $this->createQueryBuilder('b');
 
@@ -113,7 +115,41 @@ class BordRepository extends ServiceEntityRepository
                 ->setParameter('filiereId', $filiereMatch[1]);
         }
 
-        return $queryBuilder->getQuery()->getResult();
+        $queryBuilder->andWhere('b.is_published = :published')
+            ->setParameter('published', true)
+            ->orderBy('b.all_user', 'DESC');
+
+
+        $query = $queryBuilder->getQuery()->getResult();
+        return $this->paginator->paginate($query, $page, $limit);
+
+
+    }
+
+    public function findBordsByExamen(string $criteria, string $page, int $limit = 15): PaginationInterface
+    {
+        $queryBuilder = $this->createQueryBuilder('b');
+
+        // Extraire les IDs de la chaîne de critères
+        preg_match('/e(\d*)/', $criteria, $matiereMatch);
+
+        if (!empty($matiereMatch[1])) {
+            $examenId = $matiereMatch[1];
+
+            // Jointure avec les filières et examens
+            $queryBuilder->join('b.classe', 'c')
+                ->join('c.examen', 'e')
+                ->andWhere('e.id = :examenId')
+                ->setParameter('examenId', $examenId);
+        }
+
+        $queryBuilder->andWhere('b.is_published = :published')
+            ->setParameter('published', true)
+            ->orderBy('b.all_user', 'DESC');
+
+        $query = $queryBuilder->getQuery();
+
+        return $this->paginator->paginate($query, $page, $limit);
     }
     public function findCoursOrderedBySort(int $bordId)
     {
@@ -125,6 +161,24 @@ class BordRepository extends ServiceEntityRepository
             ->orderBy('c.sort', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function searchBords(?string $search, int $page, int $limit = 15) : PaginationInterface
+    {
+        $queryBuilder = $this->createQueryBuilder('b');
+
+        if (!is_null($search) && $search !== '') {
+            $queryBuilder->andWhere('b.title LIKE :search OR b.author LIKE :search OR b.keyword LIKE :search OR b.small_description LIKE :search OR b.full_description LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        $queryBuilder->andWhere('b.is_published = :published')
+            ->setParameter('published', true)
+            ->orderBy('b.all_user', 'DESC');
+
+        $query = $queryBuilder->getQuery();
+        return $this->paginator->paginate($query, $page, $limit);
+
     }
 
 

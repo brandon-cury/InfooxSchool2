@@ -23,7 +23,7 @@ class ClasseFixture extends Fixture implements DependentFixtureInterface
         foreach ($this->filieres as $filiere){
             $classe1 = new Classe();
             $classe1->setTitle('Classe '. $a)
-                ->addFiliere($filiere);
+                ->setFiliere($filiere);
                 if($faker->boolean(30)){
                     $classe1->setExamen($faker->randomElement($this->examens));
                 }
@@ -38,8 +38,7 @@ class ClasseFixture extends Fixture implements DependentFixtureInterface
                     if($faker->boolean(30)){
                         $classe->setExamen($faker->randomElement($this->examens));
                     }
-                    $classe->addFiliere($faker->randomElement($this->filieres))
-                    ->addFiliere($faker->randomElement($this->filieres))
+                    $classe->setFiliere($faker->randomElement($this->filieres))
                     ->setAllUser($faker->numberBetween(1,10))
                     ->setSort($i);
             $manager->persist($classe);

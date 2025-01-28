@@ -86,7 +86,12 @@ class Examen
      */
     public function getClasses(): Collection
     {
-        return $this->classes;
+        $iterator = $this->classes->getIterator();
+        $iterator->uasort(function ($first, $second) {
+            return $second->getAllUser() <=> $first->getAllUser();
+        });
+
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 
     public function addClass(Classe $class): static

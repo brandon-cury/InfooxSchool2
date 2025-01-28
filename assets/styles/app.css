@@ -138,51 +138,51 @@ a {
 
 /* endSetting */
 /* Navbar principale*/
-nav {
+.navPrincipal {
   background: #0E182D;
 }
-nav .logo {
+.navPrincipal .logo {
   height: 30px;
   width: auto;
 }
-nav .navbar-toggler {
+.navPrincipal .navbar-toggler {
   color: #0E182D;
 }
-nav .container-fluid.navPc {
+.navPrincipal .container-fluid.navPc {
   display: none;
 }
-nav .container-fluid .nav-item {
+.navPrincipal .container-fluid .nav-item {
   border-bottom: 1px solid #dfd9e3;
 }
-nav .container-fluid .nav-item .nav-link {
+.navPrincipal .container-fluid .nav-item .nav-link {
   color: rgb(250, 250, 250);
   text-indent: 10px;
 }
-nav .container-fluid .nav-item .nav-link.active {
+.navPrincipal .container-fluid .nav-item .nav-link.active {
   background: rgba(75, 75, 75, 0.7);
 }
-nav .container-fluid .nav-item .nav-link:hover {
+.navPrincipal .container-fluid .nav-item .nav-link:hover {
   background: rgba(75, 75, 75, 0.7);
 }
-nav .container-fluid .offcanvas {
+.navPrincipal .container-fluid .offcanvas {
   background: #0E182D;
 }
-nav .container-fluid .offcanvas .offcanvas-title {
+.navPrincipal .container-fluid .offcanvas .offcanvas-title {
   color: rgb(250, 250, 250);
 }
-nav .user {
+.navPrincipal .user {
   display: flex;
 }
-nav .user img {
+.navPrincipal .user img {
   width: 2rem;
 }
-nav .searchButton {
+.navPrincipal .searchButton {
   background: #D5B42E;
   padding: 9px 15px;
   right: 20px;
   border: none;
 }
-nav .inputSearch {
+.navPrincipal .inputSearch {
   background: #F3EDED;
 }
 
@@ -262,6 +262,34 @@ nav .inputSearch {
 }
 
 /* sliderExamens */
+/*menu dynamic*/
+.MenuPage {
+  width: 100%;
+  height: 100%;
+  background: #0E182D;
+  color: rgb(250, 250, 250);
+}
+.MenuPage h6 {
+  color: rgb(250, 250, 250);
+  font-size: 40px;
+  margin-left: 10px;
+}
+.MenuPage h2 {
+  font-size: 15px;
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: lighter;
+  text-transform: lowercase;
+  color: rgb(250, 250, 250);
+  line-height: 30px;
+}
+.MenuPage h2::first-letter {
+  text-transform: uppercase;
+}
+.MenuPage h2:hover {
+  border: 0.3px solid rgb(250, 250, 250);
+}
+
+/* end menu dynamic*/
 /* Tablette */
 @media screen and (min-width: 768px) {
   /* seting */
@@ -291,7 +319,7 @@ nav .inputSearch {
   }
   /* endSeting */
   /* Navbar */
-  nav .logo {
+  .navPrincipal .logo {
     height: 35px;
   }
   /* endNavbar */
@@ -311,10 +339,10 @@ nav .inputSearch {
   .pc {
     display: block;
   }
-  nav .navPhone {
+  .navPrincipal .navPhone {
     display: none !important;
   }
-  nav .container-fluid.navPc {
+  .navPrincipal .container-fluid.navPc {
     display: flex;
   }
   /* sliderPrincipale img x890px */
@@ -413,47 +441,9 @@ nav .inputSearch {
   background-color: rgb(250, 250, 250);
 }
 
-#bookPage #infoBook .pdf-page, #pdfPage #infoBook .pdf-page {
-  margin-bottom: 20px;
-  position: relative;
-}
-#bookPage #infoBook .pdf-text-layer, #pdfPage #infoBook .pdf-text-layer {
-  user-select: text;
-  cursor: text;
-}
-#bookPage #infoBook .pdf-text-layer span, #pdfPage #infoBook .pdf-text-layer span {
-  white-space: pre;
-  color: transparent;
-  position: absolute;
-}
 #bookPage #infoBook .infoBookContainer, #pdfPage #infoBook .infoBookContainer {
   background: rgb(250, 250, 250);
   /*debut du sommaire */
-}
-#bookPage #infoBook .infoBookContainer .MenuPage, #pdfPage #infoBook .infoBookContainer .MenuPage {
-  width: 100%;
-  height: 100%;
-  background: #0E182D;
-  color: rgb(250, 250, 250);
-}
-#bookPage #infoBook .infoBookContainer .MenuPage h6, #pdfPage #infoBook .infoBookContainer .MenuPage h6 {
-  color: rgb(250, 250, 250);
-  font-size: 40px;
-  margin-left: 10px;
-}
-#bookPage #infoBook .infoBookContainer .MenuPage h2, #pdfPage #infoBook .infoBookContainer .MenuPage h2 {
-  font-size: 15px;
-  font-family: "Roboto Condensed", sans-serif;
-  font-weight: lighter;
-  text-transform: lowercase;
-  color: rgb(250, 250, 250);
-  line-height: 30px;
-}
-#bookPage #infoBook .infoBookContainer .MenuPage h2::first-letter, #pdfPage #infoBook .infoBookContainer .MenuPage h2::first-letter {
-  text-transform: uppercase;
-}
-#bookPage #infoBook .infoBookContainer .MenuPage h2:hover, #pdfPage #infoBook .infoBookContainer .MenuPage h2:hover {
-  border: 0.3px solid rgb(250, 250, 250);
 }
 #bookPage #infoBook .infoBookContainer .bookImage, #pdfPage #infoBook .infoBookContainer .bookImage {
   position: relative;
@@ -634,6 +624,18 @@ nav .inputSearch {
 #bookPage #infoBook .infoBookContainer .somaire .j ul li .l, #pdfPage #infoBook .infoBookContainer .somaire .j ul li .l {
   margin-left: 70px;
 }
+#bookPage #infoBook .infoBookContainer .somaire .j ul li.v, #pdfPage #infoBook .infoBookContainer .somaire .j ul li.v {
+  background: #000;
+}
+#bookPage #infoBook .infoBookContainer .somaire .j ul li.v .m h2, #pdfPage #infoBook .infoBookContainer .somaire .j ul li.v .m h2 {
+  color: orange;
+}
+#bookPage #infoBook .infoBookContainer .somaire .j ul li.v .k .fa:first-child, #bookPage #infoBook .infoBookContainer .somaire .j ul li.v .l .fa:first-child, #pdfPage #infoBook .infoBookContainer .somaire .j ul li.v .k .fa:first-child, #pdfPage #infoBook .infoBookContainer .somaire .j ul li.v .l .fa:first-child {
+  color: rgb(250, 250, 250);
+}
+#bookPage #infoBook .infoBookContainer .somaire .j ul li.v .k.w .fa, #bookPage #infoBook .infoBookContainer .somaire .j ul li.v .l.w .fa, #pdfPage #infoBook .infoBookContainer .somaire .j ul li.v .k.w .fa, #pdfPage #infoBook .infoBookContainer .somaire .j ul li.v .l.w .fa {
+  color: orange;
+}
 #bookPage #infoBook .infoBookContainer .u, #pdfPage #infoBook .infoBookContainer .u {
   position: relative;
   margin: 0;
@@ -652,6 +654,10 @@ nav .inputSearch {
 }
 #bookPage #infoBook .infoBookContainer .u a, #pdfPage #infoBook .infoBookContainer .u a {
   color: #D5B42E;
+}
+
+#booksPage #books .booksContainer {
+  background-color: rgb(250, 250, 250);
 }
 
 /* Tablette */

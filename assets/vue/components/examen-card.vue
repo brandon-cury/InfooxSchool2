@@ -1,5 +1,5 @@
 <template>
-  <a href="#" class="card" style="width: 40px;">
+  <a :href="'/books/' + convertToSlug(examen.title) + '-e' + examen.id" class="card" style="width: 40px;">
     <div class="imgInfoox">
       <DefaultImageExamen :alt="examen.title" :src="examen.image"  :class="'card-img-top'" />
     </div>
@@ -22,6 +22,7 @@
 </template>
 <script setup>
 import DefaultImageExamen from "../controllers/default-image-examen.vue";
+import {convertToSlug} from "../../js/method/slug";
 
 defineProps(["examen"]);
 </script>

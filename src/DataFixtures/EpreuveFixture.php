@@ -27,11 +27,8 @@ class EpreuveFixture extends Fixture implements DependentFixtureInterface
                     ->setContent('bords/test/pdf/test.pdf')
                     ->setCorrected('bords/test/pdf/test.pdf');
                 if($faker->boolean(60)){
-                    $epreuve->setVideoLink('vmytMK1ZjcY')
-                        ->setVideoImg('bords/test/images/video.jpg')
-                        ->setYoutube(true);
-                }else{
-                    $epreuve->setYoutube(false);
+                    $epreuve->setVideoLink('xVhLwrNuVkI')
+                        ->setVideoImg('bords/test/images/video.jpg');
                 }
                 if($faker->boolean(20)){
                     $epreuve->setImage($faker->imageUrl($width = 640, $height = 480));

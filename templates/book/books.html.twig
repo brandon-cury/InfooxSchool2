@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infoox School{% endblock %}
+
+
+{% block body %}
+
+    <main id="booksPage">
+
+        <!-- debut des infos du livre -->
+        <section id="books" class="container-fluid g-0 g-md-3 g-lg-4 mt-1">
+            <div class="infoBookContainer container-fluid g-2 g-md-3 py-2">
+
+                <div class="row gap-2 g-md-0">
+                    <div class="col order-2 order-md-1">
+                        <div class="border border-1 MenuPage">
+                            <h6 class="d-none d-md-block">Menu</h6>
+                            <ul>
+                                {% for item in menu %}
+                                <li>
+                                    <a href="{{ path('app_books_category', {'c': item.slug}) }}">
+                                        <h2>{{ item['name'] }}</h2>
+                                    </a>
+                                </li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-9 order-1 order-md-2 bg-white">
+                        {% if books|length > 0 %}
+                        <div class="booksContainer d-flex flex-wrap gap-3 justify-content-around my-4 ">
+                            {% for book in books %}
+                                <div {{ vue_component('book-slide-card', {
+                                    'book': book|serialize('json', {'groups': 'bord'})
+                                }) }}></div>
+                            {% endfor %}
+                        </div>
+                        <div class="d-flex justify-content-center mb-2">
+                            {{ knp_pagination_render(books) }}
+                        </div>
+                        {% else %}
+                            <small>Il n'y a pas de livre dans cette catégorie pour le moment.</small>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+
+
+
+    </main>
+
+
+
+
+
+
+{% endblock %}
+
+{% block jsEnd %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+{% endblock %}
+

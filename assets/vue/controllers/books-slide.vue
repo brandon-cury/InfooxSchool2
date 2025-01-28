@@ -3,7 +3,7 @@
     <div class="bg-white py-2 py-lg-4">
       <h2 class="pb-2 pb-lg-3 text-danger">{{ props.title }}</h2>
       <div class="slider overflow-hidden">
-        <BookSlideCard v-for="book in books" :key="book.id" :book="book" :title="props.title" />
+        <BookSlideCard v-for="book in books" :book="book" />
       </div>
     </div>
   </div>
@@ -11,14 +11,14 @@
 
 <script setup>
 import { onMounted, ref, nextTick } from 'vue';
-import BookSlideCard from "../components/book-slide-card.vue";
+import BookSlideCard from "./book-slide-card.vue";
 import $ from 'jquery';
 
 const props = defineProps({
   filtres: { type: Array, required: false },
   title: { type: String, required: true },
   sort: { type: Array, required: false },
-  limit: { type: Number, default: 25 },
+  limit: { type: Number, default: 10 },
 });
 
 const books = ref([]);

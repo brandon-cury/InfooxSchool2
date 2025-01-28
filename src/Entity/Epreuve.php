@@ -45,8 +45,6 @@ class Epreuve
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $video_img = null;
 
-    #[ORM\Column]
-    private ?bool $is_youtube = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
@@ -213,18 +211,6 @@ class Epreuve
     public function setVideoImg(?string $video_img): static
     {
         $this->video_img = $video_img;
-
-        return $this;
-    }
-
-    public function isYoutube(): ?bool
-    {
-        return $this->is_youtube;
-    }
-
-    public function setYoutube(bool $is_youtube): static
-    {
-        $this->is_youtube = $is_youtube;
 
         return $this;
     }

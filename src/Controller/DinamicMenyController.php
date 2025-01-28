@@ -13,6 +13,31 @@ class DinamicMenyController extends AbstractController
 
     public function bord(int $id, BordRepository $repository): Response
     {
+        $menu = self::bordMeny($id, $repository);
+        /* fin de la creation du menu*/
+
+        return $this->render('dinamic_meny/bord.html.twig', [
+            'menu' => $menu,
+        ]);
+    }
+
+    public static function categoryMeny($categories, $c = 'c'):array
+    {
+        $menu = [];
+        foreach ($categories as $categorie){
+            $name = $categorie->getTitle();
+            $slugger = new AsciiSlugger('fr');
+            $slug = $slugger->slug(strtolower($categorie->getTitle() . '-' . $c . $categorie->getId()));
+            $menu[] = [
+                'name' => $name,
+                'slug' => $slug,
+            ];
+        }
+        return $menu;
+    }
+
+    public static function bordMeny(int $id, BordRepository $repository): array
+    {
         $book = $repository->find($id);
 
         $menu = [];
@@ -30,7 +55,7 @@ class DinamicMenyController extends AbstractController
             'classe' => $classes,
             'filiere' => $filieres
         ];
-        $combinations = $this->generateCombinations($elements, [], 30);
+        $combinations = self::generateCombinations($elements, [], 30);
         foreach ($combinations as $combination) {
             $nameParts = [];
             $slugParts = [];
@@ -61,9 +86,7 @@ class DinamicMenyController extends AbstractController
         }
         /* fin de la creation du menu*/
 
-        return $this->render('dinamic_meny/bord.html.twig', [
-            'menu' => $menu,
-        ]);
+        return $menu;
     }
 
     static function generateCombinations(array $elements, array $prefix = [], int $max = 30)

@@ -60,49 +60,9 @@
 }
 #bookPage, #pdfPage{
   #infoBook{
-    //a supprime
-    .pdf-page {
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .pdf-text-layer {
-      user-select: text;
-      cursor: text;
-    }
-    .pdf-text-layer span {
-      white-space: pre;
-      color: transparent;
-      position: absolute;
-    }
-
 
     .infoBookContainer{
       background: $color-white;
-      .MenuPage{
-        width: 100%;
-        height: 100%;
-        background: $color-black;
-        color: $color-white;
-        h6{
-          color: $color-white;
-          font-size: 40px;
-          margin-left: 10px;
-        }
-        h2{
-          font-size: 15px;
-          font-family: "Roboto Condensed", sans-serif;
-          font-weight: lighter;
-          text-transform: lowercase;
-          color: $color-white;
-          line-height: 30px;
-          &::first-letter{
-            text-transform: uppercase;
-          }
-          &:hover{
-            border: 0.3px solid $color-white;
-          }
-        }
-      }
       .bookImage{
         position: relative;
         display: inline-block;
@@ -285,7 +245,20 @@
               .l{
                 margin-left: 70px;
               }
+              &.v{
+                background:#000;
+                .m h2{
+                  color:orange;
+                }
+                .k .fa:first-child, .l .fa:first-child{
+                  color: $color-white;
+                }
+                .k.w .fa, .l.w .fa{
+                  color: orange;
+                }
+              }
             }
+
           }
         }
 
@@ -309,9 +282,19 @@
           color: $color-yellow;
         }
       }
+
+
     }
 
 
+  }
+
+}
+#booksPage{
+  #books{
+    .booksContainer{
+      background-color: $color-white;
+    }
   }
 
 }

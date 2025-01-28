@@ -26,11 +26,8 @@ class ExerciceFixture extends Fixture implements DependentFixtureInterface
                             ->setContent('bords/test/pdf/test.pdf')
                             ->setCorrected('bords/test/pdf/test.pdf');
                             if($faker->boolean(60)){
-                                $exercice->setVideoLink('vmytMK1ZjcY')
-                                    ->setVideoImg('bords/test/images/video.jpg')
-                                    ->setYoutube(true);
-                            }else{
-                                $exercice->setYoutube(false);
+                                $exercice->setVideoLink('xVhLwrNuVkI')
+                                    ->setVideoImg('bords/test/images/video.jpg');
                             }
                             $exercice->setSort($i)
                                 ->setContainer($faker->boolean(70));
