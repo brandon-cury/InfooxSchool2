@@ -50,7 +50,7 @@ __webpack_require__.d(__webpack_exports__, {
   PDFViewerApplicationConstants: () => (/* binding */ AppConstants),
   PDFViewerApplicationOptions: () => (/* reexport */ AppOptions)
 });
-const pdf = window.pdf || '/bords/test/test.pdf';
+const pdf = window.pdf || '/bords/test/Encours.pdf';
 ;// ./web/ui_utils.js
 const DEFAULT_SCALE_VALUE = "auto";
 const DEFAULT_SCALE = 1.0;

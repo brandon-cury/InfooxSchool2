@@ -288,12 +288,13 @@ class BookController extends AbstractController
         if($book->getPrice()) {
             $bookPrice = SearchBookAsynController::calculatePrice($book->getPrice(), '3 jours')->getContent();
         }
-
+        $pdf = null;
+        if($cour->getContent()) $pdf = '/bords/' . $cour->getBord()->getPath() . '/documents/' . $cour->getContent();
         return $this->render('book/cour.html.twig', [
             'prix'=> $bookPrice,
             'cour' => $cour,
             'corrige_autorisation' => $corrige_autorisation,
-            'pdf' => '/bords/test/test.pdf'
+            'pdf' => $pdf
 
         ]);
 
@@ -348,13 +349,16 @@ class BookController extends AbstractController
         if($book->getPrice()) {
             $bookPrice = SearchBookAsynController::calculatePrice($book->getPrice(), '3 jours')->getContent();
         }
+        $pdf = null;
+        if($type == 'corrige' && $epreuve->getCorrected() != null) $pdf = '/bords/' . $epreuve->getBord()->getPath() . '/documents/' . $epreuve->getCorrected();
+        elseif ($type == 'epreuve' && $epreuve->getContent() != null) $pdf = '/bords/' . $epreuve->getBord()->getPath() . '/documents/' . $epreuve->getContent();
 
         return $this->render('book/epreuve.html.twig', [
             'prix'=> $bookPrice,
             'epreuve' => $epreuve,
             'type' => $type,
             'corrige_autorisation' => $corrige_autorisation,
-            'pdf' => '/bords/test/test2.pdf'
+            'pdf' => $pdf
 
         ]);
 
@@ -379,12 +383,16 @@ class BookController extends AbstractController
             $bookPrice = SearchBookAsynController::calculatePrice($book->getPrice(), '3 jours')->getContent();
         }
 
+        $pdf = null;
+        if($type == 'corrige' && $exercice->getCorrected() != null) $pdf =  '/bords/' . $exercice->getCour()->getBord()->getPath() . '/documents/' . $exercice->getCorrected();
+        elseif ($type == 'exercice' && $exercice->getContent() != null) $pdf = '/bords/' . $exercice->getCour()->getBord()->getPath() . '/documents/' . $exercice->getContent();
+
         return $this->render('book/exercice.html.twig', [
             'prix'=> $bookPrice,
             'exercice' => $exercice,
             'type' => $type,
             'corrige_autorisation' => $corrige_autorisation,
-            'pdf' => '/bords/test/test2.pdf'
+            'pdf' => $pdf
 
         ]);
 
