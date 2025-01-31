@@ -56,38 +56,6 @@ class BordRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function countBordsByCriteria(string $criteria): int
-    {
-        $queryBuilder = $this->createQueryBuilder('b');
-
-        // Extraire les IDs de la chaîne de critères
-        preg_match('/m(\d*)/', $criteria, $matiereMatch);
-        preg_match('/c(\d*)/', $criteria, $classeMatch);
-        preg_match('/f(\d*)/', $criteria, $filiereMatch);
-
-        if (!empty($matiereMatch[1])) {
-            $queryBuilder->join('b.matiere', 'm')
-                ->andWhere('m.id = :matiereId')
-                ->setParameter('matiereId', $matiereMatch[1]);
-
-        }
-
-        if (!empty($classeMatch[1])) {
-            $queryBuilder->join('b.classe', 'c')
-                ->andWhere('c.id = :classeId')
-                ->setParameter('classeId', $classeMatch[1]);
-        }
-
-        if (!empty($filiereMatch[1])) {
-            $queryBuilder->join('b.filiere', 'f')
-                ->andWhere('f.id = :filiereId')
-                ->setParameter('filiereId', $filiereMatch[1]);
-        }
-
-        return $queryBuilder->select('COUNT(b.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
     public function findBordsByCriteria(string $criteria, string $page, int $limit = 15): PaginationInterface
     {
         $queryBuilder = $this->createQueryBuilder('b');

@@ -27,6 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
@@ -92,6 +93,16 @@ class BookController extends AbstractController
             //verifier si c'est une insersion simple
             $updateId = $form->get("updateId")->getData();
             if(!$updateId){
+                //verifier si l'utilisateur n'avais pas encore poster de commentaire:
+                $findCommentUserBord = $commentRepository->findOneBy([
+                    'bord' => $book,
+                    'user' => $user
+                ]);
+                if($findCommentUserBord != null){
+                    $this->addFlash('danger', 'Vous avez déjà poster un commentaire pour ce livre');
+                    return $this->redirectToRoute('app_access_book', ['b'=> $book->getSlug(), 'id'=> $findCommentUserBord->getId()]);
+                }
+
                 $comment->setCreatedAt(new \DateTimeImmutable())
                     ->setBord($book)
                     ->setPublished(false)
@@ -121,18 +132,17 @@ class BookController extends AbstractController
                 ->from($user->getEmail())
                 ->to($team->getEmail());
             if(!$updateId){
-                $url = 'http://127.0.0.1:8000/'; //$this->generateUrl('app_admin_one_comment', ['id' => $comment->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-                $email->subject('Nouveau commentaire - Infoox School')
+                $url = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' . '://' . $_SERVER['HTTP_HOST'] . '/editor?crudAction=index&crudControllerFqcn=App\Controller\Editor\CommentCrudController&commentId=' . $comment->getId();
+                $email->subject('Nouveau commentaire - InfooxSchool.com')
                     ->html('<h1>Bonjour '. $team->getFirstName() .', le nouveau commentaire de '. $user->getFirstName()  .' attend votre approbation pour être publié.</h1> <a style="text-decoration: none" href="'. $url .'">gérer le commentaire</a><h2>Voici le commentaire :</h2> <div>'. $comment->getContent() .'</div>');
             }else{
-                $url = 'http://127.0.0.1:8000/'; //$this->generateUrl('app_admin_one_comment', ['id' => $comment2->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-                $email->subject('Commentaire Modifié - Infoox School')
+                $url = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' . '://' . $_SERVER['HTTP_HOST'] . '/editor?crudAction=index&crudControllerFqcn=App\Controller\Editor\CommentCrudController&commentId=' . $comment2->getId();
+                $email->subject('Commentaire Modifié - InfooxSchool.com')
                     ->html('<h1>Bonjour '. $team->getFirstName() .'</h1><p>'. $user->getFirstName() . ' a bien modifié son commentaire. Son commmentaire attend votre approbation pour être publié.</p> <a style="text-decoration: none" href="'. $url .'">gérer le commentaire</a><h2>Voici le commentaire :</h2> <div>'. $comment2->getContent() .'</div>');
             }
+
             $mailer->send($email);
-
-
-            return $this->redirectToRoute('app_book', ['slug'=> $book->getSlug()]);
+            return $this->redirectToRoute('app_access_book', ['b'=> $book->getSlug()]);
 
         }
         return $this->render('book/accessBook.html.twig', [
@@ -193,6 +203,15 @@ class BookController extends AbstractController
             //verifier si c'est une insersion simple
             $updateId = $form->get("updateId")->getData();
             if(!$updateId){
+                //verifier si l'utilisateur n'avais pas encore poster de commentaire:
+                $findCommentUserBord = $commentRepository->findOneBy([
+                    'bord' => $book,
+                    'user' => $user
+                ]);
+                if($findCommentUserBord != null){
+                    $this->addFlash('danger', 'Vous avez déjà poster un commentaire pour ce livre');
+                    return $this->redirectToRoute('app_book', ['b'=> $book->getSlug(), 'id'=> $findCommentUserBord->getId()]);
+                }
                 $comment->setCreatedAt(new \DateTimeImmutable())
                     ->setBord($book)
                     ->setPublished(false)
@@ -222,18 +241,18 @@ class BookController extends AbstractController
                 ->from($user->getEmail())
                 ->to($team->getEmail());
             if(!$updateId){
-                $url = 'http://127.0.0.1:8000/'; //$this->generateUrl('app_admin_one_comment', ['id' => $comment->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-                $email->subject('Nouveau commentaire - Infoox School')
+                $url = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' . '://' . $_SERVER['HTTP_HOST'] . '/editor?crudAction=index&crudControllerFqcn=App\Controller\Editor\CommentCrudController&commentId=' . $comment->getId();
+                $email->subject('Nouveau commentaire - InfooxSchool.com')
                     ->html('<h1>Bonjour '. $team->getFirstName() .', le nouveau commentaire de '. $user->getFirstName()  .' attend votre approbation pour être publié.</h1> <a style="text-decoration: none" href="'. $url .'">gérer le commentaire</a><h2>Voici le commentaire :</h2> <div>'. $comment->getContent() .'</div>');
             }else{
-                $url = 'http://127.0.0.1:8000/'; //$this->generateUrl('app_admin_one_comment', ['id' => $comment2->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-                $email->subject('Commentaire Modifié - Infoox School')
+                $url = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' . '://' . $_SERVER['HTTP_HOST'] . '/editor?crudAction=index&crudControllerFqcn=App\Controller\Editor\CommentCrudController&commentId=' . $comment2->getId();
+                $email->subject('Commentaire Modifié - InfooxSchool.com')
                     ->html('<h1>Bonjour '. $team->getFirstName() .'</h1><p>'. $user->getFirstName() . ' a bien modifié son commentaire. Son commmentaire attend votre approbation pour être publié.</p> <a style="text-decoration: none" href="'. $url .'">gérer le commentaire</a><h2>Voici le commentaire :</h2> <div>'. $comment2->getContent() .'</div>');
             }
             $mailer->send($email);
 
 
-            return $this->redirectToRoute('app_book', ['slug'=> $book->getSlug()]);
+            return $this->redirectToRoute('app_book', ['b'=> $book->getSlug()]);
 
         }
 

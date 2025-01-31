@@ -15,17 +15,9 @@ class Image
     #[Groups("bord")]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    #[Groups("bord")]
-    private ?string $title = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups("bord")]
     private ?string $path = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
     #[ORM\Column]
     #[Groups("bord")]
     private ?int $sort = null;
@@ -36,18 +28,6 @@ class Image
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getPath(): ?string
@@ -61,19 +41,6 @@ class Image
 
         return $this;
     }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
     public function getSort(): ?int
     {
         return $this->sort;

@@ -107,7 +107,9 @@ class Section
      */
     public function getBords(): Collection
     {
-        return $this->bords;
+        return $this->bords->filter(function($bord) {
+            return $bord->isPublished();
+        });
     }
 
     public function addBord(Bord $bord): static
@@ -154,5 +156,9 @@ class Section
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->title;
     }
 }

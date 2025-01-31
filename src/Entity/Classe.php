@@ -130,7 +130,9 @@ class Classe
      */
     public function getBords(): Collection
     {
-        return $this->bords;
+        return $this->bords->filter(function($bord) {
+            return $bord->isPublished();
+        });
     }
 
     public function addBord(Bord $bord): static
@@ -201,5 +203,9 @@ class Classe
         $this->filiere = $filiere;
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->title;
     }
 }

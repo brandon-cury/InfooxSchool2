@@ -7,19 +7,20 @@ import {onMounted, ref, watch} from "vue";
 
 const props = defineProps({
   src: String,
-  alt: {type: String, required: true},
+  path: String,
   class: String,
+  alt: {type: String, required: true},
 });
 
 const srcValue = ref('');
 const debutUrlImg = ref('/bords/test/images/');
 
 const updateSrcValue = () => {
-  if (!props.src || !props.src.includes('bords/')) {
+  if (!props.src || !props.path) {
     const defaultImages = ['default1.jpg', 'default2.jpg'];
     srcValue.value = debutUrlImg.value + defaultImages[Math.floor(Math.random() * defaultImages.length)];
   } else {
-    srcValue.value = props.src;
+    srcValue.value = '/bords/' + props.path + '/images/' + props.src;
   }
 };
 

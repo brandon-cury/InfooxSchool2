@@ -86,9 +86,6 @@ class Epreuve
     private ?\DateTimeImmutable $update_at = null;
 
     #[ORM\Column]
-    private ?bool $is_container = null;
-
-    #[ORM\Column]
     private ?bool $is_onligne = null;
 
     public function __construct()
@@ -367,18 +364,6 @@ class Epreuve
     public function setUpdateAt(\DateTimeImmutable $update_at): static
     {
         $this->update_at = $update_at;
-
-        return $this;
-    }
-
-    public function isContainer(): ?bool
-    {
-        return $this->is_container;
-    }
-
-    public function setContainer(bool $is_container): static
-    {
-        $this->is_container = $is_container;
 
         return $this;
     }

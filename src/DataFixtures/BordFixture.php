@@ -52,7 +52,6 @@ class BordFixture extends Fixture implements DependentFixtureInterface
                         ->setTitle($faker->sentence($faker->numberBetween(2, 5)))
                         ->setAuthor($faker->name)
                         ->setKeyword($faker->sentence($faker->numberBetween(2, 15) ))
-                        ->setOnlineAccess($faker->boolean(70))
                         ->setAllUser($faker->numberBetween(0, 5455))
                         ->setNumbPage($faker->numberBetween(20, 300))
                         ->setCreatedAt(new \DateTimeImmutable())
@@ -65,7 +64,7 @@ class BordFixture extends Fixture implements DependentFixtureInterface
                     }
                     $bord->setAllGainBord(100)
                         ->setAllGainInfooxschool(100)
-                        ->setPublished($faker->boolean(70));
+                        ->setIsPublished($faker->boolean(70));
                     $manager->persist($bord);
                 }
             }

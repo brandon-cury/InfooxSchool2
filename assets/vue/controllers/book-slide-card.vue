@@ -1,6 +1,6 @@
 <template>
   <a :href="'/accessBook/' + bookObject.slug" class="card rounded-0" style="width: 40px;">
-      <DefaultImageBook v-if="imageAffiche" :src="images[0].path" :alt="bookObject.title" :class="'card-img-top rounded-0 mb-2'" />
+      <DefaultImageBook v-if="imageAffiche" :path="bookObject.path" :src="images[0].path" :alt="bookObject.title" :class="'card-img-top rounded-0 mb-2'" />
         <DefaultImageBook v-else :alt="bookObject.title" :class="'card-img-top rounded-0 mb-2'" />
     <div class="card-body p-0">
 
@@ -52,7 +52,10 @@ onMounted(async() => {
 const fetchImages = async () => {
     if (bookObject.value.images && bookObject.value.images.length > 0) {
       images.value = bookObject.value.images.sort((a, b) => a.sort - b.sort);
-      imageAffiche.value =  true;
+      if(images.value[0].path){
+        imageAffiche.value =  true;
+      }
+
 
     } else {
       //console.log('Aucune image à trier');

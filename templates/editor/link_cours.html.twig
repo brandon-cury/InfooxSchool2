@@ -1,0 +1,5 @@
+{% block field %}
+    <a class="text-danger" href="{{ path(field.formattedValue.route, {'id': field.formattedValue.id}) }}">
+        {{ field.formattedValue.value }}
+    </a>
+{% endblock %}

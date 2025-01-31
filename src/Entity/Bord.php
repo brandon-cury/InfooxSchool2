@@ -39,10 +39,6 @@ class Bord
     #[Groups("bord")]
     private ?string $keyword = null;
 
-    #[ORM\Column]
-    #[Groups("bord")]
-    private ?bool $is_online_access = null;
-
     #[ORM\Column(type: Types::BIGINT)]
     #[Groups("bord")]
     private ?string $all_user = null;
@@ -55,7 +51,7 @@ class Bord
     #[Groups("bord")]
     private ?string $price = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Groups("bord")]
     private ?string $path = null;
 
@@ -161,6 +157,7 @@ class Bord
         $this->userBords = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->slug = $this->generateSlug();
+        $this->path = $this->generatePath();
         $this->comments = new ArrayCollection();
     }
 
@@ -177,6 +174,13 @@ class Bord
         // Ajout d'un court hash pour l'unicité
         $shortHash = substr(md5(uniqid()), 0, 5);
         return sprintf('%s-%s', $baseSlug, $shortHash);
+    }
+    public function generatePath(): string
+    {
+        //$date = new \DateTime();
+        //$formattedDate = $date->format('YmdHis');
+
+        return 'bord_' . uniqid();
     }
     public function getSlug(): ?string
     {
@@ -232,18 +236,6 @@ class Bord
         return $this;
     }
 
-    public function isOnlineAccess(): ?bool
-    {
-        return $this->is_online_access;
-    }
-
-    public function setOnlineAccess(bool $is_online_access): static
-    {
-        $this->is_online_access = $is_online_access;
-
-        return $this;
-    }
-
     public function getAllUser(): ?string
     {
         return $this->all_user;
@@ -284,14 +276,6 @@ class Bord
     {
         return $this->path;
     }
-
-    public function setPath(?string $path): static
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
     public function getAllGainBord(): ?string
     {
         return $this->all_gain_bord;

@@ -76,6 +76,21 @@ class UserFixture extends Fixture
         $manager->persist($user);
         $manager->flush();
 
+        // editor prisca noal
+        $user = new User();
+        $user->setEmail('prisca.noal@gmail.com')
+            ->setRoles(['ROLE_EDITOR'])
+            ->setPassword($this->hasher->hashPassword($user, 'password'))
+            ->setFirstName('prisca')
+            ->setLastName('noal')
+            ->setTel(670104245)
+            ->setCodeTel(237)
+            ->setAvatar('012m.jpg')
+            ->setNumberAffiliated(5)
+            ->setcreatedAt(new \DateTimeImmutable());
+        $manager->persist($user);
+        $manager->flush();
+
         // user alex dol
         $user = new User();
         $user->setEmail('alex.dol@gmail.com')

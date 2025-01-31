@@ -1,4 +1,5 @@
 import $ from 'jquery';
+
 $(document).ready(function() {
 
     if ($('#pdfPage').length) {

@@ -1,0 +1,13 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <h1>voici ma par haha</h1>
+    {{ parent() }}
+    {# Votre contenu de template ici #}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/custom.js') }}"></script>
+{% endblock %}

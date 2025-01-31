@@ -36,7 +36,6 @@ class EpreuveFixture extends Fixture implements DependentFixtureInterface
                 $epreuve->setSort($i)
                 ->setPath('bords/test')
                 ->setStar($faker->numberBetween(0,5))
-                ->setContainer($faker->boolean(70))
                 ->setOnligne($faker->boolean(80))
                 ->setUpdateAt(new \DateTimeImmutable());
                 $manager->persist($epreuve);

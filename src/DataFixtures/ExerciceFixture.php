@@ -29,8 +29,7 @@ class ExerciceFixture extends Fixture implements DependentFixtureInterface
                                 $exercice->setVideoLink('xVhLwrNuVkI')
                                     ->setVideoImg('bords/test/images/video.jpg');
                             }
-                            $exercice->setSort($i)
-                                ->setContainer($faker->boolean(70));
+                            $exercice->setSort($i);
                             $manager->persist($exercice);
                 }
             }

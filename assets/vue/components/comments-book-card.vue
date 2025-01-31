@@ -26,8 +26,8 @@
         <button
             v-if="comment.user.id === idUser"
             type="button"
-            :data-id="comment.id"
             class="btn btn-warning btn-sm"
+            @click="handleUpdate(comment)"
         >
           Modifier
         </button>
@@ -39,15 +39,19 @@
 <script setup>
 import DefaultImageAvatar from "../controllers/default-image-avatar.vue";
 import {formattedDate} from "../../js/method/formateDate";
+import {nextTick, onMounted, ref} from "vue";
 
 const props = defineProps({
   comment: {type: Object, required:true},
   idUser: {type: Int8Array},
 });
-
 const toggleClass = (event, nameClasse)=>{
   const element = event.target;
   element.classList.toggle(nameClasse);
+}
+const handleUpdate = (comment) => {
+  document.querySelector('#comment_updateId').value = comment.id;
+  document.querySelector("trix-editor[input='comment_content']").innerHTML = comment.content;
 }
 </script>
 <style scoped>

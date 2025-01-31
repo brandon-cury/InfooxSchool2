@@ -45,7 +45,7 @@
                         <div class="row mt-1 g-6">
                             <div class="col col-4 text-end">
                                 {% if epreuve.bord.getImages|length > 0 %}
-                                    <span {{ vue_component('default-image-book', {'class':'bookImage', 'src': epreuve.bord.getImages[0].path ,'alt': epreuve.bord.title }) }}></span>
+                                    <span {{ vue_component('default-image-book', {'class':'bookImage','path': epreuve.bord.path, 'src': epreuve.bord.getImages[0].path ,'alt': epreuve.bord.title }) }}></span>
                                 {% else %}
                                     <span {{ vue_component('default-image-book', {'class':'bookImage','alt': epreuve.bord.title }) }}></span>
                                 {% endif %}
@@ -707,7 +707,7 @@
                                 <ul>
 
                                     {% for epreuveBord in epreuve.bord.getEpreuves %}
-                                        {% if epreuveBord.isContainer %}
+                                        {% if not epreuveBord.content %}
                                             <li class="q"><h2>{{ epreuveBord.title }}</h2></li>
                                         {% else %}
 

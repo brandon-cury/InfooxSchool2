@@ -6,7 +6,7 @@
         <div class="col col-6" v-for="(book, index) in props.books[0]" :key="index" @click="handleClick(index, true)">
           <a :href="'/accessBook/' + book.slug">
             <div class="imgContainer">
-              <DefaultImageBook :src="fetchImagePrincipale(book.images)" :alt="book.title" :class="'imgItem img-thumbnail'" />
+              <DefaultImageBook :path="book.path" :src="fetchImagePrincipale(book.images)" :alt="book.title" :class="'imgItem img-thumbnail'" />
             </div>
             <h4 class="twoLine">{{ book.title }}</h4>
           </a>

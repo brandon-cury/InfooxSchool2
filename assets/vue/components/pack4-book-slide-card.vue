@@ -4,7 +4,7 @@
       <h3 class="display-6 fw-bold oneLine">{{ name }}</h3>
       <a :href="'/accessBook/' + elem.slug">
         <div class="imgContainer">
-          <DefaultImageBook :src="srcImageSlide" :alt="elem.title" :class="'imgPrincipale'" />
+          <DefaultImageBook :path="elem.path" :src="srcImageSlide" :alt="elem.title" :class="'imgPrincipale'" />
         </div>
         <h4 class="mt-1 fw-bolder mt-2 twoLine">{{ elem.title }}</h4>
       </a>
@@ -19,7 +19,7 @@
       <div class="row mt-2">
         <div class="col col-3" v-for="(book, index) in books" :key="index" @click="handleClick(index, true)">
 
-          <DefaultImageBook :src="fetchImagePrincipale(book.images)" :alt="book.title" :class="{ 'border-highlight': index === highlightedIndex }" />
+          <DefaultImageBook :src="fetchImagePrincipale(book.images)" :path="book.path" :alt="book.title" :class="{ 'border-highlight': index === highlightedIndex }" />
         </div>
       </div>
       <a href="#" class="voirPlus">Voir plus...</a>

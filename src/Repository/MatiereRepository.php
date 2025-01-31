@@ -20,6 +20,8 @@ class MatiereRepository extends ServiceEntityRepository
         // Récupérer les sections avec au moins 4 bords
         $sections = $this->createQueryBuilder('s')
             ->innerJoin('s.bords', 'b')
+            ->where('b.is_published = :published')
+            ->setParameter('published', true)
             ->groupBy('s.id')
             ->having('COUNT(b.id) >= 3')
             ->getQuery()
@@ -33,6 +35,16 @@ class MatiereRepository extends ServiceEntityRepository
         $randomIndex = array_rand($sections);
 
         return $sections[$randomIndex];
+    }
+    public function findPublishedBords(Matiere $matiere)
+    {
+        return $this->createQueryBuilder('m')
+            ->innerJoin('m.bords', 'b')
+            ->where('m.id = :matiere_id')
+            ->andWhere('b.isPublished = true')
+            ->setParameter('matiere_id', $matiere->getId())
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

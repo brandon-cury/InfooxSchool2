@@ -39,8 +39,6 @@ class Cour
     #[ORM\Column]
     private ?int $sort = null;
 
-    #[ORM\Column]
-    private ?bool $is_container = null;
 
     /**
      * @var Collection<int, Exercice>
@@ -142,18 +140,6 @@ class Cour
     public function setSort(int $sort): static
     {
         $this->sort = $sort;
-
-        return $this;
-    }
-
-    public function isContainer(): ?bool
-    {
-        return $this->is_container;
-    }
-
-    public function setContainer(bool $is_container): static
-    {
-        $this->is_container = $is_container;
 
         return $this;
     }

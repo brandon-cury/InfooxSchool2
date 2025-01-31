@@ -20,6 +20,8 @@ class ClasseRepository extends ServiceEntityRepository
         // Récupérer les sections avec au moins 4 bords
         $sections = $this->createQueryBuilder('s')
             ->innerJoin('s.bords', 'b')
+            ->where('b.is_published = :published')
+            ->setParameter('published', true)
             ->groupBy('s.id')
             ->having('COUNT(b.id) >= 3')
             ->getQuery()

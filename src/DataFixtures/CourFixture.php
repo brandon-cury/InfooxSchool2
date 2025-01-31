@@ -25,8 +25,7 @@ class CourFixture extends Fixture implements DependentFixtureInterface
                 ->setVideoLink('xVhLwrNuVkI')
                     ->setVideoImg('bords/test/images/video.jpg');
 
-                $cour->setSort($i)
-                    ->setContainer($faker->boolean(70));
+                $cour->setSort($i);
                 $manager->persist($cour);
             }
         }

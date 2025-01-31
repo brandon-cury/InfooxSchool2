@@ -35,7 +35,8 @@ class SearchBookAsynController extends AbstractController
                     $numPage = ceil(count($all_books)/4);
                     $booksPage = array_slice($all_books, ($page - 1)*4, 4);
                     if(count($booksPage) < 3){
-                        $aleatoirePage = mt_rand(1, $numPage);
+                        $aleatoirePage = 1;
+                        if($numPage > 1) $aleatoirePage = mt_rand(1, $numPage);
                         $booksPage = array_slice($all_books, ($aleatoirePage - 1)*4, 4);
                     }
                     $books[ $categorie->getTitle() . ' ' . $i][] = $booksPage;

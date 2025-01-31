@@ -41,6 +41,10 @@ class DinamicMenyController extends AbstractController
         $book = $repository->find($id);
 
         $menu = [];
+        $matieres = [];
+        $classes = [];
+        $filieres = [];
+
         foreach ($book->getMatiere() as $matiere){
             $matieres[] = ['name'=> $matiere->getTitle(), 'id'=> $matiere->getId()];
         }

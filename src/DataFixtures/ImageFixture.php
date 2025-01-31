@@ -21,18 +21,12 @@ class ImageFixture extends Fixture implements DependentFixtureInterface
             if($faker->boolean(70)){
                 $image1 = new Image();
                 $image1->setBord($bord)
-                        ->setTitle($faker->paragraph)
-                        ->setPath($faker->imageUrl($width = 640, $height = 480))
-                        ->setCreatedAt(new \DateTimeImmutable())
                         ->setSort(1);
                 $manager->persist($image1);
                 if($faker->boolean(50)){
                     for ($i = 1; $i <= $faker->numberBetween(1, 10); $i++) {
                         $image2 = new Image();
                         $image2->setBord($bord)
-                            ->setTitle($faker->paragraph)
-                            ->setPath($faker->imageUrl($width = 640, $height = 480))
-                            ->setCreatedAt(new \DateTimeImmutable())
                             ->setSort($i);
                         $manager->persist($image2);
                     }

@@ -32,7 +32,7 @@
                         <div class="row mt-1 g-6">
                             <div class="col col-4 text-end">
                                 {% if book.getImages|length > 0 %}
-                                    <span {{ vue_component('default-image-book', {'class':'bookImage', 'src':book.getImages[0].path ,'alt': book.title }) }}></span>
+                                    <span {{ vue_component('default-image-book', {'path':book.path, 'src': book.getImages[0].path, 'class':'bookImage' ,'alt': book.title }) }}></span>
                                 {% else %}
                                     <span {{ vue_component('default-image-book', {'class':'bookImage','alt': book.title }) }}></span>
                                 {% endif %}
@@ -188,9 +188,15 @@
                         {% endif %}
                         <div class="imagesBook mt-2 ">
                             {% for image in book.getImages %}
-                                <a href="/bords/test/images/default1.jpg" data-fancybox="gallery" data-caption="{{ book.title }}">
-                                    <span {{ vue_component('default-image-book', {'src':image.path,'alt': book.title, class:"img-thumbnail me-2" }) }}></span>
+                                {% if image.path %}
+                                <a href="{{ '/bords/' ~ book.path ~ '/images/' ~ image.path }}" data-fancybox="gallery" data-caption="{{ book.title }}">
+                                    <span {{ vue_component('default-image-book', { 'path': book.path, 'src':image.path,'alt': book.title, class:"img-thumbnail me-2" }) }}></span>
                                 </a>
+                                {% else %}
+                                    <a href="/bords/test/images/default1.jpg" data-fancybox="gallery" data-caption="{{ book.title }}">
+                                        <span {{ vue_component('default-image-book', {'alt': book.title, class:"img-thumbnail me-2" }) }}></span>
+                                    </a>
+                                {% endif %}
                             {% endfor %}
                         </div>
                         <div class="d-flex flex-wrap justify-content-around gap-3 mt-4">
