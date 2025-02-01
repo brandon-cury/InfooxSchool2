@@ -43,6 +43,7 @@ defineProps(["examen"]);
   width:  100%;
   height: auto;
   max-height: 100px;
+  object-fit: cover;
 }
 .card .card-body .card-title{
   color:#E31524;

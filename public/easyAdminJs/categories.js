@@ -10,120 +10,140 @@ script.onload = function() {
         var classeSelect = document.querySelector('#Bord_classe');
         var matiereSelect = document.querySelector('#Bord_matiere');
 
-        if (sectionSelect) {
-            sectionSelect.addEventListener('change', function () {
-                var selectedSections = Array.from(sectionSelect.selectedOptions).map(option => option.value);
+        // Fonction utilitaire pour mettre à jour un select avec conservation des valeurs valides
+        function updateSelect(select, newData, valueKey = 'id', labelKey = 'name') {
+            if (!select || !select.tomselect) return;
 
-                fetch('/filter-filieres', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify({ sections: selectedSections })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Détruire l'instance TomSelect existante pour les filières
-                        if (filiereSelect.tomselect) {
-                            filiereSelect.tomselect.destroy();
-                        }
+            const currentValues = select.tomselect.getValue();
+            const newValuesSet = new Set(newData.map(item => item[valueKey].toString()));
+            const validValues = currentValues.filter(value => newValuesSet.has(value.toString()));
 
-                        // Effacer les options existantes pour les filières
-                        filiereSelect.innerHTML = '';
-                        data.filieres.forEach(filiere => {
-                            var option = document.createElement('option');
-                            option.value = filiere.id;
-                            option.textContent = filiere.name;
-                            filiereSelect.appendChild(option);
-                        });
+            select.tomselect.destroy();
+            select.innerHTML = '';
 
-                        // Réinitialiser TomSelect pour les filières
-                        new TomSelect(filiereSelect, {
-                            plugins: ['remove_button']
-                        });
+            newData.forEach(item => {
+                var option = document.createElement('option');
+                option.value = item[valueKey];
+                option.textContent = item[labelKey];
+                select.appendChild(option);
+            });
 
-                        // Déclencher le changement des filières pour mettre à jour les classes
-                        var event = new Event('change');
-                        filiereSelect.dispatchEvent(event);
+            const newTomSelect = new TomSelect(select, {
+                plugins: ['remove_button']
+            });
+
+            if (validValues.length > 0) {
+                newTomSelect.setValue(validValues);
+            }
+
+            return newTomSelect;
+        }
+
+        // Fonctions pour chaque niveau de filtrage
+        function updateFilieres(selectedSections) {
+            return fetch('/filter-filieres', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ sections: selectedSections })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    updateSelect(filiereSelect, data.filieres);
+                    // Retourner les filières sélectionnées pour la cascade
+                    return Array.from(filiereSelect.selectedOptions).map(option => option.value);
+                });
+        }
+
+        function updateClasses(selectedFilieres) {
+            return fetch('/filter-classes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ filieres: selectedFilieres })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    updateSelect(classeSelect, data.classes);
+                    // Retourner les classes sélectionnées pour la cascade
+                    return Array.from(classeSelect.selectedOptions).map(option => option.value);
+                });
+        }
+
+        function updateMatieres(selectedClasses) {
+            return fetch('/filter-matieres', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ classes: selectedClasses })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    updateSelect(matiereSelect, data.matieres);
+                });
+        }
+
+        // Initialisation des TomSelect
+        function initializeTomSelects() {
+            [sectionSelect, filiereSelect, classeSelect, matiereSelect].forEach(select => {
+                if (select && !select.tomselect) {
+                    new TomSelect(select, {
+                        plugins: ['remove_button']
                     });
+                }
+            });
+        }
+
+        // Initialisation de la cascade de requêtes
+        async function initializeFilters() {
+            initializeTomSelects();
+
+            // Récupérer les valeurs initiales sélectionnées
+            const selectedSections = Array.from(sectionSelect.selectedOptions).map(option => option.value);
+
+            if (selectedSections.length > 0) {
+                const selectedFilieres = await updateFilieres(selectedSections);
+                if (selectedFilieres.length > 0) {
+                    const selectedClasses = await updateClasses(selectedFilieres);
+                    if (selectedClasses.length > 0) {
+                        await updateMatieres(selectedClasses);
+                    }
+                }
+            }
+        }
+
+        // Event listeners
+        if (sectionSelect) {
+            sectionSelect.addEventListener('change', function() {
+                const selectedSections = Array.from(sectionSelect.selectedOptions).map(option => option.value);
+                updateFilieres(selectedSections)
+                    .then(selectedFilieres => updateClasses(selectedFilieres))
+                    .then(selectedClasses => updateMatieres(selectedClasses));
             });
         }
 
         if (filiereSelect) {
-            filiereSelect.addEventListener('change', function () {
-                var selectedFilieres = Array.from(filiereSelect.selectedOptions).map(option => option.value);
-
-                fetch('/filter-classes', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify({ filieres: selectedFilieres })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Détruire l'instance TomSelect existante pour les classes
-                        if (classeSelect.tomselect) {
-                            classeSelect.tomselect.destroy();
-                        }
-
-                        // Effacer les options existantes pour les classes
-                        classeSelect.innerHTML = '';
-                        data.classes.forEach(classe => {
-                            var option = document.createElement('option');
-                            option.value = classe.id;
-                            option.textContent = classe.name;
-                            classeSelect.appendChild(option);
-                        });
-
-                        // Réinitialiser TomSelect pour les classes
-                        new TomSelect(classeSelect, {
-                            plugins: ['remove_button']
-                        });
-
-                        // Déclencher le changement des classes pour mettre à jour les matières
-                        var event = new Event('change');
-                        classeSelect.dispatchEvent(event);
-                    });
+            filiereSelect.addEventListener('change', function() {
+                const selectedFilieres = Array.from(filiereSelect.selectedOptions).map(option => option.value);
+                updateClasses(selectedFilieres)
+                    .then(selectedClasses => updateMatieres(selectedClasses));
             });
         }
 
-        if (classeSelect && matiereSelect) {
-            classeSelect.addEventListener('change', function () {
-                var selectedClasses = Array.from(classeSelect.selectedOptions).map(option => option.value);
-
-                fetch('/filter-matieres', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify({ classes: selectedClasses })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Détruire l'instance TomSelect existante pour les matières
-                        if (matiereSelect.tomselect) {
-                            matiereSelect.tomselect.destroy();
-                        }
-
-                        // Effacer les options existantes pour les matières
-                        matiereSelect.innerHTML = '';
-                        data.matieres.forEach(matiere => {
-                            var option = document.createElement('option');
-                            option.value = matiere.id;
-                            option.textContent = matiere.name;
-                            matiereSelect.appendChild(option);
-                        });
-
-                        // Réinitialiser TomSelect pour les matières
-                        new TomSelect(matiereSelect, {
-                            plugins: ['remove_button']
-                        });
-                    });
+        if (classeSelect) {
+            classeSelect.addEventListener('change', function() {
+                const selectedClasses = Array.from(classeSelect.selectedOptions).map(option => option.value);
+                updateMatieres(selectedClasses);
             });
         }
+
+        // Lancer l'initialisation au chargement de la page
+        initializeFilters();
     });
 };

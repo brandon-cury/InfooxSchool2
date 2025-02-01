@@ -12,11 +12,12 @@ const props = defineProps({
 });
 
 const srcValue = ref('');
-const debutUrlImg = ref('/avatar/');
+const debutUrlImg = ref('/filieres/');
 
 const updateSrcValue = () => {
   if (!props.src) {
-    srcValue.value = debutUrlImg.value + 'default.jpg';
+    const defaultImages = ['default1.jpg', 'default2.jpg'];
+    srcValue.value = debutUrlImg.value + defaultImages[Math.floor(Math.random() * defaultImages.length)];
   } else {
     srcValue.value = debutUrlImg.value + props.src;
   }

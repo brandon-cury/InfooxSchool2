@@ -22,6 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Constraints\File;
 
 class ExerciceCrudController extends AbstractCrudController
@@ -37,7 +38,7 @@ class ExerciceCrudController extends AbstractCrudController
     public function __construct(RequestStack $requestStack, CourRepository $courRepository, AdminUrlGenerator $adminUrlGenerator)
     {
         $this->requestStack = $requestStack->getCurrentRequest();
-        $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->adminUrlGenerator = $adminUrlGenerator->setDashboard(EditorDashboardController::class);
 
         $courId = $this->requestStack->get('courId');
         $this->cour = $courRepository->find($courId);
@@ -67,6 +68,9 @@ class ExerciceCrudController extends AbstractCrudController
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
+        if($this->cour->getBord()->getEditor()->getId() != $this->getUser()->getId() && !$this->isGranted('ROLE_ADMIN') ) {
+            throw new AccessDeniedException('Vous n\'avez pas accès à ce livre.');
+        }
 
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $request = $this->requestStack;
@@ -221,7 +225,7 @@ class ExerciceCrudController extends AbstractCrudController
     public function createEntity(string $entityFqcn)
     {
         $exercice = new Exercice();
-        $exercice->setEditor($this->getUser())
+        $exercice->setEditor($this->cour->getBord()->getEditor())
             ->setCour($this->cour);
 
         $nextSortValue = count($this->cour->getExercices()) + 1;

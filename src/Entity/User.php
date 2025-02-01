@@ -111,7 +111,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $moneyWithdrawals;
 
     #[ORM\Column]
-    private bool $isVerified = false;
+    private bool $isVisible = true;
 
     /**
      * @var Collection<int, Comment>
@@ -488,14 +488,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isVerified(): bool
+    public function isVisible(): bool
     {
-        return $this->isVerified;
+        return $this->isVisible;
     }
 
-    public function setVerified(bool $isVerified): static
+    public function setVisible(bool $isVisible): static
     {
-        $this->isVerified = $isVerified;
+        $this->isVisible = $isVisible;
 
         return $this;
     }
@@ -547,6 +547,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return  $this->last_name . ' ' .  $this->first_name;
     }
 
 }

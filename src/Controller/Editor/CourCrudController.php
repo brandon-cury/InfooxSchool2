@@ -29,6 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Constraints\File;
 
 
@@ -45,7 +46,7 @@ class CourCrudController extends AbstractCrudController
     public function __construct(RequestStack $requestStack, BordRepository $bordRepository, CourRepository $courRepository, AdminUrlGenerator $adminUrlGenerator)
     {
         $this->requestStack = $requestStack->getCurrentRequest();
-        $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->adminUrlGenerator = $adminUrlGenerator->setDashboard(EditorDashboardController::class);
 
         if($this->requestStack->get('bordId')){
             $bordId = $this->requestStack->get('bordId');
@@ -92,6 +93,9 @@ class CourCrudController extends AbstractCrudController
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
+        if($this->bord->getEditor()->getId() != $this->getUser()->getId() && !$this->isGranted('ROLE_ADMIN') ) {
+            throw new AccessDeniedException('Vous n\'avez pas accès à ce livre.');
+        }
 
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $bordId = $this->bord->getId();

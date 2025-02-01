@@ -24,8 +24,7 @@ class FiliereFixture extends Fixture implements DependentFixtureInterface
                 ->addSection($section)
                 ->setSort($a)
                 ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-30 Days', 'now')))
-                ->setAllUser($faker->numberBetween(0,1000))
-                ->setImage($faker->imageUrl($width = 640, $height = 480));
+                ->setAllUser($faker->numberBetween(0,1000));
             $manager->persist($filiere1);
             $a++;
         }
@@ -35,8 +34,7 @@ class FiliereFixture extends Fixture implements DependentFixtureInterface
                     ->addSection($faker->randomElement($this->sections))
                     ->setSort($i)
                     ->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-30 Days', 'now')))
-                    ->setAllUser($faker->numberBetween(0,1000))
-                    ->setImage($faker->imageUrl($width = 640, $height = 480));
+                    ->setAllUser($faker->numberBetween(0,1000));
             $manager->persist($filiere);
         }
         $manager->flush();

@@ -6,6 +6,11 @@ use App\Repository\UserBordRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserBordRepository::class)]
+#[ORM\Table(name: 'user_bord')]
+#[ORM\UniqueConstraint(
+    name: 'unique_user_bord',
+    columns: ['user_id', 'bord_id']
+)]
 class UserBord
 {
     #[ORM\Id]

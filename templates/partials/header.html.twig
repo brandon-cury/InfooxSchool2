@@ -25,7 +25,7 @@
                 {% else %}
                     <div class="dropdown pe-5">
                         <a class="dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img src="{{ (app.user.avatar != null)?asset('images/avatar/' ~ app.user.avatar) : asset('images/avatar/default.jpg') }}" alt="{{ app.user.firstName }}" class="img-menu">
+                            <img src="{{ (app.user.avatar != null)?asset('avatar/' ~ app.user.avatar) : asset('avatar/default.jpg') }}" alt="{{ app.user.firstName }}" class="img-menu">
                             {{ app.user.firstName }} {{ app.user.lastName }}
                         </a>
                         <div class="dropdown-menu">
@@ -222,7 +222,7 @@
                              {% else %}
                                  <div class="nav-item dropdown pe-5">
                                      <a class="p-0 overflow-hidden avatarInfoox   nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                         <img src="{{ (app.user.avatar != null)?asset('images/avatar/' ~ app.user.avatar) : asset('images/avatar/default.jpg') }}" alt="{{ app.user.firstName }}" class="img-menu">
+                                         <img src="{{ (app.user.avatar != null)?asset('avatar/' ~ app.user.avatar) : asset('avatar/default.jpg') }}" alt="{{ app.user.firstName }}" class="img-menu">
                                          {{ app.user.firstName }} {{ app.user.lastName }}
                                      </a>
                                      <div class="dropdown-menu">

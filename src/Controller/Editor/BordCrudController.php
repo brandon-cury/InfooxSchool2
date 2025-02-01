@@ -12,6 +12,7 @@ use App\Repository\SectionRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -45,7 +46,8 @@ class BordCrudController extends AbstractCrudController
 
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
         return $this->redirect(
-            $adminUrlGenerator->setController(CourCrudController::class)
+            $adminUrlGenerator->setDashboard(EditorDashboardController::class) // Spécifiez votre tableau de bord ici
+            ->setController(CourCrudController::class)
                 ->setAction('index')
                 ->set('bordId', $bord->getId())
                 ->generateUrl()
@@ -115,12 +117,6 @@ class BordCrudController extends AbstractCrudController
                 ])
                 ->setRequired(false),
 
-            TextField::new('small_description')
-                ->setLabel('Courte description')
-                ->hideOnIndex(),
-            TextField::new('keyword')
-                ->setLabel('Mots clés')
-                ->hideOnIndex(),
             AssociationField::new('collection')
                 ->setLabel('Collection')
                 ->setFormTypeOptions([
@@ -129,7 +125,13 @@ class BordCrudController extends AbstractCrudController
                             ->where('c.editor = :user')
                             ->setParameter('user', $user);
                     },
-                ])
+                ]),
+
+            TextField::new('small_description')
+                ->setLabel('Courte description')
+                ->hideOnIndex(),
+            TextField::new('keyword')
+                ->setLabel('Mots clés')
                 ->hideOnIndex(),
             TextEditorField::new('full_description')
                 ->setLabel('Longue description')
@@ -142,8 +144,8 @@ class BordCrudController extends AbstractCrudController
                 ->setLabel('Ventes (Fcfa)')
                 ->onlyOnIndex(),
             DateTimeField::new('last_update_at')->onlyOnIndex(),
-            BooleanField::new('published'),
             TextField::new('author')->onlyOnForms(),
+            BooleanField::new('published')->onlyOnIndex(),
 
 
 
@@ -157,7 +159,7 @@ class BordCrudController extends AbstractCrudController
             ->setCreatedAt(new \DateTimeImmutable())
             ->setLastUpdateAt(new \DateTimeImmutable())
             ->setAllUser(0)
-            ->setIsPublished(0)
+            ->setPublished(0)
             ->setEditor($this->getUser())
             ->setAllGainInfooxschool(0)
             ->setAllGainBord(0)

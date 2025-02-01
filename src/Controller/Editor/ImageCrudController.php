@@ -24,6 +24,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Constraints\File;
 
 
@@ -38,7 +39,7 @@ class ImageCrudController extends AbstractCrudController
     public function __construct(RequestStack $requestStack, BordRepository $bordRepository, AdminUrlGenerator $adminUrlGenerator)
     {
         $this->requestStack = $requestStack->getCurrentRequest();
-        $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->adminUrlGenerator = $adminUrlGenerator->setDashboard(EditorDashboardController::class);
 
         $bordId = $this->requestStack->get('bordId');
         $this->bord = $bordRepository->find($bordId);
@@ -60,6 +61,9 @@ class ImageCrudController extends AbstractCrudController
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
+        if($this->bord->getEditor()->getId() != $this->getUser()->getId() && !$this->isGranted('ROLE_ADMIN') ) {
+            throw new AccessDeniedException('Vous n\'avez pas accès à ce livre.');
+        }
 
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
         $request = $this->requestStack;

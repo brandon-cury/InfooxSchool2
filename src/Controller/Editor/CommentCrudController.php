@@ -34,7 +34,7 @@ class CommentCrudController extends AbstractCrudController
     public function __construct(RequestStack $requestStack, BordRepository $bordRepository, AdminUrlGenerator $adminUrlGenerator)
     {
         $this->requestStack = $requestStack->getCurrentRequest();
-        $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->adminUrlGenerator = $adminUrlGenerator->setDashboard(EditorDashboardController::class);
 
         $bordId = $this->requestStack->get('bordId');
         if($bordId) $this->bord = $bordRepository->find($bordId);
@@ -86,6 +86,7 @@ class CommentCrudController extends AbstractCrudController
             NumberField::new('rating')
                 ->onlyOnIndex(),
             BooleanField::new('send')
+                ->setLabel('Demander une modification')
 
         ];
     }

@@ -9,6 +9,7 @@ use App\Entity\Comment;
 use App\Entity\Cour;
 use App\Entity\Epreuve;
 use App\Entity\Image;
+use App\Entity\MoneyWithdrawal;
 use App\Repository\CourRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -58,10 +59,15 @@ class EditorDashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield MenuItem::linkToUrl('Retour à l\'admin', 'fas fa-arrow-left', $this->generateUrl('admin'));
+        }
+
         //yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Mes Livres', 'fas fa-book', Bord::class);
         yield MenuItem::linkToCrud('Mes Collections', 'fas fa-list', CollectionBord::class);
         yield MenuItem::linkToCrud('Tous Les Commentaires', 'fas fa-comment', Comment::class);
+        yield MenuItem::linkToCrud('Gains Retirés', 'fas fa-usd', MoneyWithdrawal::class);
 
         $request = $this->requestStack->getCurrentRequest();
         $bordId = $request->query->get('bordId');

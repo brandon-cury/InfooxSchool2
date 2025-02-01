@@ -64,7 +64,7 @@ class BordFixture extends Fixture implements DependentFixtureInterface
                     }
                     $bord->setAllGainBord(100)
                         ->setAllGainInfooxschool(100)
-                        ->setIsPublished($faker->boolean(70));
+                        ->setPublished($faker->boolean(70));
                     $manager->persist($bord);
                 }
             }
