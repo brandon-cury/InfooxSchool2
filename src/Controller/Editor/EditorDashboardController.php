@@ -59,15 +59,19 @@ class EditorDashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            yield MenuItem::linkToUrl('Retour au Super Admin', 'fas fa-arrow-left', $this->generateUrl('super_admin'));
+        }
+        elseif ($this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::linkToUrl('Retour à l\'admin', 'fas fa-arrow-left', $this->generateUrl('admin'));
         }
 
+
         //yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Mes Livres', 'fas fa-book', Bord::class);
-        yield MenuItem::linkToCrud('Mes Collections', 'fas fa-list', CollectionBord::class);
-        yield MenuItem::linkToCrud('Tous Les Commentaires', 'fas fa-comment', Comment::class);
-        yield MenuItem::linkToCrud('Gains Retirés', 'fas fa-usd', MoneyWithdrawal::class);
+        yield MenuItem::linkToCrud('Mes Livres', 'fas fa-book', Bord::class)->setController(BordCrudController::class);
+        yield MenuItem::linkToCrud('Mes Collections', 'fas fa-list', CollectionBord::class)->setController(CollectionBordCrudController::class);
+        yield MenuItem::linkToCrud('Tous Les Commentaires', 'fas fa-comment', Comment::class)->setController(CommentCrudController::class);
+        yield MenuItem::linkToCrud('Gains Retirés', 'fas fa-usd', MoneyWithdrawal::class)->setController(MoneyWithdrawalCrudController::class);
 
         $request = $this->requestStack->getCurrentRequest();
         $bordId = $request->query->get('bordId');
@@ -76,14 +80,14 @@ class EditorDashboardController extends AbstractDashboardController
         // Vérifiez si nous sommes sur la page des cours ou des épreuves pour un Bord spécifique
         if ($bordId) {
             yield MenuItem::section('Spécifique au Bord');
-            yield MenuItem::linkToCrud('Cours', 'fa fa-list', Cour::class)->setQueryParameter('bordId', $bordId);
-            yield MenuItem::linkToCrud('Épreuves', 'fa fa-file', Epreuve::class)->setQueryParameter('bordId', $bordId);
-            yield MenuItem::linkToCrud('Images', 'fa fa-image', Image::class)->setQueryParameter('bordId', $bordId);
+            yield MenuItem::linkToCrud('Cours', 'fa fa-list', Cour::class)->setQueryParameter('bordId', $bordId)->setController(CourCrudController::class);
+            yield MenuItem::linkToCrud('Épreuves', 'fa fa-file', Epreuve::class)->setQueryParameter('bordId', $bordId)->setController(EpreuveCrudController::class);
+            yield MenuItem::linkToCrud('Images', 'fa fa-image', Image::class)->setQueryParameter('bordId', $bordId)->setController(ImageCrudController::class);
         }
         // Vérifiez si nous sommes sur la page des cours ou des épreuves pour un Bord spécifique
         if ($courId) {
             yield MenuItem::section('Spécifique au Cour');
-            yield MenuItem::linkToCrud('Cours', 'fa fa-list', Cour::class)->setQueryParameter('bordId', $this->courRepository->find($courId)->getBord()->getId());
+            yield MenuItem::linkToCrud('Cours', 'fa fa-list', Cour::class)->setQueryParameter('bordId', $this->courRepository->find($courId)->getBord()->getId())->setController(CourCrudController::class);
         }
     }
 }

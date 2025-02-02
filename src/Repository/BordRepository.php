@@ -136,8 +136,25 @@ class BordRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('b');
 
         if (!is_null($search) && $search !== '') {
-            $queryBuilder->andWhere('b.title LIKE :search OR b.author LIKE :search OR b.keyword LIKE :search OR b.small_description LIKE :search OR b.full_description LIKE :search')
-                ->setParameter('search', '%' . $search . '%');
+            // Retirer les espaces au début et à la fin de la chaîne de recherche
+            $search = trim($search);
+
+            // Ajouter la condition de recherche pour la chaîne intégrale
+            $queryBuilder->andWhere('b.title LIKE :fullSearch OR b.author LIKE :fullSearch OR b.keyword LIKE :fullSearch OR b.small_description LIKE :fullSearch OR b.full_description LIKE :fullSearch')
+                ->setParameter('fullSearch', '%' . $search . '%');
+
+            // Diviser la chaîne en mots individuels
+            $searchTerms = explode(' ', $search);
+
+            // Construire les conditions de recherche pour chaque combinaison de deux mots
+            for ($i = 0; $i < count($searchTerms); $i++) {
+                for ($j = $i + 1; $j < count($searchTerms); $j++) {
+                    $term1 = $searchTerms[$i];
+                    $term2 = $searchTerms[$j];
+                    $queryBuilder->orWhere('b.title LIKE :term' . $i . '_' . $j . ' OR b.author LIKE :term' . $i . '_' . $j . ' OR b.keyword LIKE :term' . $i . '_' . $j . ' OR b.small_description LIKE :term' . $i . '_' . $j . ' OR b.full_description LIKE :term' . $i . '_' . $j)
+                        ->setParameter('term' . $i . '_' . $j, '%' . $term1 . ' ' . $term2 . '%');
+                }
+            }
         }
 
         $queryBuilder->andWhere('b.is_published = :published')
@@ -146,8 +163,9 @@ class BordRepository extends ServiceEntityRepository
 
         $query = $queryBuilder->getQuery();
         return $this->paginator->paginate($query, $page, $limit);
-
     }
+
+
 
 
 //    /**

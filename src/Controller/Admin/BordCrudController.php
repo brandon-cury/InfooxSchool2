@@ -9,14 +9,20 @@ use App\Repository\ClasseRepository;
 use App\Repository\FiliereRepository;
 use App\Repository\MatiereRepository;
 use App\Repository\SectionRepository;
+use Doctrine\ORM\QueryBuilder;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -47,6 +53,8 @@ class BordCrudController extends AbstractCrudController
     {
         $user = $this->getUser();
         return [
+            ImageField::new('imageP', 'Image(P)')
+                ->onlyOnIndex(),
             AssociationField::new('editor')
                 ->setFormTypeOption(
                     'query_builder',
@@ -129,7 +137,6 @@ class BordCrudController extends AbstractCrudController
 
         ];
     }
-
     public function createEntity(string $entityFqcn)
     {
         $bord = new Bord();

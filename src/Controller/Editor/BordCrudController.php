@@ -12,6 +12,7 @@ use App\Repository\SectionRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -79,6 +80,8 @@ class BordCrudController extends AbstractCrudController
     {
         $user = $this->getUser();
         return [
+            ImageField::new('imageP', 'Image(P)')
+                ->onlyOnIndex(),
             TextField::new('title')
                 ->setTemplatePath('editor/link_cours.html.twig')
                 ->formatValue(function ($value, $entity) {
@@ -145,7 +148,7 @@ class BordCrudController extends AbstractCrudController
                 ->onlyOnIndex(),
             DateTimeField::new('last_update_at')->onlyOnIndex(),
             TextField::new('author')->onlyOnForms(),
-            BooleanField::new('published')->onlyOnIndex(),
+            BooleanField::new('published'),
 
 
 

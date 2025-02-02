@@ -640,6 +640,27 @@ class Bord
 
         return $this;
     }
+    public function imageP(): ?string
+    {
+        /*
+        foreach ($this->images as $image) {
+            if ($image->getSort() === 1) {
+                // Construction du chemin complet en utilisant le path du book et le path de l'image
+                return '/bords/' . $this->getPath() . '/images/' . $image->getPath();
+            }
+        }
+        return null
+        */
+        $iterator = $this->images->getIterator();
+        $iterator->uasort(function ($first, $second) {
+            return $first->getSort() <=> $second->getSort();
+        });
+        $images = array_values(iterator_to_array($iterator));
+        if(!empty($images)){
+            return '/bords/' . $this->getPath() . '/images/' . $images[0]->getPath();
+        }
+        return null;
+    }
     public function __toString()
     {
         return $this->title;

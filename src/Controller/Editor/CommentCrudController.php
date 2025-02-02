@@ -73,7 +73,7 @@ class CommentCrudController extends AbstractCrudController
     {
         return [
             ImageField::new('user.avatar') // Assurez-vous d'utiliser le bon chemin d'accès à la propriété de l'image de l'utilisateur
-            ->setBasePath('/images/avatar/')
+            ->setBasePath('/avatar/')
                 ->setLabel('User')
                 ->onlyOnIndex(),
             TextField::new('content')

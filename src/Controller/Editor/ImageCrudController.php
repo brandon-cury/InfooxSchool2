@@ -105,7 +105,7 @@ class ImageCrudController extends AbstractCrudController
                     'mimeTypesMessage' => 'Please upload a valid image (JPEG, PNG, GIF)', ])),
             //fin de l'image de la video
 
-            NumberField::new('sort')->hideOnForm(),
+            NumberField::new('sort'),
 
 
         ];
