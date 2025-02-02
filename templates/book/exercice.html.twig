@@ -68,15 +68,18 @@
                                     </div>
                                     <div>( {{ exercice.cour.bord.comments|length }}+ Avis)</div>
                                 </div>
-                                <div class="mt-3">
-                                    <a href="/basket" type="button" class="btn btn-dark position-relative me-4">
+                                {% if not book_in_basket(exercice.cour.bord) %}
+                                <div class="addBasket mt-3">
+                                    <a  @click="addBasket($event, {{ exercice.cour.bord.id }})" type="button" class="btn btn-dark position-relative me-4">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"></path><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"></path><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle></g></svg>
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                             +
                                             <span class="visually-hidden">unread messages</span>
                                         </span>
                                     </a>
+                                    <span class="afficheAlert"></span>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
 

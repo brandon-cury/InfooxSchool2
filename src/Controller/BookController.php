@@ -16,6 +16,8 @@ use App\Repository\FiliereRepository;
 use App\Repository\MatiereRepository;
 use App\Repository\UserBordRepository;
 use App\Repository\UserRepository;
+use App\Service\AutorisationBookService;
+use App\Service\CalculatePriceBookService;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,14 +29,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class BookController extends AbstractController
 {
     #[Route('/accessBook/{b}', name: 'app_access_book')]
-    public function accessBook(string $b, BordRepository $repository, SessionInterface $session, EntityManagerInterface $manager, MailerInterface $mailer, CommentRepository $commentRepository, UserRepository $userRepository, Request $request, Security $security): Response
+    public function accessBook(string $b, BordRepository $repository, CalculatePriceBookService $calculatePriceBookService, SessionInterface $session, EntityManagerInterface $manager, MailerInterface $mailer, CommentRepository $commentRepository, UserRepository $userRepository, Request $request, Security $security): Response
     {
         $idUser = null;
         $user = $security->getUser();
@@ -52,7 +51,7 @@ class BookController extends AbstractController
         $bookPrice = null;
         if($book->getPrice() != null){
             $session->set('book_price', $book->getPrice());
-            $bookPrice = SearchBookAsynController::calculatePrice($book->getPrice(), '3 jours')->getContent();
+            $bookPrice = $calculatePriceBookService->calculate($book->getPrice(), '3 jours');
 
             if($user){
                 $session->set('paiement', [
@@ -155,7 +154,7 @@ class BookController extends AbstractController
 
     }
     #[Route('/book/{b}', name: 'app_book')]
-    public function book(string $b, BordRepository $repository, UserBordRepository $userBordRepository, SessionInterface $session, EntityManagerInterface $manager, MailerInterface $mailer, CommentRepository $commentRepository, UserRepository $userRepository, Request $request, Security $security): Response
+    public function book(string $b, AutorisationBookService $autorisationBookService, CalculatePriceBookService $calculatePriceBookService, BordRepository $repository, UserBordRepository $userBordRepository, SessionInterface $session, EntityManagerInterface $manager, MailerInterface $mailer, CommentRepository $commentRepository, UserRepository $userRepository, Request $request, Security $security): Response
     {
         $idUser = null;
         $user = $security->getUser();
@@ -165,10 +164,10 @@ class BookController extends AbstractController
             ['slug' => $b]
         );
         //verifier si l'utilisateur a acces au bord
-        $corrige_autorisation = self::autorisationBord($book, $userBordRepository, $user);
+        $corrige_autorisation = $autorisationBookService->autorisationBord($book);
         $bookPrice = null;
         if($book->getPrice()) {
-            $bookPrice = SearchBookAsynController::calculatePrice($book->getPrice(), '3 jours')->getContent();
+            $bookPrice = $calculatePriceBookService->calculate($book->getPrice(), '3 jours');
         }
 
         if(!$book){
@@ -269,7 +268,7 @@ class BookController extends AbstractController
     }
 
     #[Route('/cour/{c}', name: 'app_cour')]
-    public function cour(string $c, CourRepository $repository, Security $security, UserBordRepository $userBordRepository): Response
+    public function cour(string $c, AutorisationBookService $autorisationBookService, CalculatePriceBookService $calculatePriceBookService, CourRepository $repository, Security $security, UserBordRepository $userBordRepository): Response
     {
         $user = $security->getUser();
 
@@ -278,7 +277,7 @@ class BookController extends AbstractController
         );
         //dd($cour->getBord()->getId());
 
-        $corrige_autorisation = self::autorisationBord($cour->getBord(), $userBordRepository, $user);
+        $corrige_autorisation = $autorisationBookService->autorisationBord($cour->getBord());
 
         if(!$cour){
             throw new NotFoundHttpException('Pas de cour trouvé');
@@ -286,7 +285,7 @@ class BookController extends AbstractController
         $book = $cour->getBord();
         $bookPrice = null;
         if($book->getPrice()) {
-            $bookPrice = SearchBookAsynController::calculatePrice($book->getPrice(), '3 jours')->getContent();
+            $bookPrice = $calculatePriceBookService->calculate($book->getPrice(), '3 jours');
         }
         $pdf = null;
         if($cour->getContent()) $pdf = '/bords/' . $cour->getBord()->getPath() . '/documents/' . $cour->getContent();
@@ -301,7 +300,7 @@ class BookController extends AbstractController
     }
 
     #[Route('/exercices/{c}', name: 'app_exercices')]
-    public function exercices(string $c, CourRepository $repository, Security $security, UserBordRepository $userBordRepository): Response
+    public function exercices(string $c, AutorisationBookService $autorisationBookService, CalculatePriceBookService $calculatePriceBookService, CourRepository $repository, Security $security, UserBordRepository $userBordRepository): Response
     {
         $user = $security->getUser();
 
@@ -310,7 +309,7 @@ class BookController extends AbstractController
         );
         //dd($cour->getBord()->getId());
 
-        $corrige_autorisation = self::autorisationBord($cour->getBord(), $userBordRepository, $user);
+        $corrige_autorisation = $autorisationBookService->autorisationBord($cour->getBord());
 
         if(!$cour){
             throw new NotFoundHttpException('Pas de cour trouvé');
@@ -318,7 +317,7 @@ class BookController extends AbstractController
         $book = $cour->getBord();
         $bookPrice = null;
         if($book->getPrice()) {
-            $bookPrice = SearchBookAsynController::calculatePrice($book->getPrice(), '3 jours')->getContent();
+            $bookPrice = $calculatePriceBookService->calculate($book->getPrice(), '3 jours');
         }
 
         return $this->render('book/exercices.html.twig', [
@@ -331,7 +330,7 @@ class BookController extends AbstractController
     }
 
     #[Route('/epreuve/{e}/{type}', name: 'app_epreuve')]
-    public function epreuve(string $e, string $type, EpreuveRepository $repository, Security $security, UserBordRepository $userBordRepository): Response
+    public function epreuve(string $e, string $type, AutorisationBookService $autorisationBookService, CalculatePriceBookService $calculatePriceBookService, EpreuveRepository $repository, Security $security, UserBordRepository $userBordRepository): Response
     {
         $user = $security->getUser();
 
@@ -339,7 +338,7 @@ class BookController extends AbstractController
             ['slug' => $e]
         );
         $book = $epreuve->getBord();
-        $corrige_autorisation = self::autorisationBord($book, $userBordRepository, $user);
+        $corrige_autorisation = $autorisationBookService->autorisationBord($book);
 
         if(!$epreuve){
             throw new NotFoundHttpException('Pas d\'epreuve trouvé');
@@ -347,7 +346,7 @@ class BookController extends AbstractController
 
         $bookPrice = null;
         if($book->getPrice()) {
-            $bookPrice = SearchBookAsynController::calculatePrice($book->getPrice(), '3 jours')->getContent();
+            $bookPrice = $calculatePriceBookService->calculate($book->getPrice(), '3 jours');
         }
         $pdf = null;
         if($type == 'corrige' && $epreuve->getCorrected() != null) $pdf = '/bords/' . $epreuve->getBord()->getPath() . '/documents/' . $epreuve->getCorrected();
@@ -365,7 +364,7 @@ class BookController extends AbstractController
     }
 
     #[Route('/exercice/{e}/{type}', name: 'app_exercice')]
-    public function exercice(string $e, string $type, ExerciceRepository $repository, Security $security, UserBordRepository $userBordRepository): Response
+    public function exercice(string $e, string $type, AutorisationBookService $autorisationBookService, CalculatePriceBookService $calculatePriceBookService, ExerciceRepository $repository, Security $security, UserBordRepository $userBordRepository): Response
     {
         $user = $security->getUser();
 
@@ -376,11 +375,11 @@ class BookController extends AbstractController
             throw new NotFoundHttpException('Pas d\'exercice trouvé');
         }
         $book = $exercice->getCour()->getBord();
-        $corrige_autorisation = self::autorisationBord($book, $userBordRepository, $user);
+        $corrige_autorisation = $autorisationBookService->autorisationBord($book);
 
         $bookPrice = null;
         if($book->getPrice()) {
-            $bookPrice = SearchBookAsynController::calculatePrice($book->getPrice(), '3 jours')->getContent();
+            $bookPrice = $calculatePriceBookService->calculate($book->getPrice(), '3 jours');
         }
 
         $pdf = null;
@@ -450,32 +449,6 @@ class BookController extends AbstractController
         ]);
 
     }
-
-    private static function autorisationBord($book, $userBordRepository, $user = null):bool
-    {
-        if($book->getPrice()){
-            if($user){
-                $user_bord = $userBordRepository->findOneBy(
-                    [
-                        'user' => $user,
-                        'bord' => $book
-                    ]
-                );
-                if($user_bord){
-                    $now = new \DateTimeImmutable();
-                    if($user_bord->getEndAt() > $now){
-                        return true;
-                    }
-                }
-            }
-        }else{
-            return true;
-        }
-        return false;
-    }
-
-
-
 
 
 

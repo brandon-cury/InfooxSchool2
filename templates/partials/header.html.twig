@@ -14,9 +14,7 @@
             </div>
             <div class="user">
                 <!-- ceci sera un element vue qui retournera l'icone d'achat avec le nombre de commende dans le panier -->
-                <a href="" class="text-decoration-none me-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"/><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"/><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/></g></svg>
-                </a>
+                <span {{ vue_component('basket') }}></span>
 
                 {% if not app.user %}
                     <a href="{{ path('app_login') }}" class="text-decoration-none">
@@ -33,7 +31,7 @@
                             <a class="dropdown-item" href="{{ path('app_update_my_account') }}">Modifier le profil</a>
                             <a class="dropdown-item" href="{{ path('app_update_my_password') }}">Modifier le mot de passe</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="">Mes livres</a>
+                            <a class="dropdown-item" href="{{ path('app_basket') }}">Mes livres</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -113,9 +111,7 @@
                 <button class="rounded-0 rounded-end searchButton" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="1.4rem" viewBox="0 0 24 24"><path fill="none" stroke="#F3EDED" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.45" d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0-14 0m18 11l-6-6"/></svg></button>
             </form>
             <div>
-                <a href="#" class="text-decoration-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"/><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"/><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/></g></svg>
-                </a>
+                <span {{ vue_component('basket') }}></span>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24"><path fill="#FBFAFA" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
                 </button>
@@ -236,7 +232,7 @@
                                          <a class="dropdown-item" href="{{ path('app_update_my_account') }}">Modifier le profil</a>
                                          <a class="dropdown-item" href="{{ path('app_update_my_password') }}">Modifier le mot de passe</a>
                                          <div class="dropdown-divider"></div>
-                                         <a class="dropdown-item" href="">Mes livres</a>
+                                         <a class="dropdown-item" href="{{ path('app_basket') }}">Mes livres</a>
                                          <div class="dropdown-divider"></div>
                                          <a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
                                          {% if is_granted('ROLE_SUPER_ADMIN') %}

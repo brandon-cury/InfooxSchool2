@@ -18,6 +18,7 @@ import './js/page/book';
 import './js/pdfPage';
 
 
+
 //importation des icone awesome pour l'afficharger des étoiles
 import 'font-awesome/css/font-awesome.css';
 

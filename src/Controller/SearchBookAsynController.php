@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\UserBord;
 use App\Repository\BordRepository;
 use App\Repository\CommentRepository;
+use App\Repository\UserBordRepository;
+use App\Service\CalculatePriceBookService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -73,6 +76,60 @@ class SearchBookAsynController extends AbstractController
 
     }
 
+    #[Route('/asyn/basket/count/book/data')]
+    public function basketCountBook(Request $request, UserBordRepository $repository): JsonResponse
+    {
+        $user = $this->getUser();
+        $count = null;
+        if($user){
+            $baskets = $repository->findBy(
+                [
+                    'user' => $user,
+                    'is_visible'=>1,
+                ]
+            );
+            $count = count($baskets);
+        }
+        return $this->json($count);
+    }
+
+    #[Route('/asyn/basket/add/book/data')]
+    public function basketAddBook(Request $request, UserBordRepository $repository, BordRepository $bordRepository, EntityManagerInterface $manager): JsonResponse
+    {
+        $add = false;
+        $book_id = $request->query->getInt('book');
+        $user = $this->getUser();
+        if(!$user) return $this->json(false);
+        $book = $bordRepository->find($book_id);
+        $basket = $repository->findOneBy(
+            [
+                'user' => $user,
+                'bord' => $book,
+            ]
+        );
+        if(empty($basket)){
+            $basket = new UserBord();
+            $basket->setUser($user)
+                ->setBord($book)
+                ->setVisible(true)
+                ->setRecordedAt(new \DateTimeImmutable())
+                ->setEndAt(new \DateTimeImmutable());
+            $manager->persist($basket);
+            $manager->flush();
+            $add = true;
+        }
+        elseif (!$basket->isVisible()){
+            $basket->setVisible(true);
+            $manager->flush();
+            $add = true;
+        }
+        else{
+            return $this->json('exist');
+        }
+
+        return $this->json($add);
+    }
+
 
 
     #[Route('/asyn/book/price/session/data')]
@@ -98,22 +155,8 @@ class SearchBookAsynController extends AbstractController
     #[Route('/asyn/book/price/data/{book_price}/{time?}')]
     public static function calculatePrice(int $book_price, ?string $time): JsonResponse
     {
-        $price = null;
-        if ($time == '1 an') {
-            //$price = (ceil($book_price + ($book_price / 4)) > 100) ? ceil($book_price + ($book_price / 4)) : 100;
-            $price = (ceil($book_price / 2) > 600) ? ceil($book_price / 2) : 600;
-        } elseif ($time == '3 mois') {
-            //return (ceil(($this->prix + ($this->prix/4))/4 + 200) > 100)?ceil(($this->prix + ($this->prix/4))/4 + 200). ' Fcfa':100 . ' Fcfa';
-            $price = (ceil(($book_price + ($book_price / 4)) / 4 + 200) > 500) ? ceil(($book_price + ($book_price / 4)) / 4 + 200) : 500 ;
-        } elseif ($time == '1 mois') {
-            //return (ceil((($this->prix + ($this->prix/4))/4 + 200)/3 + 150) > 100)?ceil((($this->prix + ($this->prix/4))/4 + 200)/3 + 150). ' Fcfa':100 . ' Fcfa';
-            $price = (ceil((($book_price + ($book_price / 4)) / 4 + 200) / 3 + 150) > 250) ? ceil((($book_price + ($book_price / 4)) / 4 + 200) / 3 + 150) : 250;
-        } elseif ($time == '1 semaine') {
-            $price = (ceil(((($book_price + ($book_price / 4)) / 4 + 200) / 3 + 150) / 4 + 100) > 150) ? ceil(((($book_price + ($book_price / 4)) / 4 + 200) / 3 + 150) / 4 + 100) : 150;
-        }else{
-            $price = (ceil((((($book_price + ($book_price / 4)) / 4 + 200) / 3 + 150) / 4 + 100) / 7 + 50) > 100) ? ceil((((($book_price + ($book_price / 4)) / 4 + 200) / 3 + 150) / 4 + 100) / 7 + 50)  : 100;
-        }
-        return new JsonResponse($price);
+        $calculatePriceBookService = new CalculatePriceBookService();
+        return new JsonResponse($calculatePriceBookService->calculate($book_price, $time));
     }
 
 

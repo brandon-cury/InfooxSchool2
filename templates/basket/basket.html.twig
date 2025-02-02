@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infoox School{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+    <main id="bookPage">
+        <!-- debut des infos du livre -->
+        <section id="infoBook" class="container-fluid g-0 g-md-3 g-lg-4 mt-1">
+            <div class="infoBookContainer container-fluid g-2 g-md-3 py-2">
+
+
+                <div class="row gap-5 g-md-0">
+                    <div class="col order-2 order-md-1">
+                        <div class="MenuPage border border-1">
+                            <h6 class="d-none d-md-block">Menu</h6>
+                            {% if baskets|length > 0  %}
+                                {% set shuffled_baskets = baskets|shuffle %}
+                                {% set random_basket = shuffled_baskets|first %}
+                                {{ render(controller(
+                                    'App\\Controller\\DinamicMenyController::bord',
+                                    { 'id': random_basket.bord.id }
+                                )) }}
+
+                            {% else %}
+                                {{ render(controller(
+                                    'App\\Controller\\DinamicMenyController::bord',
+                                    { 'id': book_id }
+                                )) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-9 order-1 order-md-2">
+                        <h3 class="text-danger display-6">Mon Panier</h3>
+                        {% if baskets|length == 0 %}
+                            <p class="mt-4">Votre panier est vide pour le moment !</p>
+                        {% endif %}
+
+                        {% for basket in baskets %}
+
+                        <div class="card mt-3 py-1">
+
+                                <div class="row mt-1 g-6">
+                                    <div class="col col-4 text-end">
+                                        {% if basket.bord.getImages|length > 0 %}
+                                            <span {{ vue_component('default-image-book', { 'path':basket.bord.path, 'src':basket.bord.getImages[0].path , 'class':'bookImage','alt': basket.bord.title }) }}></span>
+                                        {% else %}
+                                            <span {{ vue_component('default-image-book', {'class':'bookImage','alt': basket.bord.title }) }}></span>
+                                        {% endif %}
+
+                                    </div>
+                                    <div class="col col-8">
+                                        <h2>{{ basket.bord.title }}</h2>
+                                        {% if basket.bord.collection %}
+                                            <p class="fw-bold my-1"> Collection: {{ basket.bord.collection.title }}</p>
+                                        {% endif %}
+                                        <div class="d-flex flex-wrap">
+                                            <div>
+                                                {% for i in 1..5 %}
+                                                    {% if i<=  basket.bord.star %}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="3rem" viewBox="0 0 24 24"><path fill="#dada10" d="m12 18.26l-7.053 3.948l1.575-7.928L.588 8.792l8.027-.952L12 .5l3.385 7.34l8.027.952l-5.934 5.488l1.575 7.928z"/></svg>
+                                                    {% else %}
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1.4rem" height="3rem" viewBox="0 0 24 24"><path fill="black" d="m12 18.26l-7.053 3.948l1.575-7.928L.588 8.792l8.027-.952L12 .5l3.385 7.34l8.027.952l-5.934 5.488l1.575 7.928zm0-2.292l4.247 2.377l-.948-4.773l3.573-3.305l-4.833-.573l-2.038-4.419l-2.039 4.42l-4.833.572l3.573 3.305l-.948 4.773z"/></svg>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                            <div>( {{ basket.bord.comments|length }}+ Avis)</div>
+                                        </div>
+
+                                        <div class="mt-3">
+                                            {% if autorisation_book(basket.bord) %}
+                                                <a href="{{ path('app_book', {'b': basket.bord.slug }) }}" style="width: 90%; max-width:50em; min-width:10em;" class="btn btn-warning d-block text-bark bg-warning py-1 my-0 mt-2">Ouvrir</a>
+                                            {% else %}
+                                                <a href="{{ path('app_access_book', {'b': basket.bord.slug }) }}" style="width: 90%; max-width:50em; min-width:10em;" class="btn btn-success d-block text-white bg-success py-1 my-0 mt-2">Acheter</a>
+                                            {% endif %}
+                                        </div>
+                                        {% if basket.bord.price %}
+                                        <div class="mt-1">
+                                            {% if autorisation_book(basket.bord) %}
+                                                <small >Votre abonnement prendra fin le: {{ basket.endAt|date("Y-m-d H:i:s") }}</small>
+                                            {% else %}
+                                                <small>Votre abonnement a pris fin le: {{ basket.endAt|date("Y-m-d H:i:s") }}</small>
+                                            {% endif %}
+                                            <div class="mt-1">
+                                                <span class="bookPrice fw-bolder me-1 bg-danger text-white px-1">{{ calculate_price_book(basket.bord.price) }} Fcfa</span>
+                                                <span class="text-danger"> Le plus bas: <i class="text-decoration-line-through">{{ basket.bord.price }} Fcfa</i></span>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <form class="mt-3" action="{{ path('app_basket_delete_book', {'b': basket.bord.id}) }}" method="post">
+                                            <button type="submit" class="btn btn-danger"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#000" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z"/></svg>
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                        </div>
+                        {% endfor %}
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- fin des infos du livre -->
+
+    </main>
+{% endblock %}
+
+{% block jsEnd %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+{% endblock %}
+
