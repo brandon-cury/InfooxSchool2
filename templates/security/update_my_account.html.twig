@@ -1,21 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Modifier Mon Compte!{% endblock %}
+{% block index %}{% endblock %}
+{% block description %}{% endblock %}
 
 {% block body %}
-
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-md-4">
-                <img class="rounded-circle" src="{{ (app.user.avatar != null)?asset('images/avatar/' ~ app.user.avatar) : asset('images/avatar/default.jpg') }}" alt="{{ app.user.firstName }}" >
+    <main>
+    <section class="container">
+        <div class="row bg-white my-3 pb-5">
+            <div class="col col-12 col-md-4 mx-auto text-center">
+                <img class="rounded-circle d-block" style="max-width: 200px;" src="{{ (app.user.avatar != null)?asset('avatar/' ~ app.user.avatar) : asset('avatar/default.jpg') }}" alt="{{ app.user.firstName }}" >
             </div>
-            <div class="col-md-8">
+            <div class="col col-12 col-md-8">
                 {{ form_start(form) }}
                 {{ form_widget(form) }}
                 <input type="submit" value="Modifier" class="btn btn-outline-dark">
                 {{ form_end(form) }}
             </div>
         </div>
-    </div>
-
+    </section>
+    </main>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\UserBord;
 use App\Repository\BordRepository;
 use App\Repository\CommentRepository;
+use App\Repository\FiliereRepository;
 use App\Repository\UserBordRepository;
 use App\Service\CalculatePriceBookService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -129,8 +130,6 @@ class SearchBookAsynController extends AbstractController
 
         return $this->json($add);
     }
-
-
 
     #[Route('/asyn/book/price/session/data')]
     public function price(Request $request, SessionInterface $session, Security $security): JsonResponse

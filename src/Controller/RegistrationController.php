@@ -39,7 +39,6 @@ class RegistrationController extends AbstractController
                 // encode the plain password
                 $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword))
                     ->setRoles(['ROLE_USER'])
-                    ->setVerified(false)
                     ->setNumberAffiliated(0)
                     ->setCreatedAt(new \DateTimeImmutable())
                 ;

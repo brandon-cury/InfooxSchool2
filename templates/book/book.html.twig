@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Infoox School{% endblock %}
+{% block title %}{{ book.title }} | Livre{% endblock %}
+{% block og_title %}{{ book.title }} | Book{% endblock %}
+{% block description %}{{ book.smallDescription }}, livre et bord, {% endblock %}
+{% block og_description %}{{ book.smallDescription }}, livre et bord, {% endblock %}
+{% block keyword %}{{ book.keyword }}{% endblock %}
+{% block om_image %}{% if book.imageP %}{{ book.imageP }}{% else %}/bords/test/images/default1.jpg{% endif %}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -87,14 +92,14 @@
                                                 </a>
                                                 <div class="k">
                                                     <a href="{{ path('app_cour', {'c':cour.slug}) }}">
-                                                        <i class="fa fa-eye" id="i"></i>
-                                                        <i class="fa fa-eye" id="i"></i>
+                                                        <i class="fa fa-eye"></i>
+                                                        <i class="fa fa-eye"></i>
                                                     </a>
                                                 </div>
                                                 <div class="l">
                                                     <a href="{{ path('app_exercices', {'c':cour.slug}) }}">
-                                                        <i class="fa fa-list" id="i"></i>
-                                                        <i class="fa fa-list" id="i"></i>
+                                                        <i class="fa fa-list"></i>
+                                                        <i class="fa fa-list"></i>
                                                     </a>
                                                 </div>
 
@@ -107,15 +112,15 @@
                                                     </a>
                                                     <div class="k">
                                                         <a data-bs-toggle="modal" data-bs-target="#achat_bord">
-                                                            <i class="fa fa-eye text-danger" id="i"></i>
-                                                            <i class="fa fa-eye text-danger" id="i"></i>
+                                                            <i class="fa fa-eye text-danger"></i>
+                                                            <i class="fa fa-eye text-danger"></i>
                                                         </a>
                                                     </div>
                                                     {% if cour.getExercices|length >0 %}
                                                     <div class="l">
                                                         <a href="{{ path('app_exercices', {'c': cour.slug}) }}">
-                                                            <i class="fa fa-list" id="i"></i>
-                                                            <i class="fa fa-list" id="i"></i>
+                                                            <i class="fa fa-list"></i>
+                                                            <i class="fa fa-list"></i>
                                                         </a>
                                                     </div>
                                                     {% endif %}
@@ -140,14 +145,14 @@
                                                     </a>
                                                     <div class="k">
                                                         <a href="{{ path('app_epreuve', {'e':epreuve.slug, 'type': 'epreuve'}) }}">
-                                                            <i class="fa fa-eye" id="i"></i>
-                                                            <i class="fa fa-eye" id="i"></i>
+                                                            <i class="fa fa-eye"></i>
+                                                            <i class="fa fa-eye"></i>
                                                         </a>
                                                     </div>
                                                     <div class="l">
                                                         <a href="{{ path('app_epreuve', {'e':epreuve.slug, 'type': 'corrige'}) }}">
-                                                            <i class="fa fa-check" id="i"></i>
-                                                            <i class="fa fa-check" id="i"></i>
+                                                            <i class="fa fa-check"></i>
+                                                            <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
 
@@ -160,14 +165,14 @@
                                                     </a>
                                                     <div class="k">
                                                         <a href="{{ path('app_epreuve', {'e':epreuve.slug, 'type': 'epreuve'}) }}">
-                                                            <i class="fa fa-eye" id="i"></i>
-                                                            <i class="fa fa-eye" id="i"></i>
+                                                            <i class="fa fa-eye"></i>
+                                                            <i class="fa fa-eye"></i>
                                                         </a>
                                                     </div>
                                                     <div class="l">
                                                         <a data-bs-toggle="modal" data-bs-target="#achat_bord">
-                                                            <i class="fa fa-check text-danger" id="i"></i>
-                                                            <i class="fa fa-check text-danger" id="i"></i>
+                                                            <i class="fa fa-check text-danger"></i>
+                                                            <i class="fa fa-check text-danger"></i>
                                                         </a>
                                                     </div>
                                                 {% endif %}
@@ -227,7 +232,7 @@
 
         {% if not corrige_autorisation %}
         <!-- debut Modal pour rediriger vers achat.bord -->
-        <div class="modal fade" id="achat_bord" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paie_autentificationLabel" aria-hidden="true">
+        <div class="modal fade" id="achat_bord" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -242,7 +247,7 @@
                         <div class="container-fluid g-0 ">
                             <div class ="row">
                                 <div class="col">
-                                    <h1 class="mb-3">Accès aux corrigés avec vidéos d’explications !</h1>
+                                    <h6 class="mb-3">Accès aux corrigés avec vidéos d’explications !</h6>
 
                                     <p>Chère
                                         <small style="font-weight: bolder;">{{ app.user.firstName??"utilisateur" }}</small>,

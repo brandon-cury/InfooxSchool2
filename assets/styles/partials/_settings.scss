@@ -12,6 +12,8 @@ html {
 }
 body{
   background-color: $background-app;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 h1,
@@ -235,13 +237,37 @@ a{
 
 /* endSliderPrincipale */
 /* sliderExamens */
-#examen.forHome{
-  position: relative;
-  .examensSlider {
-    position: absolute;
-    width: 100%;
-    top: -80px;
-    overflow: hidden;
+#examen{
+  &.forHome{
+    position: relative;
+    .examensSlider {
+      position: absolute;
+      width: 100%;
+      top: -80px;
+      overflow: hidden;
+    }
+  }
+  .card{
+    width: 150px !important;
+    text-decoration: none;
+    margin-left: 10px;
+    .imgInfoox{
+      position: relative;
+      width: 80%;
+      height: 100px;
+      overflow: hidden;
+      margin: 5px auto;
+      img{
+        width:  100%;
+        height: auto;
+        max-height: 100px;
+        object-fit: cover;
+      }
+    }
+    .card-body .card-title{
+      color:#E31524;
+      font-size: 1.44rem;
+    }
   }
 }
 /* sliderExamens */
@@ -272,6 +298,138 @@ a{
   }
 }
 /* end menu dynamic*/
+/* debut footer */
+footer {
+  background-color: $color-black;
+  color: $color-white;
+  font-size: 16px;
+  overflow: hidden;
+  * {
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+  }
+  .row {
+    padding: 1em 1em;
+    &.primary {
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: stretch;
+    }
+  }
+  .column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 15em;
+  }
+  h3 {
+    width: 100%;
+    text-align: left;
+    color: white;
+    font-size: 1.4em;
+    white-space: nowrap;
+  }
+  .about h3 {
+    text-transform: capitalize;
+    font-family: "Dancing Script", cursive;
+    font-size: 1.8em;
+  }
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    li{
+      &:not(:first-child) {
+        margin-top: 0.8em;
+      }
+      a {
+        color: $color-yellow;
+        text-decoration: none;
+        &:hover {
+          color: $color-white;
+        }
+      }
+
+    }
+
+  }
+  .about p {
+    text-align: justify;
+    line-height: 2;
+    margin: 0;
+  }
+  form {
+    max-width: 100%;
+    input {
+      font-size: 1em;
+      padding: 0;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      font-family: "Cormorant Garamond", serif;
+    }
+    input[type="submit"] {
+      background-color: $color-vert-sombre;
+      color: $color-white;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: capitalize;
+      width: 100%;
+      padding: 10px 0;
+      &:hover {
+        background-color: $color-black-clair;
+        color: $color-yellow;
+      }
+    }
+    input[type="email"] {
+      border: 2px solid $color-yellow-claire;
+      width: 100%;
+      background-color: $color-white;
+      margin-bottom: 20px;
+      text-indent: 20px;
+      font-size: 20px;
+      line-height: 50px;
+      color: $color-black;
+    }
+  }
+  div.social {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    font-size: 2.4em;
+    flex-direction: row;
+    margin-top: 0.5em;
+  }
+  .social i {
+    color: #bac6d9;
+  }
+  .copyright {
+    padding: 1.3em 1em;
+  }
+  .footer-menu {
+    float: left;
+    text-transform: capitalize;
+    a {
+      color: #cfd2d6;
+      padding: 6px;
+      text-decoration: none;
+      &:hover {
+        color: $color-white;
+      }
+    }
+  }
+  .copyright p {
+    font-size: 0.9em;
+    text-align: right;
+  }
+}
+/* end footer */
 /* Tablette */
 @media screen and (min-width: 768px) {
   /* seting */
@@ -308,13 +466,39 @@ a{
   }
   /* endNavbar */
   /* sliderExamens */
-  #examen.forHome{
-  .examensSlider {
-    top: unset;
-    bottom: -50px;
+  #examen{
+    &.forHome{
+      .examensSlider {
+        top: unset;
+        bottom: -50px;
+      }
+    }
+    .card{
+      width: 250px !important;
+      margin-left: 0px;
+    }
+    .card .imgInfoox{
+      width: 80%;
+      height: 150px;
+      margin: 10px auto;
+    }
+    .card .imgInfoox img{
+      max-height: 150px;
+    }
   }
-  }
+
   /* sliderExamens */
+  /* Footer Tab*/
+  footer {
+    padding-top: 30px;
+    .row.primary {
+      grid-template-columns: 2fr 1fr 1fr 2fr;
+    }
+    .row {
+      padding: 0 2em;
+    }
+  }
+  /* endFooter  Tab*/
 
 }
 /* endTablette */

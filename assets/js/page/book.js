@@ -108,7 +108,6 @@ const app = Vue.createApp({
         payement(event) {
             event.preventDefault(); // Empêche l'action par défaut du clic
             const element = event.currentTarget; // Utiliser currentTarget pour cibler l'élément déclencheur correct
-            console.log(element);
 
             // Récupérer tous les éléments <a> enfants du parent form
             const parentForm = element.closest('form');
@@ -121,12 +120,9 @@ const app = Vue.createApp({
                 url: '/cinetpay/action',
                 method: 'GET',
                 success: (response) => {
-                    console.log(response);
-                    console.log(childLinks);
                     childLinks.forEach((link) => {
                         link.href = response;
                         link.classList.remove('d-none'); // Retirer la classe 'd-none' pour rendre les liens visibles
-                        console.log(link);
                     });
                 },
                 error: (error) => {

@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Infoox School{% endblock %}
+{% block title %}{{ book.title }}{% endblock %}
+{% block og_title %}{{ book.title }}{% endblock %}
+{% block description %}{{ book.smallDescription }}{% endblock %}
+{% block og_description %}{{ book.smallDescription }}{% endblock %}
+{% block keyword %}{{ book.keyword }}{% endblock %}
+{% block om_image %}{% if book.imageP %}{{ book.imageP }}{% else %}/bords/test/images/default1.jpg{% endif %}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -58,13 +63,13 @@
                                 </div>
                                 {% if not book_in_basket(book) %}
                                 <div class="addBasket mt-3">
-                                    <a  @click="addBasket($event, {{ book.id }})" type="button" class="btn btn-dark position-relative me-4">
+                                    <button  @click="addBasket($event, {{ book.id }})" type="button" class="btn btn-dark position-relative me-4">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"></path><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"></path><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle></g></svg>
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                             +
                                             <span class="visually-hidden">unread messages</span>
                                         </span>
-                                    </a>
+                                    </button>
                                     <span class="afficheAlert"></span>
                                 </div>
                                 {% endif %}
@@ -130,7 +135,7 @@
                                                 <div class="container-fluid g-0 ">
                                                     <div class ="row">
                                                         <div class="col">
-                                                            <h1>Bienvenu!</h1>
+                                                            <h6>Bienvenu!</h6>
                                                             <p>Inscrivez-vous ou connectez-vous à votre compte pour pouvoir faire vos achats sur infoox grâce à Orange oM et Mtn MoMo</p>
                                                             <div class="d-flex flex-row justify-content-center mb-4">
                                                                 <img src=" {{ asset('logo/om.jpg') }}" class="img-thumbnail  flex-shrink-0 mx-1 mt-3"  style="height:40px" alt="Infoox School - Orange Money">
@@ -166,16 +171,12 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                             <li>
                                                 <a class="dropdown-item">
-                                                    <button type="button">
-                                                        <img src="{{ asset('logo/om.jpg') }}" class="img-thumbnail flex-shrink-0" style="width: auto; height:100px" alt="inscrit">
-                                                    </button>
+                                                    <img src="{{ asset('logo/om.jpg') }}" class="img-thumbnail flex-shrink-0" style="width: auto; height:100px" alt="inscrit">
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item">
-                                                    <button type="button">
-                                                        <img src="{{ asset('logo/momo.jpg') }}" class="img-thumbnail flex-shrink-0" style="width: auto; height:100px" alt="inscrit">
-                                                    </button>
+                                                    <img src="{{ asset('logo/momo.jpg') }}" class="img-thumbnail flex-shrink-0" style="width: auto; height:100px" alt="inscrit">
                                                 </a>
                                             </li>
                                         </ul>
@@ -298,7 +299,7 @@
 
         {% if book.getMatiere|length > 0  %}
         <!-- debut des livres de la meme matiere  -->
-        <section id="sameCollection">
+        <section id="sameMatiere">
             <div {{ vue_component('books-slide', {
                 'filtres': {'matiere': book.getMatiere[0].id },
                 'title': book.getMatiere[0].title,
@@ -348,8 +349,9 @@
 
 
         <!-- debut des examens  -->
-        <section id="examen" class=" mt-5">
-            <div class="bg-white" {{ vue_component('examens') }}></div>
+        <section id="examen" class="py-3 bg-white">
+            <h2 class="mb-2">Livres d'examens</h2>
+            <div {{ vue_component('examens') }}></div>
         </section>
         <!-- fin des examens  -->
 

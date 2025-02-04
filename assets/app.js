@@ -1,4 +1,3 @@
-import { registerVueControllerComponents } from '@symfony/ux-vue';
 import './bootstrap.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap';
@@ -18,7 +17,6 @@ import './js/page/book';
 import './js/pdfPage';
 
 
-
 //importation des icone awesome pour l'afficharger des étoiles
 import 'font-awesome/css/font-awesome.css';
 
@@ -31,4 +29,5 @@ import 'font-awesome/css/font-awesome.css';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
+import { registerVueControllerComponents } from '@symfony/ux-vue';
 registerVueControllerComponents(require.context('./vue/controllers', true, /\.vue$/));

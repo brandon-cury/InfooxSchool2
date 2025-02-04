@@ -32,6 +32,8 @@ html {
 
 body {
   background-color: #dcd7d7;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 h1,
@@ -260,6 +262,28 @@ a {
   top: -80px;
   overflow: hidden;
 }
+#examen .card {
+  width: 150px !important;
+  text-decoration: none;
+  margin-left: 10px;
+}
+#examen .card .imgInfoox {
+  position: relative;
+  width: 80%;
+  height: 100px;
+  overflow: hidden;
+  margin: 5px auto;
+}
+#examen .card .imgInfoox img {
+  width: 100%;
+  height: auto;
+  max-height: 100px;
+  object-fit: cover;
+}
+#examen .card .card-body .card-title {
+  color: #E31524;
+  font-size: 1.44rem;
+}
 
 /* sliderExamens */
 /*menu dynamic*/
@@ -290,6 +314,135 @@ a {
 }
 
 /* end menu dynamic*/
+/* debut footer */
+footer {
+  background-color: #0E182D;
+  color: rgb(250, 250, 250);
+  font-size: 16px;
+  overflow: hidden;
+}
+footer * {
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+}
+footer .row {
+  padding: 1em 1em;
+}
+footer .row.primary {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+}
+footer .column {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 15em;
+}
+footer h3 {
+  width: 100%;
+  text-align: left;
+  color: white;
+  font-size: 1.4em;
+  white-space: nowrap;
+}
+footer .about h3 {
+  text-transform: capitalize;
+  font-family: "Dancing Script", cursive;
+  font-size: 1.8em;
+}
+footer ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+}
+footer ul li:not(:first-child) {
+  margin-top: 0.8em;
+}
+footer ul li a {
+  color: #D5B42E;
+  text-decoration: none;
+}
+footer ul li a:hover {
+  color: rgb(250, 250, 250);
+}
+footer .about p {
+  text-align: justify;
+  line-height: 2;
+  margin: 0;
+}
+footer form {
+  max-width: 100%;
+}
+footer form input {
+  font-size: 1em;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  font-family: "Cormorant Garamond", serif;
+}
+footer form input[type=submit] {
+  background-color: #6C745C;
+  color: rgb(250, 250, 250);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: capitalize;
+  width: 100%;
+  padding: 10px 0;
+}
+footer form input[type=submit]:hover {
+  background-color: #5C5C5C;
+  color: #D5B42E;
+}
+footer form input[type=email] {
+  border: 2px solid #F3EDED;
+  width: 100%;
+  background-color: rgb(250, 250, 250);
+  margin-bottom: 20px;
+  text-indent: 20px;
+  font-size: 20px;
+  line-height: 50px;
+  color: #0E182D;
+}
+footer div.social {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  font-size: 2.4em;
+  flex-direction: row;
+  margin-top: 0.5em;
+}
+footer .social i {
+  color: #bac6d9;
+}
+footer .copyright {
+  padding: 1.3em 1em;
+}
+footer .footer-menu {
+  float: left;
+  text-transform: capitalize;
+}
+footer .footer-menu a {
+  color: #cfd2d6;
+  padding: 6px;
+  text-decoration: none;
+}
+footer .footer-menu a:hover {
+  color: rgb(250, 250, 250);
+}
+footer .copyright p {
+  font-size: 0.9em;
+  text-align: right;
+}
+
+/* end footer */
 /* Tablette */
 @media screen and (min-width: 768px) {
   /* seting */
@@ -328,7 +481,30 @@ a {
     top: unset;
     bottom: -50px;
   }
+  #examen .card {
+    width: 250px !important;
+    margin-left: 0px;
+  }
+  #examen .card .imgInfoox {
+    width: 80%;
+    height: 150px;
+    margin: 10px auto;
+  }
+  #examen .card .imgInfoox img {
+    max-height: 150px;
+  }
   /* sliderExamens */
+  /* Footer Tab*/
+  footer {
+    padding-top: 30px;
+  }
+  footer .row.primary {
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+  }
+  footer .row {
+    padding: 0 2em;
+  }
+  /* endFooter  Tab*/
 }
 /* endTablette */
 /* Desktops */
@@ -393,52 +569,19 @@ a {
   margin-top: 160px;
   box-shadow: 0 20px 44px rgba(255, 255, 255, 0.25);
 }
-#homePage .filieres .navbar2Infoox, #homePage .filieres .infooxNavbar2Contains {
-  position: relative;
-  width: 100%;
-  margin: 0 auto;
-  border-bottom: 2px solid black;
-}
-#homePage .filieres .navbar2Infoox .containerInfoox, #homePage .filieres .infooxNavbar2Contains .containerInfoox {
-  margin: 0 auto;
-}
-#homePage .filieres .navbar2Infoox .containerInfoox ul, #homePage .filieres .infooxNavbar2Contains .containerInfoox ul {
-  padding: 0;
-  margin: 0;
-}
-#homePage .filieres .navbar2Infoox .containerInfoox ul li a, #homePage .filieres .infooxNavbar2Contains .containerInfoox ul li a, #homePage .filieres .navbar2Infoox .containerInfoox ul li.nolienkInfoox, #homePage .filieres .infooxNavbar2Contains .containerInfoox ul li.nolienkInfoox {
-  margin: 0;
-  padding: 4px 8px;
-}
-#homePage .filieres .navbar2Infoox .containerInfoox ul li a.active, #homePage .filieres .infooxNavbar2Contains .containerInfoox ul li a.active, #homePage .filieres .navbar2Infoox .containerInfoox ul li.nolienkInfoox.active, #homePage .filieres .infooxNavbar2Contains .containerInfoox ul li.nolienkInfoox.active {
-  background-color: #0E182D;
-  color: #D5B42E;
-}
-#homePage .filieres .navbar2Infoox .containerInfoox ul li a:hover, #homePage .filieres .infooxNavbar2Contains .containerInfoox ul li a:hover {
-  background-color: rgba(75, 75, 75, 0.7);
-  color: #D5B42E;
-}
-#homePage .filieres .filiereContainer {
-  position: relative;
-  width: 100%;
-  margin: 0 auto;
-}
-#homePage .filieres .filiereContainer .infooxFiliereContains .col {
+#homePage .filieres .col {
   margin-top: 10px;
 }
-#homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(7), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(8), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(9), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(10), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(11), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(12) {
+#homePage .filieres .col:nth-child(7), #homePage .filieres .col:nth-child(8), #homePage .filieres .col:nth-child(9), #homePage .filieres .col:nth-child(10), #homePage .filieres .col:nth-child(11), #homePage .filieres .col:nth-child(12) {
   display: none;
 }
-#homePage .filieres .filiereContainer .infooxFiliereContains .col a {
+#homePage .filieres .col a {
   text-decoration: none;
 }
-#homePage .filieres .filiereContainer .infooxFiliereContains .col a h2 {
+#homePage .filieres .col a h2 {
   font-size: 20px;
   color: #0E182D;
   padding-left: 0;
-}
-#homePage .filieres .filiereContainer, #homePage .filieres .infooxFiliereContains, #homePage .filieres .containerInfoox {
-  background-color: rgb(250, 250, 250);
 }
 
 #bookPage #infoBook .infoBookContainer, #pdfPage #infoBook .infoBookContainer {
@@ -505,30 +648,27 @@ a {
   position: relative;
   display: inline;
   font-size: 16px;
-  font-weight: normal;
+  font-weight: 400;
   width: 100%;
   height: 100%;
   color: rgb(250, 250, 250);
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Roboto Condensed", sans-serif;
 }
 #bookPage #infoBook .infoBookContainer .somaire .j, #pdfPage #infoBook .infoBookContainer .somaire .j {
   position: relative;
   width: 100%;
   height: auto;
-  background: black;
   padding: 10px 0;
   overflow: hidden;
 }
 #bookPage #infoBook .infoBookContainer .somaire .j ul, #pdfPage #infoBook .infoBookContainer .somaire .j ul {
   position: relative;
-  width: 97%;
+  width: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border-top: 5px solid #ccc;
-  border-bottom: 5px solid #ccc;
   border-radius: 10px;
-  background: #ccc;
-  padding: 0 10px;
+  background: #ffffff;
+  padding: 0;
   margin: 0;
   transition: 0.5s;
   cursor: pointer;
@@ -554,7 +694,7 @@ a {
 }
 #bookPage #infoBook .infoBookContainer .somaire .j ul li .m, #pdfPage #infoBook .infoBookContainer .somaire .j ul li .m {
   position: relative;
-  width: 80%;
+  width: 63%;
   height: 40px;
   line-height: 40px;
   margin: 0;
@@ -566,11 +706,11 @@ a {
   position: relative;
   display: inline;
   font-size: 16px;
-  font-weight: normal;
+  font-weight: 400;
   width: 100%;
   height: 100%;
   color: black;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Roboto Condensed", sans-serif;
 }
 #bookPage #infoBook .infoBookContainer .somaire .j ul li:hover .m, #pdfPage #infoBook .infoBookContainer .somaire .j ul li:hover .m {
   height: 48px;
@@ -581,7 +721,6 @@ a {
   color: orange;
   width: 100%;
   height: 100%;
-  font-family: monospace;
 }
 #bookPage #infoBook .infoBookContainer .somaire .j ul li .k, #bookPage #infoBook .infoBookContainer .somaire .j ul li .l, #pdfPage #infoBook .infoBookContainer .somaire .j ul li .k, #pdfPage #infoBook .infoBookContainer .somaire .j ul li .l {
   position: absolute;
@@ -665,6 +804,31 @@ a {
   #homePage .filieres {
     margin-top: 60px;
   }
+  #bookPage #infoBook .infoBookContainer, #pdfPage #infoBook .infoBookContainer {
+    /*debut du sommaire */
+  }
+  #bookPage #infoBook .infoBookContainer .somaire .j ul li .m, #pdfPage #infoBook .infoBookContainer .somaire .j ul li .m {
+    width: 85%;
+  }
+  #bookPage #infoBook .infoBookContainer .u, #pdfPage #infoBook .infoBookContainer .u {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 19px;
+    color: orange;
+    width: 100%;
+    border-top: 2px solid orange;
+    border-bottom: 2px solid orange;
+    font-family: sans-serif;
+    font-weight: 100;
+    margin-top: 0px;
+    text-decoration: none;
+    background: black;
+  }
+  #bookPage #infoBook .infoBookContainer .u a, #pdfPage #infoBook .infoBookContainer .u a {
+    color: #D5B42E;
+  }
 }
 /* endTablette */
 /* Desktops */
@@ -672,16 +836,10 @@ a {
   #homePage .filieres {
     margin-top: 135px;
   }
-  #homePage .filieres .navbar2Infoox .containerInfoox, #homePage .filieres .infooxNavbar2Contains .containerInfoox {
-    overflow: hidden;
-  }
-  #homePage .filieres .navbar2Infoox .containerInfoox ul li a, #homePage .filieres .infooxNavbar2Contains .containerInfoox ul li a, #homePage .filieres .navbar2Infoox .containerInfoox ul li.nolienkInfoox, #homePage .filieres .infooxNavbar2Contains .containerInfoox ul li.nolienkInfoox {
-    padding: 10px 40px;
-  }
-  #homePage .filieres .filiereContainer .infooxFiliereContains .col {
+  #homePage .filieres .col {
     margin-top: 30px;
   }
-  #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(7), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(8), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(9), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(10), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(11), #homePage .filieres .filiereContainer .infooxFiliereContains .col:nth-child(12) {
+  #homePage .filieres .col:nth-child(7), #homePage .filieres .col:nth-child(8), #homePage .filieres .col:nth-child(9), #homePage .filieres .col:nth-child(10), #homePage .filieres .col:nth-child(11), #homePage .filieres .col:nth-child(12) {
     display: block;
   }
 }

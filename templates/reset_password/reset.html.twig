@@ -1,15 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Reset your password{% endblock %}
+{% block index %}{% endblock %}
+{% block description %}{% endblock %}
 
 {% block body %}
 
 
     <main>
-        <section id="row">
-            <div class="col-md-6 offset-3">
+        <section class="container">
+            <div class="row bg-white my-3 pb-5">
+                <div class="col col-10 offset-1  col-md-6 offset-md-3">
 
-                <h1>Reset your password</h1>
+                <h1 class="display-4 my-4">Reset your password</h1>
 
                 {{ form_start(resetForm) }}
                 {{ form_row(resetForm.plainPassword) }}
@@ -19,6 +22,7 @@
                 {{ form_end(resetForm) }}
 
 
+                </div>
             </div>
         </section>
     </main>

@@ -1,15 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr-FR">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Infoox School{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block index %}<meta name="robots" content="index, follow">{% endblock %}
+        <link rel="canonical" href="{{ app.request.scheme ~ '://' ~ app.request.host ~ app.request.requestUri }}">
+
+
+        <title>{% block title %}MANUELS SCOLAIRES, EPREUVES, CONCOURS POUR LYCEES ET COLLEGES D'ENSEIGNEMENT GENERAL ET TECHNIQUE DU CAMEROUN {% endblock %} | Infoox School</title>
+        <meta name="description" content="{% block description %} Plateforme référence pour les manuels scolaires, livres de préparation aux concours, et épreuves des classes d'examen, annales et ressources pédagogiques au Cameroun -  Maternelle, Primaire, Secondaire général, Secondaire technique, Université. Accédez aux meilleurs outils éducatifs pour réussir votre parcours scolaire en mathématiques, sciences, littérature, histoire, électronique, mécanique, informatique, et plus encore. {% endblock %}">
+        <meta name="keywords" content="{% block keyword %} {% endblock %} épreuves, sujets d'examens, annales, examens, BEPC, BAC, probatoire, concours, manuels scolaires Cameroun, livres scolaires, préparation aux concours, épreuves d'examens, école camerounaise, ressources éducatives, livres en ligne, éducation Cameroun">
+
+
+        <!-- Balises Open Graph pour les partages sociaux -->
+        <meta property="og:title" content="{% block og_title %} Infoox School - Ressources Éducatives Complètes du Cameroun {% endblock %} | Infoox School">
+        <meta property="og:description" content="{% block og_description %} Toutes les ressources scolaires du Cameroun : manuels, concours, examens de la maternelle à l'université {% endblock %}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ app.request.scheme ~ '://' ~ app.request.host ~ app.request.requestUri }}">
+        <meta property="og:image" content="{% block om_image %}{{ asset('logo/infoox1.png') }}{% endblock %}">
+
+        <!-- Balises Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{% block tw_title %} Infoox School - Ressources Éducatives Cameroun {% endblock %} | Infoox School">
+        <meta name="twitter:description" content="{% block tw_description %} Manuels, concours, examens : votre plateforme éducative complète {% endblock %}">
+
+
+        <!-- Schema.org pour données structurées -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "EducationalWebsite",
+                "name": "Infoox School",
+                "description": "Plateforme de ressources éducatives pour les élèves et étudiants camerounais",
+                "url": "https://www.infoox.cm",
+                "keywords": ["manuels scolaires", "concours Cameroun", "examens", "BEPC", "BAC", "probatoire", "concours", "ressources pédagogiques"],
+                "contentLocation": "Cameroun"
+            }
+        </script>
+
+
+
+
+
         <link rel="shortcut icon" href="{{ asset('logo/favicon.ico') }}" type="image/x-icon"/>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     </head>
@@ -28,6 +67,8 @@
         </div>
 
         {% block body %}{% endblock %}
+
+        {% include 'partials/footer.html.twig' %}
 
     </body>
     {% block jsEnd %}

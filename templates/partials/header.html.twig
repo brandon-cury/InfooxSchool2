@@ -53,40 +53,26 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" href="{{ path('app_home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
                     </li>
                 </ul>
                 {% if not app.user %}
                     <div class="d-flex justify-content-around mt-3">
-                        <a href="{{ path('app_login') }}" type="button" class="btn btn-primary"
+                        <a href="{{ path('app_login') }}" class="btn btn-primary"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                             Connexion
                         </a>
-                        <a href="{{ path('app_register') }}" type="button" class="btn btn-primary"
+                        <a href="{{ path('app_register') }}" class="btn btn-primary"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                             Inscription
                         </a>
                     </div>
                 {% else %}
 
-                    <a href="{{ path('app_logout') }}" type="button" class="btn btn-primary mt-2"
+                    <a href="{{ path('app_logout') }}" class="btn btn-primary mt-2"
                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; ">
                         Déconnexion
                     </a>
@@ -124,32 +110,26 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" href="{{ path('app_home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
+                            <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
                         </li>
                     </ul>
                     {% if not app.user %}
                     <div class="d-flex justify-content-around mt-3">
-                        <a href="{{ path('app_login') }}" type="button" class="btn btn-primary"
+                        <a href="{{ path('app_login') }}" class="btn btn-primary"
                                 style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                             Connexion
                         </a>
-                        <a href="{{ path('app_register') }}" type="button" class="btn btn-primary"
+                        <a href="{{ path('app_register') }}" class="btn btn-primary"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                             Inscription
                         </a>
                     </div>
                     {% else %}
 
-                        <a href="{{ path('app_logout') }}" type="button" class="btn btn-primary mt-2"
+                        <a href="{{ path('app_logout') }}" class="btn btn-primary mt-2"
                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                             Déconnexion
                         </a>
@@ -178,12 +158,12 @@
                          </a>
                      </li>
                      <li>
-                         <a @click="getElement" class="p-2" data-bs-toggle="collapse" href="#meilleuresVentes" role="button" aria-expanded="false" aria-controls="collapseExample">
+                         <a v-on:click="getElement" class="p-2" data-bs-toggle="collapse" href="#meilleuresVentes" role="button" aria-expanded="false" aria-controls="meilleuresVentes">
                              Meilleures ventes
                          </a>
                      </li>
                      <li>
-                         <a @click="getElement" class="p-2" data-bs-toggle="collapse" href="#astucesScolaires" role="button" aria-expanded="false" aria-controls="collapseExample">
+                         <a v-on:click="getElement" class="p-2" data-bs-toggle="collapse" href="#astucesScolaires" role="button" aria-expanded="false" aria-controls="astucesScolaires">
                              Astuces Scolaires
                          </a>
                      </li>
@@ -195,12 +175,12 @@
                  <div class="containerInfoox overflow-visible">
                      <ul>
                          <li>
-                             <a @click="getElement" class="p-2" data-bs-toggle="collapse" href="#meilleuresVentes" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                 Meilleures ventes Pc
+                             <a v-on:click="getElement" class="p-2" data-bs-toggle="collapse" href="#meilleuresVentes" role="button" aria-expanded="false" aria-controls="meilleuresVentes">
+                                 Meilleures ventes
                              </a>
                          </li>
                          <li>
-                             <a @click="getElement" class="p-2" data-bs-toggle="collapse" href="#astucesScolaires" role="button" aria-expanded="false" aria-controls="collapseExample">
+                             <a v-on:click="getElement" class="p-2" data-bs-toggle="collapse" href="#astucesScolaires" role="button" aria-expanded="false" aria-controls="astucesScolaires">
                                  Astuces Scolaires
                              </a>
                          </li>

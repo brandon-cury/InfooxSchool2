@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
+{% block og_title %}Inscription{% endblock %}
+{% block description %} Inscrivez-vous sur Infoox School pour accéder à des ressources pédagogiques complètes : manuels, concours, épreuves d'examens pour le BEPC, CAP, BAC, Probatoire, et plus encore. Rejoignez notre communauté éducative dès aujourd'hui ! {% endblock %}
+{% block og_description %} Inscrivez-vous sur Infoox School pour accéder à des ressources pédagogiques complètes : manuels, concours, épreuves d'examens pour le BEPC, CAP, BAC, Probatoire, et plus encore. Rejoignez notre communauté éducative dès aujourd'hui ! {% endblock %}
 
 {% block body %}
-    <main>
-        <section>
-            <div class="col-md-6 offset-3">
+    <main class="container">
+        <section class="row bg-white my-3 pb-5">
+            <div class="col col-10 offset-1  col-md-6 offset-md-3">
                 {% for flash_error in app.flashes('verify_email_error') %}
                     <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
                 {% endfor %}
 
-                <h1>Inscription</h1>
+                <h1 class="display-4 my-4">Inscription</h1>
 
                 {{ form_errors(registrationForm) }}
 
@@ -20,6 +23,7 @@
                 {{ form_widget(registrationForm) }}
                 <button type="submit" class="btn btn-outline-dark">S'enregistrer</button>
                 {{ form_end(registrationForm) }}
+                <p class="d-block fw-bold mt-4">Déjà inscrit ? Connectez-vous ici : <a href="{{ path('app_login') }}"> Connexion</a></p>
             </div>
         </section>
     </main>

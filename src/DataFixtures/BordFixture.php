@@ -55,10 +55,10 @@ class BordFixture extends Fixture implements DependentFixtureInterface
                         ->setAllUser($faker->numberBetween(0, 5455))
                         ->setNumbPage($faker->numberBetween(20, 300))
                         ->setCreatedAt(new \DateTimeImmutable())
-                        ->setStar($faker->numberBetween(1, 5));
+                        ->setStar($faker->numberBetween(1, 5))
+                        ->setSmallDescription($faker->paragraph($faker->numberBetween(2, 5)));
                     if($faker->boolean(70)){
                         $bord->setPrice($faker->numberBetween(0, 3000))
-                            ->setSmallDescription($faker->paragraph($faker->numberBetween(2, 5)))
                             ->setFullDescription($faker->paragraph($faker->numberBetween(3, 20)))
                             ->setLastUpdateAt(new \DateTimeImmutable());;
                     }

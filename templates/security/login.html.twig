@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
+{% block og_title %}Connexion{% endblock %}
+{% block description %}Connectez-vous à Infoox School pour accéder à vos ressources éducatives personnelles : manuels, concours, épreuves d'examens et plus. Poursuivez votre parcours éducatif avec nous !{% endblock %}
+{% block og_description %}Connectez-vous à Infoox School pour accéder à vos ressources éducatives personnelles : manuels, concours, épreuves d'examens et plus. Poursuivez votre parcours éducatif avec nous !{% endblock %}
 
 {% block body %}
-    <main>
-        <section id="row">
-            <div class="col-md-6 offset-3">
-
+    <main class="container">
+        <section class="row bg-white my-3 pb-5">
+            <div class="col col-10 offset-1  col-md-6 offset-md-3">
                 <form method="post">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -18,7 +20,7 @@
                         </div>
                     {% endif %}
 
-                    <h1 class="mb-3 font-weight-bold">Connectez-vous</h1>
+                    <h1 class="display-4 my-4">Connectez-vous</h1>
                     <label for="username">Email</label>
                     <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
                     <label for="password">Mot de passe</label>
@@ -42,8 +44,8 @@
                         S'identifier
                     </button>
                 </form>
-                <h6 class="mt-2 display-6">Mot de passe oublié ? <a href="{{ path('app_forgot_password_request') }}">Réinitialiser mon mot de passe</a></h6>
-                <a class="display-6" href="{{ path('app_register') }}">s'inscrire</a>
+                <h6 class="mt-2">Mot de passe oublié ? <a href="{{ path('app_forgot_password_request') }}">Réinitialiser mon mot de passe</a></h6>
+                <a class="fw-bold" href="{{ path('app_register') }}">s'inscrire</a>
             </div>
         </section>
     </main>

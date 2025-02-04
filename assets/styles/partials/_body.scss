@@ -3,58 +3,19 @@
     position: relative;
     margin-top: 160px;
     box-shadow: 0 20px 44px rgba(255, 255, 255, .25);
-    .navbar2Infoox{
-      position: relative;
-      width: 100%;
-      margin: 0 auto;
-      border-bottom: 2px solid black;
-      .containerInfoox{
-        margin: 0 auto;
-        ul{
-          padding: 0;
-          margin: 0;
-          li{
-            a, &.nolienkInfoox{
-              margin: 0;
-              padding: 4px 8px;
-              &.active{
-                background-color: $color-black;
-                color:$color-yellow;
-              }
-            }
-            a:hover{
-              background-color: $color-black-opacity;
-              color:$color-yellow;
-            }
-          }
+    .col{
+      margin-top: 10px;
+      &:nth-child(7), &:nth-child(8), &:nth-child(9), &:nth-child(10), &:nth-child(11), &:nth-child(12){
+        display: none;
+      }
+      a{
+        text-decoration: none;
+        h2{
+          font-size: 20px;
+          color: $color-black;
+          padding-left: 0;
         }
       }
-    }
-    .filiereContainer{
-      position: relative;
-      width: 100%;
-      margin: 0 auto;
-      .infooxFiliereContains{
-
-        .col{
-          margin-top: 10px;
-          &:nth-child(7), &:nth-child(8), &:nth-child(9), &:nth-child(10), &:nth-child(11), &:nth-child(12){
-            display: none;
-          }
-          a{
-            text-decoration: none;
-            h2{
-              font-size: 20px;
-              color: $color-black;
-              padding-left: 0;
-            }
-          }
-        }
-      }
-    }
-
-    .filiereContainer, .infooxFiliereContains, .containerInfoox{
-      background-color: $color-white;
     }
   }
 }
@@ -128,30 +89,28 @@
             position: relative;
             display: inline;
             font-size: 16px;
-            font-weight: normal;
+            font-weight: 400;
             width: 100%;
             height: 100%;
             color: $color-white;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: "Roboto Condensed", sans-serif;
           }
         }
         .j{
           position: relative;
           width: 100%;
           height: auto;
-          background:black;
+          //background:black;
           padding: 10px 0;
           overflow: hidden;
           ul{
             position: relative;
-            width: 97%;
+            width: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border-top: 5px solid #ccc;
-            border-bottom: 5px solid #ccc;
             border-radius: 10px;
-            background:#ccc;
-            padding:0 10px;
+            background: #ffffff;
+            padding:0;
             margin: 0;
             transition: 0.5s;
             cursor: pointer;
@@ -175,7 +134,7 @@
               }
               .m{
                 position: relative;
-                width: 80%;
+                width: 63%;
                 height: 40px;
                 line-height: 40px;
                 margin: 0;
@@ -186,11 +145,11 @@
                   position: relative;
                   display: inline;
                   font-size: 16px;
-                  font-weight: normal;
+                  font-weight: 400;
                   width: 100%;
                   height: 100%;
                   color: black;
-                  font-family: 'Courier New', Courier, monospace;
+                  font-family: "Roboto Condensed", sans-serif;
                 }
               }
               &:hover .m{
@@ -202,7 +161,6 @@
                 color: orange;
                 width: 100%;
                 height: 100%;
-                font-family:monospace;
               }
               .k, .l{
                 position: absolute;
@@ -307,6 +265,55 @@
     }
 
   }
+
+  #bookPage, #pdfPage{
+    #infoBook{
+
+      .infoBookContainer{
+        /*debut du sommaire */
+
+        .somaire{
+          .j{
+            ul{
+              li{
+                .m{
+                  width: 85%;
+                }
+              }
+
+            }
+          }
+
+        }
+        .u{
+          position: relative;
+          margin: 0;
+          padding: 0;
+          text-align: center;
+          font-size: 19px;
+          color:orange;
+          width: 100%;
+          border-top: 2px solid orange;
+          border-bottom: 2px solid orange;
+          font-family:sans-serif;
+          font-weight:100;
+          margin-top: 0px;
+          text-decoration: none;
+          background: black;
+          a{
+            color: $color-yellow;
+          }
+        }
+
+
+      }
+
+
+    }
+
+  }
+
+
 }
 /* endTablette */
 /* Desktops */
@@ -314,27 +321,10 @@
   #homePage{
     .filieres{
       margin-top: 135px;
-      .navbar2Infoox{
-        .containerInfoox{
-          overflow: hidden;
-          ul{
-            li{
-              a, &.nolienkInfoox{
-                padding: 10px 40px;
-              }
-            }
-          }
-        }
-      }
-      .filiereContainer{
-        .infooxFiliereContains{
-
-          .col{
-            margin-top: 30px;
-            &:nth-child(7), &:nth-child(8), &:nth-child(9), &:nth-child(10), &:nth-child(11), &:nth-child(12){
-              display: block;
-            }
-          }
+      .col{
+        margin-top: 30px;
+        &:nth-child(7), &:nth-child(8), &:nth-child(9), &:nth-child(10), &:nth-child(11), &:nth-child(12){
+          display: block;
         }
       }
 

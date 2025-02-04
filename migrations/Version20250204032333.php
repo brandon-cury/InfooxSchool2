@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250201173659 extends AbstractMigration
+final class Version20250204032333 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20250201173659 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE bord (id INT AUTO_INCREMENT NOT NULL, editor_id INT NOT NULL, collection_id INT DEFAULT NULL, slug VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, author VARCHAR(255) NOT NULL, keyword VARCHAR(255) DEFAULT NULL, all_user BIGINT NOT NULL, star INT NOT NULL, price BIGINT DEFAULT NULL, path VARCHAR(255) NOT NULL, all_gain_bord BIGINT NOT NULL, all_gain_infooxschool BIGINT NOT NULL, last_update_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', is_published TINYINT(1) NOT NULL, small_description VARCHAR(255) DEFAULT NULL, full_description LONGTEXT DEFAULT NULL, numb_page BIGINT DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', UNIQUE INDEX UNIQ_A436D2BC989D9B62 (slug), UNIQUE INDEX UNIQ_A436D2BCB548B0F (path), INDEX IDX_A436D2BC6995AC4C (editor_id), INDEX IDX_A436D2BC514956FD (collection_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE bord (id INT AUTO_INCREMENT NOT NULL, editor_id INT NOT NULL, collection_id INT DEFAULT NULL, slug VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, author VARCHAR(255) NOT NULL, keyword VARCHAR(255) DEFAULT NULL, all_user BIGINT NOT NULL, star INT NOT NULL, price BIGINT DEFAULT NULL, path VARCHAR(255) NOT NULL, all_gain_bord BIGINT NOT NULL, all_gain_infooxschool BIGINT NOT NULL, last_update_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', is_published TINYINT(1) NOT NULL, small_description VARCHAR(255) NOT NULL, full_description LONGTEXT DEFAULT NULL, numb_page BIGINT DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', UNIQUE INDEX UNIQ_A436D2BC989D9B62 (slug), UNIQUE INDEX UNIQ_A436D2BCB548B0F (path), INDEX IDX_A436D2BC6995AC4C (editor_id), INDEX IDX_A436D2BC514956FD (collection_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE bord_section (bord_id INT NOT NULL, section_id INT NOT NULL, INDEX IDX_B3BA97F0D6B1F0E4 (bord_id), INDEX IDX_B3BA97F0D823E37A (section_id), PRIMARY KEY(bord_id, section_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE bord_filiere (bord_id INT NOT NULL, filiere_id INT NOT NULL, INDEX IDX_B019B081D6B1F0E4 (bord_id), INDEX IDX_B019B081180AA129 (filiere_id), PRIMARY KEY(bord_id, filiere_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE bord_classe (bord_id INT NOT NULL, classe_id INT NOT NULL, INDEX IDX_22FF0391D6B1F0E4 (bord_id), INDEX IDX_22FF03918F5EA509 (classe_id), PRIMARY KEY(bord_id, classe_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

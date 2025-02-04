@@ -71,7 +71,7 @@ class Bord
     #[Groups("bord")]
     private ?bool $is_published = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     #[Groups("bord")]
     private ?string $small_description = null;
 
@@ -328,7 +328,7 @@ class Bord
         return $this->small_description;
     }
 
-    public function setSmallDescription(?string $small_description): static
+    public function setSmallDescription(string $small_description): static
     {
         $this->small_description = $small_description;
 

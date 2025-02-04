@@ -15,17 +15,17 @@ class ChangePasswordType extends AbstractType
     {
         $builder
             ->add('password', PasswordType::class,[
-                'label' => 'ancien mot de passe'
+                'label' => 'Ancien mot de passe'
             ])
 
             ->add('new_password', PasswordType::class,[
                 'mapped' => false,
-                'label' => 'nouveau mot de passe'
+                'label' => 'Nouveau mot de passe'
             ])
 
             ->add('check_password', PasswordType::class, [
                 'mapped' => false,
-                'label' => 'verifier le mot de passe',
+                'label' => 'Verifier le mot de passe',
 
             ])
 

@@ -193,6 +193,7 @@ class BookController extends AbstractController
 
 
         $form = $this->createForm(CommentType::class, $comment);
+        $form->get('updateId')->setData($request->query->get('id'));
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -201,6 +202,7 @@ class BookController extends AbstractController
             }
             //verifier si c'est une insersion simple
             $updateId = $form->get("updateId")->getData();
+
             if(!$updateId){
                 //verifier si l'utilisateur n'avais pas encore poster de commentaire:
                 $findCommentUserBord = $commentRepository->findOneBy([
@@ -446,6 +448,7 @@ class BookController extends AbstractController
         return $this->render('book/books.html.twig', [
             'books'=> $books,
             'menu'=> $menu,
+            'search' => $c
         ]);
 
     }
