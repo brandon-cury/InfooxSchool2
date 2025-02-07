@@ -31,7 +31,7 @@ class ContactType extends AbstractType
                 ]
             ])
             ->add('subject', TextType::class, [
-                'label' => 'Sujet du Message',
+                'label' => 'Object du Message',
             ])
             ->add('message', HiddenType::class, [
                 'label' => 'Votre Message',

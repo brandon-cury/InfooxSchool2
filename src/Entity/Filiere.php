@@ -59,8 +59,9 @@ class Filiere
     /**
      * @var Collection<int, Classe>
      */
-    #[ORM\OneToMany(targetEntity: Classe::class, mappedBy: 'filiere')]
+    #[ORM\ManyToMany(targetEntity: Classe::class, mappedBy: 'filiere')]
     private Collection $classes;
+
 
     public function __construct()
     {
@@ -227,7 +228,7 @@ class Filiere
     {
         if (!$this->classes->contains($class)) {
             $this->classes->add($class);
-            $class->setFiliere($this);
+            $class->addFiliere($this);
         }
 
         return $this;
@@ -236,16 +237,15 @@ class Filiere
     public function removeClass(Classe $class): static
     {
         if ($this->classes->removeElement($class)) {
-            // set the owning side to null (unless already changed)
-            if ($class->getFiliere() === $this) {
-                $class->setFiliere(null);
-            }
+            $class->removeFiliere($this);
         }
 
         return $this;
     }
+
     public function __toString()
     {
         return $this->title;
     }
+
 }

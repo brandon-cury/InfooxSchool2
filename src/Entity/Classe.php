@@ -46,15 +46,19 @@ class Classe
     #[ORM\ManyToOne(inversedBy: 'classes')]
     private ?Examen $examen = null;
 
-    #[ORM\ManyToOne(inversedBy: 'classes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Filiere $filiere = null;
+    /**
+     * @var Collection<int, Filiere>
+     */
+    #[ORM\ManyToMany(targetEntity: Filiere::class, inversedBy: 'classes')]
+    private Collection $filiere;
+
 
     public function __construct()
     {
         $this->matieres = new ArrayCollection();
         $this->bords = new ArrayCollection();
         $this->epreuves = new ArrayCollection();
+        $this->filiere = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,6 +190,30 @@ class Classe
         return $this->examen;
     }
 
+    /**
+     * @return Collection<int, Filiere>
+     */
+    public function getFiliere(): Collection
+    {
+        return $this->filiere;
+    }
+
+    public function addFiliere(Filiere $filiere): static
+    {
+        if (!$this->filiere->contains($filiere)) {
+            $this->filiere->add($filiere);
+        }
+
+        return $this;
+    }
+
+    public function removeFiliere(Filiere $filiere): static
+    {
+        $this->filiere->removeElement($filiere);
+
+        return $this;
+    }
+
     public function setExamen(?Examen $examen): static
     {
         $this->examen = $examen;
@@ -193,17 +221,6 @@ class Classe
         return $this;
     }
 
-    public function getFiliere(): ?Filiere
-    {
-        return $this->filiere;
-    }
-
-    public function setFiliere(?Filiere $filiere): static
-    {
-        $this->filiere = $filiere;
-
-        return $this;
-    }
     public function __toString()
     {
         return $this->title;
