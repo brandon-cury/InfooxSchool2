@@ -50,7 +50,7 @@ class ImageCrudController extends AbstractCrudController
             $this->uploadDirImage = 'bords/' . $this->bord->getPath() . '/images';
             $filesystem = new Filesystem();
             if (!$filesystem->exists($this->uploadDirImage)) {
-                $filesystem->mkdir($this->uploadDirImage, 0700);
+                $filesystem->mkdir($this->uploadDirImage, 0755);
             }
         }
     }

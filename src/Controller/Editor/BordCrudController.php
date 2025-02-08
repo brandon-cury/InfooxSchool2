@@ -147,6 +147,7 @@ class BordCrudController extends AbstractCrudController
                 ->setLabel('Ventes (Fcfa)')
                 ->onlyOnIndex(),
             DateTimeField::new('last_update_at')->onlyOnIndex(),
+            NumberField::new('numb_page'),
             TextField::new('author')->onlyOnForms(),
             BooleanField::new('published'),
 

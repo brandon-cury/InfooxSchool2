@@ -24,7 +24,7 @@ Encore
     //.addEntry('home', './assets/js/page/home.js')
 
 
-    .enableVueLoader(() => {}, { runtimeCompilerBuild: false })
+    .enableVueLoader(() => {}, { runtimeCompilerBuild: true })
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

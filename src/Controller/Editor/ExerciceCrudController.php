@@ -54,10 +54,10 @@ class ExerciceCrudController extends AbstractCrudController
             // Utilisation de Filesystem pour créer le répertoire s'il n'existe pas
             $filesystem = new Filesystem();
             if (!$filesystem->exists($this->uploadDirDocument)) {
-                $filesystem->mkdir($this->uploadDirDocument, 0700);
+                $filesystem->mkdir($this->uploadDirDocument, 0755);
             }
             if (!$filesystem->exists($this->uploadDirImage)) {
-                $filesystem->mkdir($this->uploadDirImage, 0700);
+                $filesystem->mkdir($this->uploadDirImage, 0755);
             }
         }
     }
@@ -188,7 +188,7 @@ class ExerciceCrudController extends AbstractCrudController
                     'mimeTypesMessage' => 'Please upload a valid image (JPEG, PNG, GIF)', ])),
             //fin de l'image de la video
 
-            NumberField::new('sort')->hideOnForm(),
+            NumberField::new('sort'),
 
 
         ];
