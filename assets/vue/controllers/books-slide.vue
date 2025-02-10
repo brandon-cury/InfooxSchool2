@@ -1,9 +1,9 @@
 <template>
   <div ref="slideBooks" class="slideBooks d-none container-fluid g-0 g-md-3 g-lg-5 my-2 my-lg-4">
     <div class="bg-white py-2 py-lg-4">
-      <h2 class="pb-2 pb-lg-3 text-danger">{{ props.title }}</h2>
+      <h2 class="pb-2 pb-lg-3 text-danger">{{ title }}</h2>
       <div class="slider overflow-hidden">
-        <BookSlideCard v-for="book in books" :book="book" />
+        <BookSlideCard v-for="book in books" :key="book.id" :book="book" />
       </div>
     </div>
   </div>
@@ -37,31 +37,34 @@ onMounted(() => {
       books.value = response;
       if (response.length !== 0) {
         nextTick(() => {
-          $(slideBooks.value).find('.slider').slick({
-            dots: false,
-            infinite: true,
-            speed: 300,
-            slidesToShow: 7,
-            centerMode: true,
-            variableWidth: true,
-            arrows: true,
-            responsive: [
-              {
-                breakpoint: 993,
-                settings: {
-                  dots: false,
-                  infinite: true,
-                  speed: 300,
-                  slidesToScroll: 4,
-                  centerMode: true,
-                  variableWidth: true,
-                  arrows: false,
-                }
-              },
-            ]
-          });
-          slideBooks.value.classList.remove('d-none');
-          slideBooks.value.classList.add('d-block');
+          // Utiliser nextTick pour s'assurer que le DOM est mis à jour
+          if (slideBooks.value) {
+            $(slideBooks.value).find('.slider').slick({
+              dots: false,
+              infinite: true,
+              speed: 300,
+              slidesToShow: 7,
+              centerMode: true,
+              variableWidth: true,
+              arrows: true,
+              responsive: [
+                {
+                  breakpoint: 993,
+                  settings: {
+                    dots: false,
+                    infinite: true,
+                    speed: 300,
+                    slidesToScroll: 4,
+                    centerMode: true,
+                    variableWidth: true,
+                    arrows: false,
+                  }
+                },
+              ]
+            });
+            slideBooks.value.classList.remove('d-none');
+            slideBooks.value.classList.add('d-block');
+          }
         });
       }
     },

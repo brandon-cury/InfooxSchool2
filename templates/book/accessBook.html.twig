@@ -12,11 +12,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}
-
-
 {% block body %}
     <main id="bookPage">
         <!-- debut des infos du livre -->
@@ -62,35 +57,12 @@
                                     <div>( {{ book.comments|length }}+ Avis)</div>
                                 </div>
                                 {% if not book_in_basket(book) %}
-                                <div class="addBasket mt-3">
-                                    <button  @click="addBasket($event, {{ book.id }})" type="button" class="btn btn-dark position-relative me-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"></path><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"></path><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle></g></svg>
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            +
-                                            <span class="visually-hidden">unread messages</span>
-                                        </span>
-                                    </button>
-                                    <span class="afficheAlert"></span>
-                                </div>
+                                    <div {{ vue_component('add-book-basket', {'book_id': book.id }) }}></div>
                                 {% endif %}
                             </div>
                         </div>
                         {% if book.price %}
-                            <div class="d-flex flex-wrap justify-content-around my-2" >
-                                <div>
-                                    <span class="bookPrice fw-bolder me-1 bg-danger text-white px-1">{{ bookPrice }} Fcfa</span>
-                                    <span class="text-danger"> Le plus bas: <i class="text-decoration-line-through">{{ book.price }} Fcfa</i></span>
-                                </div>
-                                <div>
-                                    <select name="achatTime" class="form-select form-select-sm" aria-label=".form-select-sm example" @change="fetchPrice($event)">
-                                        <option value="3 jour" selected>3 jour</option>
-                                        <option value="1 semaine">1 semaine</option>
-                                        <option value="1 mois">1 mois</option>
-                                        <option value="3 mois">3 mois</option>
-                                        <option value="1 an">1 an</option>
-                                    </select>
-                                </div>
-                            </div>
+                            <div {{ vue_component('check-price', {'price': book.price }) }}></div>
 
                             {% if not app.user %}
                                 <div class="dropdown my-3 w-100 text-center submit-js d-flex flex-column align-items-center">
@@ -272,10 +244,12 @@
                                 {{ form_end(form)}}
                             </div>
                         </div>
+                        {% if book.comments|length > 0 %}
                         <div class="col col-12 col-md-8 border-start">
                             <h3 class="fw-bold">Commentaires des abonnés</h3>
                             <div {{ vue_component('comments-book', {'idUser': idUser, 'numPageComments': numPageComments }) }}></div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -361,5 +335,10 @@
 {% block jsEnd %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ asset('bundles/starrating/js/rating.js') }}"></script>
+    {{ encore_entry_script_tags('pages/book') }}
 {% endblock %}
+
+
+
+
 

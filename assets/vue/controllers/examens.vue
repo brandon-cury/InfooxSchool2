@@ -23,31 +23,33 @@ onMounted(()=>{
     success: (response) => {
        examens.value = response;
        nextTick(()=>{
-         $(examen.value).find('.slider').slick({
-           dots: false,
-           infinite: true,
-           speed: 300,
-           slidesToShow: 6,
-           centerMode: true,
-           variableWidth: true,
-           arrows: true,
-           responsive: [
-             {
-               breakpoint: 993,
-               settings: {
-                 dots: false,
-                 infinite: true,
-                 speed: 300,
-                 slidesToScroll: 4,
-                 centerMode: true,
-                 variableWidth: true,
-                 arrows: false,
-               }
-             },
-           ]
-         });
-         examen.value.classList.remove('d-none');
-         examen.value.classList.add('d-block');
+         if(examen.value){
+           $(examen.value).find('.slider').slick({
+             dots: false,
+             infinite: true,
+             speed: 300,
+             slidesToShow: 6,
+             centerMode: true,
+             variableWidth: true,
+             arrows: true,
+             responsive: [
+               {
+                 breakpoint: 993,
+                 settings: {
+                   dots: false,
+                   infinite: true,
+                   speed: 300,
+                   slidesToScroll: 4,
+                   centerMode: true,
+                   variableWidth: true,
+                   arrows: false,
+                 }
+               },
+             ]
+           });
+           examen.value.classList.remove('d-none');
+           examen.value.classList.add('d-block');
+         }
        });
     },
     error: (error) => {

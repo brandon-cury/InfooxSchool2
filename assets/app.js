@@ -11,11 +11,13 @@ import 'slick-carousel/slick/slick';
 import './js/navbar2';
 import './js/sliderPrincipale';
 
-//importation des scripts de pages
-import './js/page/home';
-import './js/page/book';
-import './js/pdfPage';
 
+//importation du css trix editor
+import 'trix/dist/trix.css';
+import 'trix/dist/trix.umd';
+
+//importation de @fancyapps pour l'afficharge des images de gallerie sur la page book
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 //importation des icone awesome pour l'afficharger des étoiles
 import 'font-awesome/css/font-awesome.css';
@@ -31,5 +33,3 @@ import 'font-awesome/css/font-awesome.css';
 import './styles/app.css';
 import { registerVueControllerComponents } from '@symfony/ux-vue';
 registerVueControllerComponents(require.context('./vue/controllers', true, /\.vue$/));
-
-

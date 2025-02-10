@@ -9,7 +9,7 @@
         <h4 class="mt-1 fw-bolder mt-2 twoLine">{{ elem.title }}</h4>
       </a>
       <div class="oneLine" v-if="elem.price">
-        <span class="fw-bolder me-3 text-danger">{{ calculatePrice(elem.price, '1 semaine') }} Fcfa</span>
+        <span class="fw-bolder me-3 text-danger">{{ calculatePrice(elem.price) }} Fcfa</span>
         <span> Le plus bas: <i class="text-decoration-line-through">{{ elem.price }} Fcfa</i></span>
       </div>
       <div v-else>

@@ -22,6 +22,10 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     //.addEntry('home', './assets/js/page/home.js')
+    // Add entries for each page script
+    .addEntry('pages/home', './assets/js/pages/home.js')
+    .addEntry('pages/book', './assets/js/pages/book.js')
+    .addEntry('pages/pdfPage', './assets/js/pages/pdfPage.js')
 
 
     .enableVueLoader(() => {}, { runtimeCompilerBuild: true })
@@ -35,6 +39,7 @@ Encore
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
+
 
     /*
      * FEATURE CONFIG

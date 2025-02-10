@@ -6,7 +6,7 @@
 
 
       <div v-if="bookObject.price" class="card-text oneLine">
-        <span class="fw-bolder me-1 bg-danger text-white px-1">{{ calculatePrice(bookObject.price, '1 semaine') }} Fcfa</span>
+        <span class="fw-bolder me-1 bg-danger text-white px-1">{{ calculatePrice(bookObject.price) }} Fcfa</span>
         <span class="text-danger"> Le plus bas: <i class="text-decoration-line-through">{{ bookObject.price }} Fcfa</i></span>
       </div>
       <div v-else class="card-text">

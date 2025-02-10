@@ -1,0 +1,38 @@
+<script type="module">
+
+//pour affichier un pdf dans votre twig utiliser ceci
+//par Moukam Brandon-cury
+
+    import { PDFViewerApplication } from '{{ asset('pdfjs/web/viewer.mjs') }}';
+
+
+    function resetViewer(pdfUrl) {
+        PDFViewerApplication.close().then(() => {
+            PDFViewerApplication.open({
+                url: pdfUrl
+            });
+        });
+    }
+
+    let currentPdfUrl = window.pdf;
+
+    function changePdf(newPdfUrl) {
+        if (newPdfUrl !== currentPdfUrl) {
+            currentPdfUrl = newPdfUrl;
+            resetViewer(currentPdfUrl);
+        }
+    }
+
+    // Utilisez requestAnimationFrame pour garantir que les modifications du DOM sont effectuées au bon moment
+    function updateViewer() {
+        requestAnimationFrame(() => {
+            changePdf('/bords/test/Encours.pdf');
+        });
+    }
+    // Exécuter le code après 2 secondes
+
+    updateViewer();
+
+
+
+</script>

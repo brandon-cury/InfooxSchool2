@@ -6,7 +6,6 @@
         {% block index %}<meta name="robots" content="index, follow">{% endblock %}
         <link rel="canonical" href="{{ app.request.scheme ~ '://' ~ app.request.host ~ app.request.requestUri }}">
 
-
         <title>{% block title %}MANUELS SCOLAIRES, EPREUVES, CONCOURS POUR LYCEES ET COLLEGES D'ENSEIGNEMENT GENERAL ET TECHNIQUE DU CAMEROUN {% endblock %} | Infoox School</title>
         <meta name="description" content="{% block description %} Plateforme référence pour les manuels scolaires, livres de préparation aux concours, et épreuves des classes d'examen, annales et ressources pédagogiques au Cameroun -  Maternelle, Primaire, Secondaire général, Secondaire technique, Université. Accédez aux meilleurs outils éducatifs pour réussir votre parcours scolaire en mathématiques, sciences, littérature, histoire, électronique, mécanique, informatique, et plus encore. {% endblock %}">
         <meta name="keywords" content="{% block keyword %} {% endblock %} épreuves, sujets d'examens, annales, examens, BEPC, BAC, probatoire, concours, manuels scolaires Cameroun, livres scolaires, préparation aux concours, épreuves d'examens, école camerounaise, ressources éducatives, livres en ligne, éducation Cameroun">
@@ -38,10 +37,6 @@
             }
         </script>
 
-
-
-
-
         <link rel="shortcut icon" href="{{ asset('logo/favicon.ico') }}" type="image/x-icon"/>
 
         {% block javascripts %}
@@ -70,8 +65,7 @@
 
         {% include 'partials/footer.html.twig' %}
 
-    </body>
-    {% block jsEnd %}
+        {% block jsEnd %}{% endblock %}
 
-    {% endblock %}
+    </body>
 </html>

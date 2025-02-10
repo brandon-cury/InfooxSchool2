@@ -12,23 +12,22 @@
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/starrating/css/rating.css') }}" />
 
-    {% if corrige_autorisation %}
-    <!-- This snippet is used in production (included from viewer.html) -->
-    <script>
-        window.pdf = "{{ pdf | e('js') }}";
-    </script>
-    <link rel="resource" type="application/l10n" href="{{ asset('pdfjs/web/locale/locale.json') }}">
-    <script src="{{ asset('build/pdf.mjs') }}" type="module"></script>
-    <link rel="stylesheet" href="{{ asset('pdfjs/web/viewer.css') }}">
-    <script src="{{ asset('pdfjs/web/viewer.mjs') }}" type="module"></script>
+    {% if corrige_autorisation or type == "epreuve" %}
+        <!-- This snippet is used in production (included from viewer.html) -->
+        <script>
+            window.pdf = "{{ pdf | e('js') }}";
+        </script>
+        <link rel="resource" type="application/l10n" href="{{ asset('pdfjs/web/locale/locale.json') }}">
+        <script src="{{ asset('build/pdf.mjs') }}" type="module"></script>
+        <link rel="stylesheet" href="{{ asset('pdfjs/web/viewer.css') }}">
+        <script src="{{ asset('pdfjs/web/viewer.mjs') }}" type="module"></script>
     {% endif %}
-
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('pages/pdfPage') }}
 {% endblock %}
-
 
 {% block body %}
 
@@ -76,22 +75,13 @@
                                     <div>( {{ cour.bord.comments|length }}+ Avis)</div>
                                 </div>
                                 {% if not book_in_basket(cour.bord) %}
-                                <div class="addBasket mt-3">
-                                    <a  @click="addBasket($event, {{ cour.bord.id }})" type="button" class="btn btn-dark position-relative me-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 48 48"><g fill="none"><path d="M39 32H13L8 12h36z"></path><path stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M3 6h3.5L8 12m0 0l5 20h26l5-20z"></path><circle cx="13" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle><circle cx="39" cy="39" r="3" stroke="#FBFAFA" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></circle></g></svg>
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            +
-                                            <span class="visually-hidden">unread messages</span>
-                                        </span>
-                                    </a>
-                                    <span class="afficheAlert"></span>
-                                </div>
+                                    <div {{ vue_component('add-book-basket', {'book_id': cour.bord.id }) }}></div>
                                 {% endif %}
                             </div>
                         </div>
 
                         <h4 class="u mt-3 mb-1"><a href="{{ path('app_book', {'b': cour.getBord.slug }) }}">{{ cour.getBord.title }}</a></h4>
-                        <h1 class="u mb-1"><a href="{{ path('app_cour', {'c': cour.slug }) }}">{{ cour.title }}</a></h1>
+                        <h1 class="u mb-1"><a href="{{ path('app_cour', {'c': cour.slug }) }}" data-turbo="false">{{ cour.title }}</a></h1>
 
                         {% if not corrige_autorisation %}
                             <p class="my-5">Chère
@@ -704,6 +694,7 @@
                                 </div>
                             </div>
 
+
                             <div class="d-flex justify-content-center">
                                 <div id="video-container"></div>
                             </div>
@@ -719,19 +710,19 @@
                                         {% else %}
                                             <li>
                                                 {% if corrige_autorisation %}
-                                                    <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'exercice'}) }}">
+                                                    <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'exercice'}) }}" data-turbo="false">
                                                         <div class="m">
                                                             <h2> {{ exercice.title }}</h2>
                                                         </div>
                                                     </a>
                                                     <div class="k">
-                                                        <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'exercice'}) }}">
+                                                        <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'exercice'}) }}" data-turbo="false">
                                                             <i class="fa fa-eye"></i>
                                                             <i class="fa fa-eye"></i>
                                                         </a>
                                                     </div>
                                                     <div class="l">
-                                                        <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'corrige'}) }}">
+                                                        <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'corrige'}) }}" data-turbo="false">
                                                             <i class="fa fa-check"></i>
                                                             <i class="fa fa-check"></i>
                                                         </a>
@@ -739,13 +730,13 @@
 
                                                 {% else %}
 
-                                                    <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'exercice'}) }}">
+                                                    <a href="{{ path('app_exercice', {'e': exercice.slug, 'type': 'exercice'}) }}" data-turbo="false">
                                                         <div class="m">
                                                             <h2>{{ exercice.title }}</h2>
                                                         </div>
                                                     </a>
                                                     <div class="k">
-                                                        <a href="{{ path('app_exercice', {'e':exercice.slug, 'type': 'exercice'}) }}">
+                                                        <a href="{{ path('app_exercice', {'e':exercice.slug, 'type': 'exercice'}) }}" data-turbo="false">
                                                             <i class="fa fa-eye"></i>
                                                             <i class="fa fa-eye"></i>
                                                         </a>

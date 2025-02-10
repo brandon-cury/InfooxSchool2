@@ -264,7 +264,8 @@ class BookController extends AbstractController
             'form' => $form->createView(),
             'numPageComments' => $numPageComments,
             'idUser' => $idUser,
-            'corrige_autorisation' => $corrige_autorisation
+            'corrige_autorisation' => $corrige_autorisation,
+            'pdf'=>'dd'
         ]);
 
     }
